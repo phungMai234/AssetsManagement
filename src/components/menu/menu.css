@@ -1,0 +1,25 @@
+.nav-item-icon {
+  padding-right: 15px;
+}
+
+.nav-menu li:hover {
+  background-color: #bfbfbf;
+}
+.nav-menu li {
+  background-color: #ffffff;
+  color: #000;
+}
+.nav-menu li a {
+  font-size: 14px;
+}
+.nav-menu li a i {
+  width: 20px;
+}
+.nav-menu li a span {
+  padding-left: 20px;
+}
+
+.active {
+  background-color: #007bff;
+  color: #fff;
+}
