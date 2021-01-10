@@ -1,13 +1,14 @@
-import React from 'react';
 import './App.css';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'jquery';
-import '@fortawesome/fontawesome-free/css/all.css';
+import { hot } from 'react-hot-loader/root';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import CategoriesPage from './containers/CategoriesPage';
 import ItemPage from './containers/ItemPage';
 import Login from './containers/Login';
+import React from 'react';
 
 const App = () => {
   return (
@@ -21,4 +22,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default hot(App);

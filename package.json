@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --hot",
-    "start:dev": "webpack-dev-server --mode development --hot --inline --content-base=dist --history-api-fallback",
-    "build": "webpack"
+    "start": "webpack-dev-server --progress --inline --hot",
+    "build": "webpack",
+    "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
@@ -24,14 +24,24 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
+    "eslint": "^7.17.0",
+    "eslint-plugin-react": "^7.22.0",
+    "react-hot-loader": "^4.13.0",
     "webpack": "^5.11.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "bootstrap": "^4.5.3",
     "css-loader": "^5.0.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
     "file-loader": "^6.2.0",
     "formik": "^2.2.6",
     "html-webpack-inline-source-plugin": "^1.0.0-beta.2",

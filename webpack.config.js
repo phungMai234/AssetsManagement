@@ -3,7 +3,7 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: ['react-hot-loader/patch', './src/index.js'],
   devServer: {
     contentBase: __dirname,
     port: 3001,
@@ -26,13 +26,61 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/',
+              limit: 10000,
+              mimetype: 'application/font-woff',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'application/font-woff',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'application/octet-stream',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'file',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'image/svg+xml',
             },
           },
         ],
