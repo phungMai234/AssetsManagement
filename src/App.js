@@ -1,18 +1,28 @@
-import React from 'react';
-import './App.css';
-import Home from './containers/Home';
-import Profile from './containers/Profile';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Router, View } from 'react-navi';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { hot } from 'react-hot-loader/root';
+
+import { routes } from './routes';
+import Login from './containers/Login';
 
 const App = () => {
   return (
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/profile" component={Profile} />
-
-      <Redirect to="/" />
+      <Route path="/login" exact component={Login} />
+      <Route
+        path="/dashboard"
+        render={({ history, match }) => (
+          <Router routes={routes} history={history} basename={match.url}>
+            <Suspense fallback={null}>
+              <View />
+            </Suspense>
+          </Router>
+        )}
+      />
+      <Redirect to="/login" />
     </Switch>
   );
 };
 
-export default App;
+export default hot(App);
