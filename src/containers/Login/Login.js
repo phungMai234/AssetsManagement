@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Login = () => {
   return (
     <div>
-      Home
-      <Link to="/profile">Profile</Link>
+      Login <Link to="/dashboard/categories">go to Home</Link>
     </div>
   );
 };
 
-export default Home;
+export default Login;

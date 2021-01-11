@@ -3,7 +3,7 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: ['react-hot-loader/patch', './src/index.js'],
   devServer: {
     contentBase: __dirname,
     port: 3001,
