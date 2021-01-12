@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --progress --inline --hot",
+    "build": "webpack",
+    "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
@@ -23,18 +24,44 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
+    "eslint": "^7.17.0",
+    "eslint-plugin-react": "^7.22.0",
+    "react-hot-loader": "^4.13.0",
     "webpack": "^5.11.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.1"
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap": "^4.5.3",
     "css-loader": "^5.0.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "file-loader": "^6.2.0",
+    "formik": "^2.2.6",
     "html-webpack-inline-source-plugin": "^1.0.0-beta.2",
     "html-webpack-plugin": "^4.5.1",
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.20",
+    "navi": "^0.14.0",
     "prettier": "^2.2.1",
+    "raw-loader": "^4.0.2",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
+    "react-feather": "^2.0.9",
+    "react-js-pagination": "^3.0.3",
+    "react-navi": "^0.14.4",
     "react-router-dom": "^5.2.0",
-    "style-loader": "^2.0.0"
+    "style-loader": "^2.0.0",
+    "styled-components": "^5.2.1",
+    "url-loader": "^4.1.1",
+    "yup": "^0.32.8"
   }
 }

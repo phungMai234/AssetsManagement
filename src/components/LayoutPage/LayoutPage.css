@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-size: 14px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  overflow: auto;
+}
+* {
+  box-sizing: border-box;
+}
+.text-center {
+  align-content: center;
+}
+.header {
+  height: 80px;
+  padding: 15px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+}
+.sidenav {
+  top: 80px;
+  width: 250px;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  background-color: #fff;
+  padding-top: 10px;
+  border-right: 1px solid #eee;
+}
+.content {
+  top: 80px;
+  position: absolute;
+  left: 250px;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 14px;
+}
