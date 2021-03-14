@@ -31,7 +31,7 @@ const ItemDetail = ({ recordId }) => {
     <Wrapper>
       <div className="header-detail">
         <button size="sm" onClick={() => navigate(`/item/${recordId}/edit`)}>
-          <i class="fas fa-edit"></i>
+          <i className="fas fa-edit"></i>
           <span>Chỉnh sửa</span>
         </button>
       </div>
@@ -57,11 +57,7 @@ const ItemDetail = ({ recordId }) => {
               <div className="row group-form">
                 <label className="col-sm-5 label-input">Ngày nhập kho: </label>
                 <div className="col-sm-7">
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={import_date}
-                  />
+                  <input type="text" className="text-input" value={import_date} />
                 </div>
               </div>
               {/* Type */}
@@ -83,9 +79,7 @@ const ItemDetail = ({ recordId }) => {
               </div>
               {/* Manager */}
               <div className="row group-form">
-                <label className="col-sm-5 label-input">
-                  Người quản lý/ Đơn vị quản lý:
-                </label>
+                <label className="col-sm-5 label-input">Người quản lý/ Đơn vị quản lý:</label>
                 <div className="col-sm-7">
                   <input type="text" className="text-input" value={manager} />
                 </div>
@@ -101,44 +95,28 @@ const ItemDetail = ({ recordId }) => {
               <div className="row group-form">
                 <label className="col-sm-5 label-input">Đơn giá : </label>
                 <div className="col-sm-7">
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={item_value}
-                  />
+                  <input type="text" className="text-input" value={item_value} />
                 </div>
               </div>
               {/* total value */}
               <div className="row group-form">
                 <label className="col-sm-5 label-input">Tổng giá trị : </label>
                 <div className="col-sm-7">
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={total_value}
-                  />
+                  <input type="text" className="text-input" value={total_value} />
                 </div>
               </div>
               {/* total borrowed */}
               <div className="row group-form">
                 <label className="col-sm-5 label-input">Đã mượn: </label>
                 <div className="col-sm-7">
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={total_borrowed}
-                  />
+                  <input type="text" className="text-input" value={total_borrowed} />
                 </div>
               </div>
               {/* total paid */}
               <div className="row group-form">
                 <label className="col-sm-5 label-input">Đã trả: </label>
                 <div className="col-sm-7">
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={total_paid}
-                  />
+                  <input type="text" className="text-input" value={total_paid} />
                 </div>
               </div>
               {/* note */}

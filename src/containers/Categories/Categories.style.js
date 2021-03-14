@@ -9,5 +9,8 @@ const Wrapper = styled.div`
       padding-left: 10px;
     }
   }
+  .btn-sm {
+    font-size: 16px;
+  }
 `;
 export default Wrapper;

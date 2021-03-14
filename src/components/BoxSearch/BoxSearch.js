@@ -6,7 +6,7 @@ const BoxSearch = () => {
   return (
     <Wrapper>
       <div className="icon-search">
-        <i class="fas fa-search"></i>
+        <i className="fas fa-search"></i>
       </div>
 
       <input className="input-search" placeholder="Tìm kiếm" />

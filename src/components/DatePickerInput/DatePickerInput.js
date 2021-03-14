@@ -10,11 +10,11 @@ const DatePickerInput = ({ value, onChange }) => {
   return (
     <Wrapper>
       <div className="icon-calendar">
-        <i class="fas fa-calendar-alt"></i>
+        <i className="fas fa-calendar-alt"></i>
       </div>
       <DatePicker
         selected={startDate}
-        onChange={date => setStartDate(date)}
+        onChange={(date) => setStartDate(date)}
         isClearable
         placeholderText="Chọn ngày"
         className="date-picker-input"

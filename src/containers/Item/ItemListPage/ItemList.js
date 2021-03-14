@@ -1,8 +1,7 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 import Wrapper from './ItemList.style.js';
-import data from '../../../config/dataItems';
 import BaseModal from '../../../components/BaseModal';
 import MultipleImageUpload from '../../../components/multipleImageUpload/multipleImageUpload';
 import TablePaginationData from '../../../components/TablePaginationData/TablePaginationData';
@@ -10,10 +9,12 @@ import BoxSearch from '../../../components/BoxSearch/BoxSearch';
 import BoxSelect from '../../../components/BoxSelect/BoxSelect';
 import dataCategories from '../../../config/dataCategories';
 import DatePickerInput from '../../../components/DatePickerInput';
+import db from '../../../database';
 
 export default function Item() {
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [dataItems, setDataItems] = useState([]);
 
   const toggleModalAdd = () => {
     setShowModalAdd(!showModalAdd);
@@ -23,19 +24,29 @@ export default function Item() {
     setModalConfirm(!modalConfirm);
   }, [modalConfirm]);
 
+  useEffect(() => {
+    db.collection('devices').onSnapshot((querySnapshot) => {
+      let result = [];
+      querySnapshot.forEach((doc) => {
+        result = [...result, { id: doc.id, ...doc.data() }];
+      });
+      setDataItems(result);
+    });
+  }, [db, setDataItems]);
+
   const restructureData = useMemo(() => {
-    if (!data) return [];
-    return data.map((record, index) => ({
+    if (!dataItems) return [];
+    return dataItems.map((record, index) => ({
       ...record,
       index: index + 1,
       go_to_detail: <button className="btn btn-outline-info">Chi tiết</button>,
       delete_record: (
         <Button variant="danger" size="sm" onClick={toggleModalConfirm}>
-          <i class="fas fa-trash-alt"></i>
+          <i className="fas fa-trash-alt"></i>
         </Button>
       ),
     }));
-  }, [toggleModalConfirm]);
+  }, [toggleModalConfirm, dataItems]);
 
   return (
     <Wrapper>
@@ -62,7 +73,7 @@ export default function Item() {
             <span>Thêm mới</span>
           </Button>
           <Button variant="success" size="sm">
-            <i class="fas fa-file-import"></i>
+            <i className="fas fa-file-import"></i>
             <span>Nhập file</span>
           </Button>
         </div>
@@ -126,7 +137,7 @@ export default function Item() {
                 paddingRight: '10px',
               }}
             >
-              <i class="fas fa-exclamation-triangle"></i>
+              <i className="fas fa-exclamation-triangle"></i>
             </span>
             <span>Bạn có chắc chắn muốn xóa?</span>
           </>
@@ -145,24 +156,24 @@ export default function Item() {
           <>
             <div className="form-group">
               <label for="usr">Tên:</label>
-              <input type="text" class="form-control" id="usr" />
+              <input type="text" className="form-control" id="usr" />
             </div>
             <MultipleImageUpload />
             <div className="form-group">
               <label for="pwd">Loại:</label>
-              <input type="text" class="form-control" id="pwd" />
+              <input type="text" className="form-control" id="pwd" />
             </div>
             <div className="form-group">
               <label for="pwd">Số lượng:</label>
-              <input type="text" class="form-control" id="pwd" />
+              <input type="text" className="form-control" id="pwd" />
             </div>
             <div className="form-group">
               <label for="pwd">Ngày nhập kho:</label>
-              <input type="text" class="form-control" id="pwd" />
+              <input type="text" className="form-control" id="pwd" />
             </div>
             <div className="form-group">
               <label for="pwd">Tình trạng:</label>
-              <input type="text" class="form-control" id="pwd" />
+              <input type="text" className="form-control" id="pwd" />
             </div>
           </>
         }
