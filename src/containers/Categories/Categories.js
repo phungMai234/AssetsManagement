@@ -1,39 +1,28 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from 'react-bootstrap';
 
-import BaseModal from '../../components/BaseModal/BaseModal';
+import BaseModal from 'components/BaseModal/BaseModal';
 import Wrapper from './Categories.style';
-import TablePaginationData from '../../components/TablePaginationData/TablePaginationData';
-import db from '../../database';
+import TablePaginationData from 'components/TablePaginationData';
 import NewPage from './NewPage';
 import EditPage from './EditPage';
+import { Plus, Edit3, Trash2 } from 'react-feather';
+import { useQuery } from 'hooks/useQuery';
+import useDelete from 'hooks/useDelete';
 
 export default function Categories() {
-  const [dataCategories, setDataCategories] = useState();
   const [recordSelected, setRecordSelected] = useState();
   const [recordSelectedDel, setRecordSelectedDel] = useState();
 
-  useEffect(() => {
-    db.collection('categories').onSnapshot((querySnapshot) => {
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        result = [...result, { id: doc.id, ...doc.data() }];
-      });
-      setDataCategories(result);
-    });
-  }, [db, setDataCategories]);
+  const { data: dataCategories, loading, force } = useQuery({ url: 'categories' });
 
-  const handleDeleteCategory = useCallback(() => {
-    db.collection('categories')
-      .doc(recordSelectedDel?.id)
-      .delete()
-      .then(() => {
-        console.log('Document successfully deleted!');
-      })
-      .catch((error) => {
-        console.error('Error removing document: ', error);
-      });
-  }, [recordSelectedDel, db]);
+  const [remove] = useDelete({
+    id: recordSelectedDel?.id,
+    nameCollection: 'categories',
+    callback: () => {
+      force();
+    },
+  });
 
   const restructureData = useMemo(() => {
     if (!dataCategories || !dataCategories.length) return [];
@@ -48,7 +37,7 @@ export default function Categories() {
             setRecordSelected(record);
           }}
         >
-          <i className="fas fa-edit"></i>
+          <Edit3 size={20} />
         </Button>
       ),
       delete_row: (
@@ -59,7 +48,7 @@ export default function Categories() {
             setRecordSelectedDel(record);
           }}
         >
-          <i className="fas fa-trash-alt"></i>
+          <Trash2 size={20} />
         </Button>
       ),
     }));
@@ -75,7 +64,7 @@ export default function Categories() {
     <Wrapper>
       <div className="header-content">
         <Button variant="primary" size="sm" onClick={toggleModal}>
-          <i className="fas fa-plus"></i>
+          <Plus size={20} />
           <span>Thêm mới</span>
         </Button>
       </div>
@@ -107,11 +96,12 @@ export default function Categories() {
           },
         ]}
         data={restructureData}
+        loading={loading}
       />
       <BaseModal
         show={!!recordSelectedDel}
         onConfirm={() => {
-          handleDeleteCategory();
+          remove();
           setRecordSelectedDel(null);
         }}
         onCancel={() => setRecordSelectedDel(null)}

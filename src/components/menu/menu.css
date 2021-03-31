@@ -22,4 +22,8 @@
 .active {
   background-color: #007bff;
   color: #fff;
+  cursor: default;
+}
+.active:hover {
+  background-color: #007bff !important;
 }

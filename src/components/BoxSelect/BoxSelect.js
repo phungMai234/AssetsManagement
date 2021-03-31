@@ -11,7 +11,11 @@ const BoxSelect = ({ title, data, value, onChange }) => {
         </label>
       )}
       <select id="option" className="input-select">
-        {(data || []).map(e => (
+        <option key="" value="">
+          Chọn tất cả
+        </option>
+
+        {(data || []).map((e) => (
           <option key={e.id} value={e.name}>
             {e.name}
           </option>

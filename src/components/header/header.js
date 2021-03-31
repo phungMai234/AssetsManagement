@@ -1,6 +1,7 @@
 import React from 'react';
 import './header.css';
 import { Link } from 'react-navi';
+import { Bell } from 'react-feather';
 
 function Header() {
   return (
@@ -10,9 +11,9 @@ function Header() {
       </Link>
       <div className="header-right">
         <ul className="nav">
-          <li className="nav-item">
-            <i className="fas fa-bell nav-link"></i>
-          </li>
+          {/* <li className="nav-item">
+            <Bell size={20} />
+          </li> */}
           <li className="nav-item">
             <div className="dropdown">
               <button

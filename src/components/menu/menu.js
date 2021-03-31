@@ -1,7 +1,9 @@
 import React from 'react';
-import './menu.css';
+
 import { Link } from 'react-router-dom';
-import { FileText } from 'react-feather';
+import { FileText, Home, Database } from 'react-feather';
+
+import './menu.css';
 
 function Menu() {
   const activeRoute = window.location.pathname;
@@ -13,21 +15,26 @@ function Menu() {
           className={`nav-link ${activeRoute.match(/\/dashboard\/categories/) ? 'active' : ''}`}
           to={'/dashboard/categories'}
         >
-          <i className="nav-item-icon fas fa-home"></i>
+          <Home size={20} />
           <span>Quản lý các loại tài sản</span>
         </Link>
       </li>
       <li className="nav-item">
-        <Link className={`nav-link ${activeRoute.match(/\/dashboard\/item/) ? 'active' : ''}`} to={'/dashboard/item'}>
-          <FileText size={20} />
+        <Link
+          className={`nav-link ${activeRoute.match(/\/dashboard\/devices/) ? 'active' : ''}`}
+          to={'/dashboard/devices'}
+        >
+          <Database size={20} />
           <span>Quản lý các thiết bị, đồ dùng</span>
         </Link>
       </li>
       <li className="nav-item">
-        <Link className={`nav-link ${activeRoute.match(/\/dashboard\/report/) ? 'active' : ''}`} to={'/dashboard/item'}>
-          {/* <i className="nav-item-icon fas fa-desktop"></i> */}
+        <Link
+          className={`nav-link ${activeRoute.match(/\/dashboard\/delivery_reports/) ? 'active' : ''}`}
+          to={'delivery_reports'}
+        >
           <FileText size={20} />
-          <span>Quản lý biên bản, giao nhận</span>
+          <span>Quản lý biên bản bàn giao</span>
         </Link>
       </li>
     </ul>

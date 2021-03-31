@@ -8,13 +8,13 @@ const Login = () => {
       <div className="form-login">
         <h2>Đăng nhập</h2>
         <form>
-          <div class="form-group">
+          <div className="form-group">
             <label>Mã người dùng: </label>
-            <input type="text" class="form-control" />
+            <input type="text" className="form-control" />
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label>Mật khẩu:</label>
-            <input type="password" class="form-control" />
+            <input type="password" className="form-control" />
           </div>
           <div className="wrapper-button">
             <Link to="/dashboard/categories">Đăng nhập</Link>

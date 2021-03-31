@@ -42,6 +42,9 @@ const Wrapper = styled.div`
         tr:hover {
           background-color: #2cb1b01c;
         }
+        .no-result {
+          font-style: italic;
+        }
       }
     }
   }

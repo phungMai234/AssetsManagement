@@ -1,3 +1,6 @@
 div {
   color: #000;
 }
+#warning {
+  display: none;
+}

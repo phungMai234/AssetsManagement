@@ -6,8 +6,9 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   .default-title {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: bold;
     color: #000;
+    margin-bottom: unset;
   }
   .operator-require {
     color: #ff0000;

@@ -1,83 +1,106 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useState, useMemo } from 'react';
+
+import { filter, includes, lowerCase } from 'lodash';
+import { format } from 'date-fns';
+import { Row, Col, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { Plus, FilePlus } from 'react-feather';
 
 import Wrapper from './ItemList.style.js';
-import BaseModal from '../../../components/BaseModal';
-import MultipleImageUpload from '../../../components/multipleImageUpload/multipleImageUpload';
-import TablePaginationData from '../../../components/TablePaginationData/TablePaginationData';
-import BoxSearch from '../../../components/BoxSearch/BoxSearch';
-import BoxSelect from '../../../components/BoxSelect/BoxSelect';
-import dataCategories from '../../../config/dataCategories';
-import DatePickerInput from '../../../components/DatePickerInput';
-import db from '../../../database';
+import TablePaginationData from 'components/TablePaginationData/TablePaginationData';
+import BoxSearch from 'components/BoxSearch/BoxSearch';
+import { formatStringToMoney, formatDateToString } from 'utils/helper';
+import { useQuery } from 'hooks/useQuery';
+import DatePickerInput from 'components/DatePickerInput';
 
 export default function Item() {
-  const [showModalAdd, setShowModalAdd] = useState(false);
-  const [modalConfirm, setModalConfirm] = useState(false);
-  const [dataItems, setDataItems] = useState([]);
+  const history = useHistory();
 
-  const toggleModalAdd = () => {
-    setShowModalAdd(!showModalAdd);
-  };
+  const [params, setParams] = useState({});
 
-  const toggleModalConfirm = useCallback(() => {
-    setModalConfirm(!modalConfirm);
-  }, [modalConfirm]);
+  const { data: dataItems, loading: loadingItems } = useQuery({ url: 'devices' });
+  const { data: dataCate, loading: loadingCates } = useQuery({ url: 'categories' });
 
-  useEffect(() => {
-    db.collection('devices').onSnapshot((querySnapshot) => {
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        result = [...result, { id: doc.id, ...doc.data() }];
-      });
-      setDataItems(result);
-    });
-  }, [db, setDataItems]);
+  const recordItems = useMemo(() => {
+    const newData = (dataItems || []).map((record) => ({
+      ...record,
+      import_date: formatDateToString(record?.import_date?.seconds),
+    }));
+    const filterParams = {
+      id_category: params.id_category,
+      import_date: params.import_date && format(params.import_date, 'dd/MM/yyyy'),
+    };
+
+    !params.import_date && delete filterParams.import_date;
+    !params.id_category && delete filterParams.id_category;
+
+    const customData = params.keyword
+      ? filter(newData, (item) => includes(lowerCase(item.name), lowerCase(params.keyword)))
+      : newData;
+
+    return filter(customData, filterParams);
+  }, [params.id_category, params.import_date, params.keyword, dataItems]);
 
   const restructureData = useMemo(() => {
-    if (!dataItems) return [];
-    return dataItems.map((record, index) => ({
+    if (!recordItems) return [];
+    return recordItems.map((record, index) => ({
       ...record,
       index: index + 1,
-      go_to_detail: <button className="btn btn-outline-info">Chi tiết</button>,
-      delete_record: (
-        <Button variant="danger" size="sm" onClick={toggleModalConfirm}>
-          <i className="fas fa-trash-alt"></i>
-        </Button>
-      ),
+      import_date: record?.import_date,
+      price_each: formatStringToMoney(record.price_each),
+      onClick: () => history.push(`/dashboard/devices/${record.id}/detail`),
     }));
-  }, [toggleModalConfirm, dataItems]);
+  }, [recordItems, history]);
 
   return (
     <Wrapper>
-      <div className="row">
-        <div className="col-lg-8">
-          <div className="row ">
-            <div className="col-lg-6">
-              <BoxSearch />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-6">
-              <BoxSelect title={'Loại'} data={dataCategories.categories} />
-            </div>
-            <div className="col-lg-6">
-              <DatePickerInput />
-            </div>
-          </div>
-        </div>
+      <Row>
+        <Col md={4}>
+          <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
+        </Col>
+        <Col md={4}>
+          <DatePickerInput
+            value={params.import_date}
+            onSelect={(date) => setParams({ ...params, import_date: date })}
+          />
+        </Col>
+        <Col md={4}>
+          <select
+            id="option"
+            className="input-select"
+            value={params.id_category || ''}
+            onChange={(e) => setParams({ ...params, id_category: e.target.value })}
+          >
+            <option key="" value="">
+              Chọn tất cả
+            </option>
 
-        <div className="col-lg-4 border-place">
-          <Button variant="primary" size="sm" onClick={toggleModalAdd}>
-            <i className="fas fa-plus"></i>
+            {(dataCate || []).map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </select>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} className="row-button">
+          <Button
+            variant="primary"
+            size="sm"
+            className="btn-add"
+            onClick={() => history.push('/dashboard/devices/new')}
+          >
+            <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
-          <Button variant="success" size="sm">
-            <i className="fas fa-file-import"></i>
+          <Button variant="success" size="sm" className="btn-import">
+            <FilePlus size={20} />
             <span>Nhập file</span>
           </Button>
-        </div>
-      </div>
+        </Col>
+      </Row>
+
       <TablePaginationData
         columns={[
           {
@@ -88,95 +111,25 @@ export default function Item() {
             name: 'Tên',
             field: 'name',
           },
-
           {
-            name: 'Ngày nhập',
+            name: 'Ngày mua',
             field: 'import_date',
-          },
-          {
-            name: 'Loại',
-            field: 'type',
           },
           {
             name: 'Số lượng',
             field: 'amount',
           },
           {
-            name: 'Người quản lý/Đơn vị quản lý',
-            field: 'manager',
-          },
-          {
             name: 'Tình trạng',
             field: 'status',
           },
           {
-            name: '',
-            field: 'go_to_detail',
-          },
-          {
-            name: '',
-            field: 'delete_record',
+            name: 'Giá tiền (vnđ)',
+            field: 'price_each',
           },
         ]}
         data={restructureData}
-      />
-
-      <BaseModal
-        show={modalConfirm}
-        onConfirm={toggleModalConfirm}
-        onCancel={toggleModalConfirm}
-        typeBtnConfirm="danger"
-        confirmText="Xóa"
-        typeModal="sm"
-        content={
-          <>
-            <span
-              style={{
-                color: '#dc3545',
-                fontSize: '30px',
-                paddingRight: '10px',
-              }}
-            >
-              <i className="fas fa-exclamation-triangle"></i>
-            </span>
-            <span>Bạn có chắc chắn muốn xóa?</span>
-          </>
-        }
-      />
-      <BaseModal
-        show={showModalAdd}
-        title={'Thêm mới loại đồ dùng'}
-        toggleModal={toggleModalAdd}
-        confirmTextBtn="Thêm mới"
-        cancelTextBtn="Hủy bỏ"
-        onSelect={toggleModalAdd}
-        onCancel={toggleModalAdd}
-        help={null}
-        content={
-          <>
-            <div className="form-group">
-              <label for="usr">Tên:</label>
-              <input type="text" className="form-control" id="usr" />
-            </div>
-            <MultipleImageUpload />
-            <div className="form-group">
-              <label for="pwd">Loại:</label>
-              <input type="text" className="form-control" id="pwd" />
-            </div>
-            <div className="form-group">
-              <label for="pwd">Số lượng:</label>
-              <input type="text" className="form-control" id="pwd" />
-            </div>
-            <div className="form-group">
-              <label for="pwd">Ngày nhập kho:</label>
-              <input type="text" className="form-control" id="pwd" />
-            </div>
-            <div className="form-group">
-              <label for="pwd">Tình trạng:</label>
-              <input type="text" className="form-control" id="pwd" />
-            </div>
-          </>
-        }
+        loading={loadingItems || loadingCates}
       />
     </Wrapper>
   );

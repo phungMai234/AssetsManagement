@@ -28,5 +28,38 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  .row-button {
+    display: flex;
+    align-items: center;
+
+    .btn-add {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 20px;
+
+      span {
+        margin-left: 5px;
+      }
+    }
+
+    .btn-import {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .input-select {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 6px;
+    width: 200px;
+  }
 `;
 export default Wrapper;

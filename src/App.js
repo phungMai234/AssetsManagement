@@ -5,16 +5,17 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'jquery';
-import CategoriesPage from './containers/CategoriesPage';
-import ItemPage from './containers/ItemPage';
-import Login from './containers/Login';
+
+import routes from './routes/index';
 
 const App = () => {
   return (
     <Switch>
-      <Route exact path="/dashboard/categories" component={CategoriesPage} />
-      <Route exact path="/dashboard/item" component={ItemPage} />
-      <Route exact path="/login" component={Login} />
+      {(routes || []).map((route, index) => (
+        <Route key={index} exact={route.exact} path={route.path}>
+          {route.component}
+        </Route>
+      ))}
 
       <Redirect to="/login" />
     </Switch>

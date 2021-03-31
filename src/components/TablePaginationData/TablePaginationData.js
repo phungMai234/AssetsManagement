@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Pagination from 'react-js-pagination';
 
 import Wrapper from './TablePaginationData.style';
+import Loading from 'components/Loading';
 
-const TablePaginationData = ({ columns, data }) => {
+const TablePaginationData = ({ columns, data, loading }) => {
   const [currentPage, changeCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
@@ -14,11 +15,11 @@ const TablePaginationData = ({ columns, data }) => {
   const currentItemsShow = data.slice(indexOfFirstNews, indexOfLastNews);
   const [dataShow, setDataShow] = useState(currentItemsShow);
 
-  const handleChangeItemsPerPage = e => {
+  const handleChangeItemsPerPage = (e) => {
     const number = e.target.value;
     setItemsPerPage(number);
   };
-  const handlePageChange = pageNumber => {
+  const handlePageChange = (pageNumber) => {
     changeCurrentPage(pageNumber);
   };
 
@@ -27,7 +28,7 @@ const TablePaginationData = ({ columns, data }) => {
     const indexOfFirstNews = indexOfLastNews - itemsPerPage;
     const currentItemsShow = data.slice(indexOfFirstNews, indexOfLastNews);
     setDataShow(currentItemsShow);
-  }, [currentPage, itemsPerPage, data]);
+  }, [currentPage, data, itemsPerPage]);
 
   return (
     <Wrapper>
@@ -53,15 +54,30 @@ const TablePaginationData = ({ columns, data }) => {
             </tr>
           </thead>
           <tbody>
-            {dataShow.map((row, index) => (
-              <tr key={index} onClick={row.onClick}>
-                {columns.map(({ field }, index) => (
-                  <td key={index} className={'td-' + field}>
-                    {row[field]}
-                  </td>
-                ))}
+            {loading && (
+              <tr>
+                <td className="no-result" colSpan={columns.length}>
+                  <Loading />
+                </td>
               </tr>
-            ))}
+            )}
+            {!loading &&
+              dataShow.map((row, index) => (
+                <tr key={index} onClick={row.onClick}>
+                  {columns.map(({ field }, index) => (
+                    <td key={index} className={'td-' + field}>
+                      {row[field]}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            {!loading && !data.length && (
+              <tr>
+                <td className="no-result" colSpan={columns.length}>
+                  Không có kết quả để hiển thị
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

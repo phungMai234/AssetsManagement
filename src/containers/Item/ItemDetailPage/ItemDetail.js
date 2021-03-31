@@ -1,135 +1,143 @@
-import React from 'react';
-import * as _ from 'lodash';
-import { Image } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { Row, Col, Button } from 'react-bootstrap';
 
 import Wrapper from './ItemDetail.style';
-import data from '../../../config/dataItems';
-import { useNavigation } from 'react-navi';
+import Label from 'components/Label';
+import BreadCrumb from 'components/BreadCrumb';
+import { formatStringToMoney, formatDateToString } from 'utils/helper';
+import { Trash2, Edit } from 'react-feather';
+import BaseModal from 'components/BaseModal';
+import useDelete from 'hooks/useDelete';
+import useGetDetail from 'hooks/useGetDetail';
+import Loading from 'components/Loading';
+import PhotoSlider from 'components/PhotoSlider';
 
-const ItemDetail = ({ recordId }) => {
-  const { navigate } = useNavigation();
+const ItemDetail = () => {
+  const { id } = useParams();
+  const history = useHistory();
 
-  const curItem = _.find(data, function (e) {
-    return (e.id = recordId);
+  const [modalConfirm, setShowModalConfirm] = useState(false);
+
+  const [remove] = useDelete({
+    id: id,
+    nameCollection: 'devices',
+    callback: () => {
+      history.push('/dashboard/devices');
+    },
   });
-  const {
-    name,
-    type,
-    amount,
-    status,
-    import_date,
-    imageSrc,
-    manager,
-    note,
-    item_value,
-    total_value,
-    total_borrowed,
-    total_paid,
-  } = curItem;
+
+  const { data, loading: loadingItems } = useGetDetail({ nameCollection: 'devices', id: id });
+
+  const breadcrumb = [
+    {
+      url: '/dashboard/devices',
+      title: 'Danh sách các thiết bị',
+    },
+    {
+      url: `/dashboard/devices/${id}/detail`,
+      title: 'Chi tiết',
+    },
+  ];
+  if (loadingItems) {
+    return <Loading />;
+  }
 
   return (
     <Wrapper>
-      <div className="header-detail">
-        <button size="sm" onClick={() => navigate(`/item/${recordId}/edit`)}>
-          <i className="fas fa-edit"></i>
-          <span>Chỉnh sửa</span>
-        </button>
+      <BreadCrumb breadcrumb={breadcrumb} />
+
+      <div className="group-btn-action">
+        <Button variant="secondary" size="sm" onClick={() => setShowModalConfirm(true)}>
+          <Trash2 size={20} />
+        </Button>
+        <Button
+          size="sm"
+          variant="info"
+          className="btn-edit"
+          onClick={() => history.push(`/dashboard/devices/${id}/edit`)}
+        >
+          <Edit size={15} />
+          Chỉnh sửa
+        </Button>
       </div>
-      <div className="body-detail">
-        <form>
-          <div className="row">
-            <div className="col-sm-6">
-              {/* Name */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Tên: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={name} />
-                </div>
-              </div>
-              {/* Ảnh  */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Ảnh minh họa: </label>
-                <div className="col-sm-7">
-                  <Image rounded src={imageSrc} />
-                </div>
-              </div>
-              {/* Import date */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Ngày nhập kho: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={import_date} />
-                </div>
-              </div>
-              {/* Type */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Loại: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={type} />
-                </div>
-              </div>
-            </div>
-            {/* Image */}
-            <div className="col-sm-6">
-              {/* Amount */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Số lượng: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={amount} />
-                </div>
-              </div>
-              {/* Manager */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Người quản lý/ Đơn vị quản lý:</label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={manager} />
-                </div>
-              </div>
-              {/* Status */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Tình trạng: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={status} />
-                </div>
-              </div>
-              {/* Item value */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Đơn giá : </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={item_value} />
-                </div>
-              </div>
-              {/* total value */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Tổng giá trị : </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={total_value} />
-                </div>
-              </div>
-              {/* total borrowed */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Đã mượn: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={total_borrowed} />
-                </div>
-              </div>
-              {/* total paid */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Đã trả: </label>
-                <div className="col-sm-7">
-                  <input type="text" className="text-input" value={total_paid} />
-                </div>
-              </div>
-              {/* note */}
-              <div className="row group-form">
-                <label className="col-sm-5 label-input">Ghi chú: </label>
-                <div className="col-sm-7">
-                  <input type="text-area" className="text-input" value={note} />
-                </div>
-              </div>
-            </div>
+      <h3 className="title">{data?.name}</h3>
+
+      <Row>
+        <Col md={6}>
+          <div className="image-slider">
+            <PhotoSlider data={data?.image_detail} isPreview interval={null} />
           </div>
-        </form>
-      </div>
+        </Col>
+        <Col md={6}>
+          <Row className="info-item">
+            <Col md={6}>
+              <Label>Loại tài sản: </Label>
+            </Col>
+            {/* <Col md={4}>
+            <div className="item-value">{dataCate?.name}</div>
+          </Col> */}
+          </Row>
+          <Row className="info-item">
+            <Col md={6}>
+              <Label>Ngày mua: </Label>
+            </Col>
+            <Col md={6}>
+              <div className="item-value">{formatDateToString(data?.import_date?.seconds)}</div>
+            </Col>
+          </Row>
+          <Row className="info-item">
+            <Col md={6}>
+              <Label>Giá 1 thiết bị: </Label>
+            </Col>
+            <Col md={6}>
+              <div className="item-value">{formatStringToMoney(data?.price_each)} (vnđ)</div>
+            </Col>
+          </Row>
+          <Row className="info-item">
+            <Col md={6}>
+              <Label>Số lượng trong kho: </Label>
+            </Col>
+            <Col md={6}>
+              <div className="item-value">
+                {data?.amount} {!!data?.unit && `(${data?.unit})`}
+              </div>
+            </Col>
+          </Row>
+          <Row className="info-item">
+            <Col md={12}>
+              <Label>Mô tả: </Label>
+              <div className="item-value">{data?.description}</div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <BaseModal
+        show={!!modalConfirm}
+        onConfirm={() => {
+          remove();
+          setShowModalConfirm(false);
+        }}
+        onCancel={setShowModalConfirm}
+        typeBtnConfirm="danger"
+        confirmText="Xóa"
+        typeModal="sm"
+        content={
+          <>
+            <span
+              style={{
+                color: '#dc3545',
+                fontSize: '30px',
+                paddingRight: '10px',
+              }}
+            >
+              <Trash2 size={20} />
+            </span>
+            <span>Bạn có chắc chắn muốn xóa?</span>
+          </>
+        }
+      />
     </Wrapper>
   );
 };

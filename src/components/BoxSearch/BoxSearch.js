@@ -1,15 +1,16 @@
 import React from 'react';
 
 import Wrapper from './BoxSearch.style';
+import { Search } from 'react-feather';
 
-const BoxSearch = () => {
+const BoxSearch = ({ value, onChange, props }) => {
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <div className="icon-search">
-        <i className="fas fa-search"></i>
+        <Search size={20} />
       </div>
 
-      <input className="input-search" placeholder="Tìm kiếm" />
+      <input className="input-search" placeholder="Tìm kiếm" value={value} onChange={onChange} />
     </Wrapper>
   );
 };
