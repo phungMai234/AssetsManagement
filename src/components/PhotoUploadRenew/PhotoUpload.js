@@ -10,11 +10,11 @@ import { useField } from 'formik';
 const PhotoUpload = ({ name }) => {
   const [uploadImage] = useUploadImage(name);
   const [deleteImage] = useDeleteImage(name);
-  const [{ value }, ,] = useField({ name });
+  const [{ value }, , {}] = useField({ name });
 
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',
-    maxFiles: 2,
+    maxFiles: 5,
     onDrop: (acceptedFiles) => {
       acceptedFiles.map((file) => {
         uploadImage(file);

@@ -26,7 +26,7 @@ export const getUtcTime = (seconds) => {
 };
 
 export const getUnixTime = (time) => {
-  if (!time) return;
+  if (!time) return 0;
 
   return new Date(time).getTime() / 1000;
 };

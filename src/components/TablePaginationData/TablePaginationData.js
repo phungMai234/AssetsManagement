@@ -3,6 +3,7 @@ import Pagination from 'react-js-pagination';
 
 import Wrapper from './TablePaginationData.style';
 import Loading from 'components/Loading';
+import { Table } from 'react-bootstrap';
 
 const TablePaginationData = ({ columns, data, loading }) => {
   const [currentPage, changeCurrentPage] = useState(1);
@@ -42,8 +43,8 @@ const TablePaginationData = ({ columns, data, loading }) => {
           <option value="20">20</option>
         </select>
       </div>
-      <div className="wrapper-table">
-        <table className="table table-borderless">
+      <div>
+        <Table bordered hover>
           <thead>
             <tr>
               {columns.map(({ name, field }, index) => (
@@ -79,7 +80,7 @@ const TablePaginationData = ({ columns, data, loading }) => {
               </tr>
             )}
           </tbody>
-        </table>
+        </Table>
       </div>
       <div className="wrapper-option">
         <Pagination

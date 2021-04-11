@@ -2,49 +2,43 @@ import { useState, useEffect, useCallback } from 'react';
 
 import db from '../database';
 
-const useGetDetailReport = ({ id, ignoreCancel = false }) => {
-  const [data, setData] = useState({});
+export const useGetDetailReport = ({ id, ignoreCancel = false }) => {
+  const [dataOrderDetail, setDataOrderDetail] = useState([]);
+  const [dataDevice, setDataDevice] = useState([]);
   const [loading, setLoading] = useState(false);
   const [forceRequest, setForceRequest] = useState(false);
 
   useEffect(() => {
     setLoading(true);
 
-    let reportData = [];
-    let listDevices = [];
+    let cloneDataOrder = [];
+    let cloneDataDevice = [];
 
-    db.collection('orders')
-      .doc(id)
-      .onSnapshot((querySnapshot1) => {
-        reportData.push(querySnapshot1.data());
+    db.collection('orderDetails')
+      .where('id_order', '==', id)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          cloneDataOrder.push({ id: doc.id, ...doc.data() });
 
-        db.collection('orderDetails')
-          .where('id_order', '==', id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const dataDevices = doc.data();
-
-              db.collection('devices')
-                .doc(dataDevices.id_device)
-                .onSnapshot((querySnapshot) => {
-                  listDevices.push(querySnapshot.data());
-                });
+          db.collection('devices')
+            .doc(doc.data().id_device)
+            .onSnapshot((querySnapshot) => {
+              cloneDataDevice.push({ id_device: querySnapshot.id, ...querySnapshot.data() });
+              setDataDevice(cloneDataDevice);
             });
-          })
-          .catch((error) => {
-            console.log('Error getting documents: ', error);
-          });
+        });
+        setDataOrderDetail(cloneDataOrder);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
       });
-    setData({ fake: reportData, devices: listDevices });
-    setLoading(false);
   }, [forceRequest, ignoreCancel, id]);
 
   const force = useCallback(() => {
     setForceRequest({});
   }, []);
 
-  return { loading, data, force };
+  return { loading, dataOrderDetail, dataDevice, force };
 };
-
-export default useGetDetailReport;

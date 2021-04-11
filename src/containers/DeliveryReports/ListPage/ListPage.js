@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { Plus, FilePlus, FileText } from 'react-feather';
 
@@ -58,19 +58,19 @@ const ListPage = () => {
   return (
     <Wrapper>
       <Row>
-        <Col md={4}>
+        <Col md={3}>
           <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <DatePickerInput
             value={params.date_borrowed}
             onSelect={(date) => setParams({ ...params, date_borrowed: date })}
           />
         </Col>
-        <Col md={4}>
-          <select
-            id="option"
-            className="input-select"
+        <Col md={3}>
+          <Form.Control
+            as="select"
+            size="sm"
             value={params.status || ''}
             onChange={(e) => setParams({ ...params, status: e.target.value })}
           >
@@ -83,7 +83,7 @@ const ListPage = () => {
                 {status.label}
               </option>
             ))}
-          </select>
+          </Form.Control>
         </Col>
       </Row>
       <Row>
@@ -92,7 +92,7 @@ const ListPage = () => {
             variant="primary"
             size="sm"
             className="btn-add"
-            onClick={() => history.push('/dashboard/devices/new')}
+            onClick={() => history.push('/dashboard/delivery_reports/new')}
           >
             <Plus size={20} />
             <span>Thêm mới</span>

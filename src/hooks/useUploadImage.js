@@ -30,7 +30,7 @@ const useUploadImage = (name) => {
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            setValue([...value, { ...file, preview: downloadURL }]);
+            setValue([...value, { path: file.name, preview: downloadURL }]);
           });
         },
       );

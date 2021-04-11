@@ -2,11 +2,13 @@ import React from 'react';
 import './header.css';
 import { Link } from 'react-navi';
 import { Bell } from 'react-feather';
+import Logo from 'assets/images/logo.png';
 
 function Header() {
   return (
     <>
       <Link href="/" className="header-left">
+        <img src={Logo} alt="logo" />
         <span className="logo-txt">UET Financial Management</span>
       </Link>
       <div className="header-right">

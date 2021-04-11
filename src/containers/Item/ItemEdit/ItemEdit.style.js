@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  margin: 5px;
+  form {
+    margin: 20px 0px;
+  }
   .group-form {
     margin-bottom: 20px;
   }
@@ -57,13 +59,26 @@ const Wrapper = styled.div`
   }
 
   .btn-close {
-    width: 20px;
-    height: 20px;
     position: absolute;
-    top: 6px;
-    right: 10px;
+    top: 0px;
+    right: 13px;
     cursor: pointer;
-    stroke: #000;
+  }
+
+  .btn-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+
+  .wrapper-button {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 export default Wrapper;

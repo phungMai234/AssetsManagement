@@ -3,7 +3,12 @@ import React from 'react';
 import LayoutPage from 'components/LayoutPage';
 import CategoriesPage from 'containers/Categories';
 import { ItemListPage, ItemDetailPage, ItemNewPage, ItemEditPage } from 'containers/Item';
-import { DeliveryReportsListPage, DeliveryReportsDetailPage } from '../containers/DeliveryReports';
+import {
+  DeliveryReportsListPage,
+  DeliveryReportsDetailPage,
+  DeliveryReportsEditPage,
+  DeliveryReportsNewPage,
+} from 'containers/DeliveryReports';
 import Login from 'containers/Login';
 
 export default [
@@ -71,6 +76,24 @@ export default [
     component: (
       <LayoutPage>
         <DeliveryReportsDetailPage />
+      </LayoutPage>
+    ),
+    exact: true,
+  },
+  {
+    path: '/dashboard/delivery_reports/:id/edit',
+    component: (
+      <LayoutPage>
+        <DeliveryReportsEditPage />
+      </LayoutPage>
+    ),
+    exact: true,
+  },
+  {
+    path: '/dashboard/delivery_reports/new',
+    component: (
+      <LayoutPage>
+        <DeliveryReportsNewPage />
       </LayoutPage>
     ),
     exact: true,

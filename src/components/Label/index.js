@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   .default-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    color: #212529;
     margin-bottom: unset;
   }
   .operator-require {
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.array]),
   isRequired: PropTypes.bool,
 };
 

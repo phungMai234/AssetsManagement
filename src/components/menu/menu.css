@@ -12,11 +12,15 @@
 .nav-menu li a {
   font-size: 14px;
 }
-.nav-menu li a i {
+.nav-menu li a svg {
   width: 20px;
 }
 .nav-menu li a span {
   padding-left: 20px;
+}
+
+.nav-item {
+  text-align: left !important;
 }
 
 .active {
@@ -26,4 +30,8 @@
 }
 .active:hover {
   background-color: #007bff !important;
+}
+
+.nav-pills .nav-link {
+  border-radius: unset;
 }

@@ -9,7 +9,7 @@ function Menu() {
   const activeRoute = window.location.pathname;
 
   return (
-    <ul className="nav flex-column nav-menu">
+    <ul className="nav flex-column nav-pills nav-fill nav-menu">
       <li className="nav-item">
         <Link
           className={`nav-link ${activeRoute.match(/\/dashboard\/categories/) ? 'active' : ''}`}

@@ -1,17 +1,19 @@
-import React, { useState, useMemo } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import { Row, Col, Button } from 'react-bootstrap';
-import { isEmpty } from 'lodash';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useParams, useHistory, Link } from 'react-router-dom';
+
+import { Row, Col, Button, Table, Container } from 'react-bootstrap';
 import Wrapper from './DetailPage.styles';
 import Label from 'components/Label';
 import BreadCrumb from 'components/BreadCrumb';
 import { formatDateToString } from 'utils/helper';
-import { Trash2, Edit } from 'react-feather';
+import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
 import BaseModal from 'components/BaseModal';
 import useDelete from 'hooks/useDelete';
-import useGetDetailReport from 'hooks/useGetDetailReport';
+import { useGetDetailReport } from 'hooks/useGetDetailReport';
+import useGetDetail from 'hooks/useGetDetail';
 import Loading from 'components/Loading';
-
+import genHtmlTemplate from '../Printer/genHtmlTemplate';
+import { find } from 'lodash';
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -26,13 +28,35 @@ const DetailPage = () => {
     },
   });
 
-  const { data: data, loading } = useGetDetailReport({ id: id });
+  const { data: orders, loading: loadingDataOrder } = useGetDetail({ nameCollection: 'orders', id: id });
+  const { dataOrderDetail, dataDevice, loading: loadingOrderDetail } = useGetDetailReport({ id: id });
 
-  const formatData = useMemo(() => {
-    if (loading || isEmpty(data)) return {};
-    console.log('tmp1', { info: data?.fake, devices: data?.devices });
-    return { ...data?.fake, devices: data?.devices };
-  }, [data, loading]);
+  const restructData = useMemo(() => {
+    if (!orders || !dataOrderDetail?.length || !dataDevice?.length) {
+      return {};
+    }
+
+    const newDataOrder = [...dataOrderDetail].map((e) => {
+      const device = find([...dataDevice], (item) => item.id_device === e.id_device);
+
+      return {
+        ...device,
+        ...e,
+      };
+    });
+
+    return { ...orders, list_order: newDataOrder };
+  }, [dataDevice, dataOrderDetail, orders]);
+
+  const pdfGenerator = useCallback(() => {
+    let printContents = genHtmlTemplate({ dataDevices: restructData?.list_order || [] });
+    const w = window.open();
+    w.document.write(printContents);
+    setTimeout(() => {
+      w.print();
+      // w.close();
+    }, 30000);
+  }, [restructData]);
 
   const breadcrumb = [
     {
@@ -44,84 +68,148 @@ const DetailPage = () => {
       title: 'Chi tiết',
     },
   ];
-  if (loading) {
+  if (loadingDataOrder || loadingOrderDetail) {
     return <Loading />;
   }
 
   return (
-    <Wrapper>
-      <BreadCrumb breadcrumb={breadcrumb} />
+    <Container>
+      <Wrapper>
+        <BreadCrumb breadcrumb={breadcrumb} />
 
-      <div className="group-btn-action">
-        <Button variant="secondary" size="sm" onClick={() => setShowModalConfirm(true)}>
-          <Trash2 size={20} />
-        </Button>
-        <Button
-          size="sm"
-          variant="info"
-          className="btn-edit"
-          onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
-        >
-          <Edit size={15} />
-          Chỉnh sửa
-        </Button>
-      </div>
+        <div className="group-btn-action">
+          <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
+            <Trash2 size={20} />
+          </Button>
+          <Button variant="info" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
+            <Printer size={20} />
+            In biên bản
+          </Button>
+          <Button
+            size="sm"
+            variant="warning"
+            className="btn-edit"
+            onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
+          >
+            <Edit size={15} />
+            Chỉnh sửa
+          </Button>
+        </div>
 
-      <Row>
-        <Col md={6}>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Người mượn: </Label>
-            </Col>
-            <Col md={4}>
-              <div className="item-value">{data?.user_name}</div>
-            </Col>
-          </Row>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Ngày mượn: </Label>
-            </Col>
-            <Col md={6}>
-              <div className="item-value">{formatDateToString(data?.date_borrowed?.seconds)}</div>
-            </Col>
-          </Row>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Ngày trả: </Label>
-            </Col>
-            <Col md={6}>
-              <div className="item-value">{formatDateToString(data?.date_return?.seconds)}</div>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+        <Row className="info-item">
+          <Col md={2}>
+            <Label>Người mượn: </Label>
+          </Col>
+          <Col md={6}>
+            <div className="item-value">{orders?.user_name}</div>
+          </Col>
+        </Row>
+        <Row className="info-item">
+          <Col md={2}>
+            <Label>Ngày mượn: </Label>
+          </Col>
+          <Col md={6}>
+            <div className="item-value">{formatDateToString(orders?.date_borrowed?.seconds)}</div>
+          </Col>
+        </Row>
+        <Row className="info-item">
+          <Col md={2}>
+            <Label>Ngày trả: </Label>
+          </Col>
+          <Col md={6}>
+            <div className="item-value">{formatDateToString(orders?.date_return?.seconds)}</div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={3}>
+            <Label>Biên bản giao nhận: </Label>
+          </Col>
+        </Row>
+        <Row className="info-item">
+          <Col md={2}></Col>
+          <Col md={6}>
+            {(restructData?.files || []).map((file, index) => (
+              <div key={index} className="item-file">
+                <a href={file.url} target="_blank" rel="noreferrer">
+                  <FileText size={20} />
+                  <span>{file.name}</span>
+                </a>
+              </div>
+            ))}
+          </Col>
+        </Row>
+        <Row className="info-item">
+          <Col md={3}>
+            <Label>Danh sách tài sản: </Label>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Mã tài sản</th>
+                  <th>Tên</th>
+                  <th>Số lượng</th>
+                  <th>Đơn vị</th>
+                  <th>Tình trạng</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!restructData?.list_order && (
+                  <tr>
+                    <td colSpan={6}>Không có dữ liễu để hiển thị</td>
+                  </tr>
+                )}
+                {!!restructData?.list_order &&
+                  restructData?.list_order.map((e, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{e.id_device}</td>
+                      <td className="td-name">
+                        <Link to={`/dashboard/devices/${e.id_device}/detail`}>
+                          {e.name}
+                          <ExternalLink size={20} />
+                        </Link>
+                      </td>
+                      <td>{e.quantity_ordered}</td>
+                      <td>{e.unit}</td>
+                      <td>{e.status}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
 
-      <BaseModal
-        show={!!modalConfirm}
-        onConfirm={() => {
-          remove();
-          setShowModalConfirm(false);
-        }}
-        onCancel={setShowModalConfirm}
-        typeBtnConfirm="danger"
-        confirmText="Xóa"
-        typeModal="sm"
-        content={
-          <>
-            <span
-              style={{
-                color: '#dc3545',
-                fontSize: '30px',
-                paddingRight: '10px',
-              }}
-            >
-              <Trash2 size={20} />
-            </span>
-            <span>Bạn có chắc chắn muốn xóa?</span>
-          </>
-        }
-      />
-    </Wrapper>
+        <BaseModal
+          show={!!modalConfirm}
+          onConfirm={() => {
+            remove();
+            setShowModalConfirm(false);
+          }}
+          onCancel={() => setShowModalConfirm(false)}
+          typeBtnConfirm="danger"
+          confirmText="Xóa"
+          typeModal="sm"
+          content={
+            <>
+              <span
+                style={{
+                  color: '#dc3545',
+                  fontSize: '30px',
+                  paddingRight: '10px',
+                }}
+              >
+                <Trash2 size={20} />
+              </span>
+              <span>Bạn có chắc chắn muốn xóa?</span>
+            </>
+          }
+        />
+      </Wrapper>
+    </Container>
   );
 };
 export default DetailPage;

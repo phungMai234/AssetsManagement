@@ -11,7 +11,7 @@ body {
   align-content: center;
 }
 .header {
-  height: 80px;
+  height: 100px;
   padding: 15px;
   position: relative;
   display: flex;
@@ -22,7 +22,7 @@ body {
   border-bottom: 1px solid #eee;
 }
 .sidenav {
-  top: 80px;
+  top: 100px;
   width: 260px;
   bottom: 0;
   left: 0;
@@ -32,7 +32,7 @@ body {
   border-right: 1px solid #eee;
 }
 .content {
-  top: 80px;
+  top: 100px;
   position: absolute;
   left: 260px;
   bottom: 0;

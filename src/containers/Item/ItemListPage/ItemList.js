@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { Plus, FilePlus } from 'react-feather';
 
@@ -55,19 +55,18 @@ export default function Item() {
   return (
     <Wrapper>
       <Row>
-        <Col md={4}>
+        <Col md={4} lg={3}>
           <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
         </Col>
-        <Col md={4}>
+        <Col md={4} lg={3}>
           <DatePickerInput
             value={params.import_date}
             onSelect={(date) => setParams({ ...params, import_date: date })}
           />
         </Col>
-        <Col md={4}>
-          <select
-            id="option"
-            className="input-select"
+        <Col md={4} lg={3}>
+          <Form.Control
+            as="select"
             value={params.id_category || ''}
             onChange={(e) => setParams({ ...params, id_category: e.target.value })}
           >
@@ -80,7 +79,7 @@ export default function Item() {
                 {e.name}
               </option>
             ))}
-          </select>
+          </Form.Control>
         </Col>
       </Row>
       <Row>

@@ -48,12 +48,12 @@ const ItemDetail = () => {
       <BreadCrumb breadcrumb={breadcrumb} />
 
       <div className="group-btn-action">
-        <Button variant="secondary" size="sm" onClick={() => setShowModalConfirm(true)}>
+        <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
           <Trash2 size={20} />
         </Button>
         <Button
           size="sm"
-          variant="info"
+          variant="warning"
           className="btn-edit"
           onClick={() => history.push(`/dashboard/devices/${id}/edit`)}
         >
@@ -119,7 +119,7 @@ const ItemDetail = () => {
           remove();
           setShowModalConfirm(false);
         }}
-        onCancel={setShowModalConfirm}
+        onCancel={() => setShowModalConfirm(false)}
         typeBtnConfirm="danger"
         confirmText="Xóa"
         typeModal="sm"

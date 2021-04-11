@@ -3,6 +3,30 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   padding: 20px;
 
+  table {
+    th {
+      text-align: center;
+    }
+    td {
+      text-align: center;
+    }
+
+    .td-name {
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .item-file {
+    margin-bottom: 5px;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+
   .title {
     margin-bottom: 30px;
     margin-top: 20px;
@@ -29,6 +53,12 @@ const Wrapper = styled.div`
     justify-content: flex-end;
 
     .btn-edit {
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-print {
       margin-left: 20px;
       display: flex;
       align-items: center;
