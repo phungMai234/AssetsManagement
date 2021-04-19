@@ -11,6 +11,8 @@ import {
 } from 'containers/DeliveryReports';
 import Login from 'containers/Login';
 
+import { DeliveryReportContextProvider } from 'contexts/DeliveryReportContext';
+
 export default [
   {
     path: '/login',
@@ -74,9 +76,11 @@ export default [
   {
     path: '/dashboard/delivery_reports/:id/detail',
     component: (
-      <LayoutPage>
-        <DeliveryReportsDetailPage />
-      </LayoutPage>
+      <DeliveryReportContextProvider>
+        <LayoutPage>
+          <DeliveryReportsDetailPage />
+        </LayoutPage>
+      </DeliveryReportContextProvider>
     ),
     exact: true,
   },

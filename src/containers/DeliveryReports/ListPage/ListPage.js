@@ -49,8 +49,9 @@ const ListPage = () => {
     return recordItems.map((record, index) => ({
       ...record,
       index: index + 1,
+      date_return: record?.date_return ? record.date_return : '--/--/----',
       status: <StatusBorrow status={record?.status} />,
-      report_file: record?.report_file ? <FileText className="file-text" /> : '-',
+      report_file: !!record.files && record.files.length ? <FileText className="file-text" /> : '-',
       onClick: () => history.push(`/dashboard/delivery_reports/${record.id}/detail`),
     }));
   }, [recordItems, history]);
@@ -70,7 +71,6 @@ const ListPage = () => {
         <Col md={3}>
           <Form.Control
             as="select"
-            size="sm"
             value={params.status || ''}
             onChange={(e) => setParams({ ...params, status: e.target.value })}
           >

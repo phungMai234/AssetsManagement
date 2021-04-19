@@ -3,7 +3,6 @@
   "plugins": [
     "@babel/plugin-proposal-class-properties",
     "react-hot-loader/babel",
-    ["@babel/transform-runtime"],
     [
       "module-resolver",
       {

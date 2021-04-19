@@ -17,7 +17,7 @@ const App = () => {
         </Route>
       ))}
 
-      <Redirect to="/login" />
+      {/* <Redirect to="/" /> */}
     </Switch>
   );
 };

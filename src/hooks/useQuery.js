@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import db from '../database';
 
 export const useQuery = ({ url, ignoreCancel = false }) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [forceRequest, setForceRequest] = useState(false);
@@ -14,7 +14,7 @@ export const useQuery = ({ url, ignoreCancel = false }) => {
     db.collection(url).onSnapshot((querySnapshot) => {
       let result = [];
       querySnapshot.forEach((doc) => {
-        result = [...result, { id: doc.id, ...doc.data() }];
+        result.push({ id: doc.id, ...doc.data() });
       });
       setData(result);
       setErrors(null);

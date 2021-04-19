@@ -1,28 +1,33 @@
-import React from 'react';
-import Wrapper from './Login.styles';
-import { Link } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import LoginForm from './LoginForm';
 
-const Login = () => {
+const LoginPage = () => {
+  const history = useHistory();
+
+  const handleLogin = useCallback(() => {
+    // history.push('/dashboard/categories');
+    console.log('login');
+  }, []);
+
+  const validationSchema = Yup.object({
+    email: Yup.string().required('Đây là trường bắt buộc '),
+    password: Yup.string().required('Đây là trường bắt buộc '),
+  });
+
   return (
-    <Wrapper>
-      <div className="form-login">
-        <h2>Đăng nhập</h2>
-        <form>
-          <div className="form-group">
-            <label>Mã người dùng: </label>
-            <input type="text" className="form-control" />
-          </div>
-          <div className="form-group">
-            <label>Mật khẩu:</label>
-            <input type="password" className="form-control" />
-          </div>
-          <div className="wrapper-button">
-            <Link to="/dashboard/categories">Đăng nhập</Link>
-          </div>
-        </form>
-      </div>
-    </Wrapper>
+    <Formik
+      initialValues={{ email2: '', password2: '' }}
+      enableReinitialize
+      validationSchema={validationSchema}
+      onSubmit={handleLogin}
+    >
+      {(props) => <LoginForm {...props} />}
+    </Formik>
   );
 };
 
-export default Login;
+export default LoginPage;

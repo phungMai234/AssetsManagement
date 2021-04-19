@@ -23,7 +23,7 @@ body {
 }
 .sidenav {
   top: 100px;
-  width: 260px;
+  width: 23%;
   bottom: 0;
   left: 0;
   position: absolute;
@@ -34,7 +34,7 @@ body {
 .content {
   top: 100px;
   position: absolute;
-  left: 260px;
+  left: 23%;
   bottom: 0;
   right: 0;
   padding: 10px;

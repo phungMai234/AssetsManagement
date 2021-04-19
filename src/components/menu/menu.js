@@ -31,7 +31,7 @@ function Menu() {
       <li className="nav-item">
         <Link
           className={`nav-link ${activeRoute.match(/\/dashboard\/delivery_reports/) ? 'active' : ''}`}
-          to={'delivery_reports'}
+          to={'/dashboard/delivery_reports'}
         >
           <FileText size={20} />
           <span>Quản lý biên bản bàn giao</span>

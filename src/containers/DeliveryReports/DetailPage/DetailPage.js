@@ -1,23 +1,23 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useContext } from 'react';
+import { isEmpty } from 'lodash';
+import { Row, Col, Button, Table, Container } from 'react-bootstrap';
+import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
 import { useParams, useHistory, Link } from 'react-router-dom';
 
-import { Row, Col, Button, Table, Container } from 'react-bootstrap';
-import Wrapper from './DetailPage.styles';
-import Label from 'components/Label';
-import BreadCrumb from 'components/BreadCrumb';
+import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
 import { formatDateToString } from 'utils/helper';
-import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
 import BaseModal from 'components/BaseModal';
-import useDelete from 'hooks/useDelete';
-import { useGetDetailReport } from 'hooks/useGetDetailReport';
-import useGetDetail from 'hooks/useGetDetail';
+import BreadCrumb from 'components/BreadCrumb';
+import Label from 'components/Label';
 import Loading from 'components/Loading';
+import useDelete from 'hooks/useDelete';
 import genHtmlTemplate from '../Printer/genHtmlTemplate';
-import { find } from 'lodash';
+import Wrapper from './DetailPage.styles';
+
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
-
+  const { data, loading } = useContext(DeliveryReportContext);
   const [modalConfirm, setShowModalConfirm] = useState(false);
 
   const [remove] = useDelete({
@@ -28,35 +28,25 @@ const DetailPage = () => {
     },
   });
 
-  const { data: orders, loading: loadingDataOrder } = useGetDetail({ nameCollection: 'orders', id: id });
-  const { dataOrderDetail, dataDevice, loading: loadingOrderDetail } = useGetDetailReport({ id: id });
-
-  const restructData = useMemo(() => {
-    if (!orders || !dataOrderDetail?.length || !dataDevice?.length) {
+  const restructureData = useMemo(() => {
+    if (loading) {
       return {};
     }
 
-    const newDataOrder = [...dataOrderDetail].map((e) => {
-      const device = find([...dataDevice], (item) => item.id_device === e.id_device);
+    let order = data.find((e) => e.id === id);
 
-      return {
-        ...device,
-        ...e,
-      };
-    });
-
-    return { ...orders, list_order: newDataOrder };
-  }, [dataDevice, dataOrderDetail, orders]);
+    return order;
+  }, [data, id, loading]);
 
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructData?.list_order || [] });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.list_order || [] });
     const w = window.open();
     w.document.write(printContents);
     setTimeout(() => {
       w.print();
-      // w.close();
+      w.close();
     }, 30000);
-  }, [restructData]);
+  }, [restructureData]);
 
   const breadcrumb = [
     {
@@ -68,7 +58,7 @@ const DetailPage = () => {
       title: 'Chi tiết',
     },
   ];
-  if (loadingDataOrder || loadingOrderDetail) {
+  if (loading || isEmpty(restructureData)) {
     return <Loading />;
   }
 
@@ -101,7 +91,7 @@ const DetailPage = () => {
             <Label>Người mượn: </Label>
           </Col>
           <Col md={6}>
-            <div className="item-value">{orders?.user_name}</div>
+            <div className="item-value">{restructureData?.user_name}</div>
           </Col>
         </Row>
         <Row className="info-item">
@@ -109,7 +99,7 @@ const DetailPage = () => {
             <Label>Ngày mượn: </Label>
           </Col>
           <Col md={6}>
-            <div className="item-value">{formatDateToString(orders?.date_borrowed?.seconds)}</div>
+            <div className="item-value">{formatDateToString(restructureData?.date_borrowed?.seconds)}</div>
           </Col>
         </Row>
         <Row className="info-item">
@@ -117,7 +107,7 @@ const DetailPage = () => {
             <Label>Ngày trả: </Label>
           </Col>
           <Col md={6}>
-            <div className="item-value">{formatDateToString(orders?.date_return?.seconds)}</div>
+            <div className="item-value">{formatDateToString(restructureData?.date_return?.seconds)}</div>
           </Col>
         </Row>
         <Row>
@@ -128,7 +118,7 @@ const DetailPage = () => {
         <Row className="info-item">
           <Col md={2}></Col>
           <Col md={6}>
-            {(restructData?.files || []).map((file, index) => (
+            {(restructureData?.files || []).map((file, index) => (
               <div key={index} className="item-file">
                 <a href={file.url} target="_blank" rel="noreferrer">
                   <FileText size={20} />
@@ -157,18 +147,18 @@ const DetailPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {!restructData?.list_order && (
+                {!restructureData.order_details && (
                   <tr>
                     <td colSpan={6}>Không có dữ liễu để hiển thị</td>
                   </tr>
                 )}
-                {!!restructData?.list_order &&
-                  restructData?.list_order.map((e, index) => (
+                {!!restructureData.order_details &&
+                  restructureData?.order_details.map((e, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{e.id_device}</td>
                       <td className="td-name">
-                        <Link to={`/dashboard/devices/${e.id_device}/detail`}>
+                        <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
                           {e.name}
                           <ExternalLink size={20} />
                         </Link>

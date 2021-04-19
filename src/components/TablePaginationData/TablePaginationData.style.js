@@ -43,6 +43,7 @@ const Wrapper = styled.div`
           background-color: #2cb1b01c;
         }
         .no-result {
+          text-align: center;
           font-style: italic;
         }
       }
