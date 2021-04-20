@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import 'jquery';
 
 import routes from './routes/index';
+import AuthRoute from './AuthRoute';
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
         </Route>
       ))}
 
-      {/* <Redirect to="/" /> */}
+      <Redirect to="/auth/login" />
     </Switch>
   );
 };

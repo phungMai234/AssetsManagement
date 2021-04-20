@@ -8,6 +8,7 @@ const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) 
   return (
     <div>
       {!!values &&
+        !!values.length &&
         values.map((device, index) => {
           return (
             <Row key={index}>
@@ -34,9 +35,7 @@ const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) 
                       value={device.id_device}
                       onChange={(e) => setFieldValue(`orderDetails.${index}.id_device`, e.target.value)}
                       as="select"
-                      isInvalid={
-                        !!errors?.orderDetails && !!errors?.orderDetails[index]?.id_device && !!touched?.orderDetails
-                      }
+                      isInvalid={touched?.orderDetails && errors.orderDetails && errors.orderDetails[index]}
                     >
                       <option key="" value="">
                         Chọn 1 tài sản
@@ -48,7 +47,13 @@ const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) 
                       ))}
                     </Form.Control>
                     <Form.Control.Feedback type="invalid">
-                      {!!errors?.orderDetails && errors?.orderDetails[index]?.id_device}
+                      {touched.orderDetails && !!errors.orderDetails && !!errors.orderDetails[index] && (
+                        <>
+                          {typeof errors.orderDetails[index] === 'string'
+                            ? errors.orderDetails[index]
+                            : errors.orderDetails[index].id_device}
+                        </>
+                      )}
                     </Form.Control.Feedback>
                   </Form.Group>
 
@@ -62,9 +67,10 @@ const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) 
                       value={device?.quantity_ordered}
                       onChange={(e) => setFieldValue(`orderDetails.${index}.quantity_ordered`, e.target.value)}
                       isInvalid={
-                        !!errors?.orderDetails &&
-                        !!errors?.orderDetails[index]?.quantity_ordered &&
-                        touched?.orderDetails
+                        touched.orderDetails &&
+                        errors.orderDetails &&
+                        errors.orderDetails[index] &&
+                        errors.orderDetails[index]?.quantity_ordered
                       }
                     />
 

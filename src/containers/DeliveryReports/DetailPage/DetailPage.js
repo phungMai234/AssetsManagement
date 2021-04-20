@@ -10,23 +10,15 @@ import BaseModal from 'components/BaseModal';
 import BreadCrumb from 'components/BreadCrumb';
 import Label from 'components/Label';
 import Loading from 'components/Loading';
-import useDelete from 'hooks/useDelete';
 import genHtmlTemplate from '../Printer/genHtmlTemplate';
 import Wrapper from './DetailPage.styles';
+import useDeleteDeliveryReport from 'hooks/useDeleteDeliveryReport';
 
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const { data, loading } = useContext(DeliveryReportContext);
   const [modalConfirm, setShowModalConfirm] = useState(false);
-
-  const [remove] = useDelete({
-    id: id,
-    nameCollection: 'orders',
-    callback: () => {
-      history.push('/dashboard/delivery_reports');
-    },
-  });
 
   const restructureData = useMemo(() => {
     if (loading) {
@@ -38,8 +30,16 @@ const DetailPage = () => {
     return order;
   }, [data, id, loading]);
 
+  const [remove] = useDeleteDeliveryReport({
+    id: id,
+    orderDetails: restructureData?.order_details || [],
+    callback: () => {
+      history.push('/dashboard/delivery_reports');
+    },
+  });
+
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructureData.list_order || [] });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [] });
     const w = window.open();
     w.document.write(printContents);
     setTimeout(() => {
@@ -107,7 +107,9 @@ const DetailPage = () => {
             <Label>Ngày trả: </Label>
           </Col>
           <Col md={6}>
-            <div className="item-value">{formatDateToString(restructureData?.date_return?.seconds)}</div>
+            <div className="item-value">
+              {formatDateToString(restructureData?.date_return?.seconds) || '--/--/----'}
+            </div>
           </Col>
         </Row>
         <Row>
@@ -128,6 +130,7 @@ const DetailPage = () => {
             ))}
           </Col>
         </Row>
+
         <Row className="info-item">
           <Col md={3}>
             <Label>Danh sách tài sản: </Label>
@@ -170,6 +173,14 @@ const DetailPage = () => {
                   ))}
               </tbody>
             </Table>
+          </Col>
+        </Row>
+        <Row className="info-item">
+          <Col md={2}>
+            <Label>Ghi chú: </Label>
+          </Col>
+          <Col md={6}>
+            <div className="item-value">{restructureData?.note}</div>
           </Col>
         </Row>
 

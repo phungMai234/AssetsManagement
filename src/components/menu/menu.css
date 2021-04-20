@@ -19,17 +19,18 @@
   padding-left: 20px;
 }
 
-.nav-item {
+.nav-item a {
   text-align: left !important;
+  color: #004683;
 }
 
-.active {
-  background-color: #007bff;
+.nav-pills .nav-link.active {
+  background-color: #004683;
   color: #fff;
   cursor: default;
 }
 .active:hover {
-  background-color: #007bff !important;
+  background-color: #004683 !important;
 }
 
 .nav-pills .nav-link {

@@ -43,13 +43,18 @@ export default function Item() {
 
   const restructureData = useMemo(() => {
     if (!recordItems) return [];
-    return recordItems.map((record, index) => ({
-      ...record,
-      index: index + 1,
-      import_date: record?.import_date,
-      price_each: formatStringToMoney(record.price_each),
-      onClick: () => history.push(`/dashboard/devices/${record.id}/detail`),
-    }));
+    return recordItems.map((record, index) => {
+      return {
+        ...record,
+        index: index + 1,
+        picture: !!record?.image_detail && !!record?.image_detail.length && (
+          <img src={record?.image_detail[0].preview} alt="image_detail" />
+        ),
+        import_date: record?.import_date,
+        price_each: formatStringToMoney(record.price_each),
+        onClick: () => history.push(`/dashboard/devices/${record.id}/detail`),
+      };
+    });
   }, [recordItems, history]);
 
   return (
@@ -105,6 +110,10 @@ export default function Item() {
           {
             name: 'STT',
             field: 'index',
+          },
+          {
+            name: 'Ảnh minh họa',
+            field: 'picture',
           },
           {
             name: 'Tên',

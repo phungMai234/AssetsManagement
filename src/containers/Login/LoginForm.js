@@ -1,10 +1,14 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 import Wrapper from './Login.styles';
+import MessageRes from 'components/MessageRes';
 
-const LoginForm = ({ handleSubmit, setFieldValue, handleChange, errors, values, touched }) => {
-  console.log('values: ', values);
+import useAlert from 'hooks/useAlert';
+
+const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
+  const { alert, clearAlert } = useAlert();
+
   return (
     <Wrapper>
       <div className="wrapper-form">
@@ -17,34 +21,37 @@ const LoginForm = ({ handleSubmit, setFieldValue, handleChange, errors, values, 
             <h6 className="logo-txt">UET Financial Management</h6>
           </div>
         </div>
-        <Form onSubmit={() => handleSubmit()}>
+        <Form>
+          {!!alert && <MessageRes content={alert.message} status={alert.status} onHide={clearAlert} />}
+
           <Form.Group>
-            <Form.Label>Email2</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
-              name="email2"
-              value={values?.email2}
-              onChange={(e) => setFieldValue('email2', e.target.value)}
-              isInvalid={!!touched?.email2 && !!errors?.email2}
+              name="email"
+              value={values?.email}
+              onChange={handleChange}
+              isInvalid={!!touched?.email && !!errors?.email}
             />
-            <Form.Control.Feedback type="invalid">{errors?.email2}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors?.email}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              name="password2"
-              value={values?.password2}
+              name="password"
+              type="password"
+              value={values?.password}
               onChange={handleChange}
-              isInvalid={!!touched?.password2 && !!errors?.password2}
+              isInvalid={!!touched?.password && !!errors?.password}
             />
-            <Form.Control.Feedback type="invalid">{errors?.password2}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors?.password}</Form.Control.Feedback>
           </Form.Group>
-          <div className="footer-login">
-            <Button variant="primary" size="sm" type="submit">
-              Đăng nhập
-            </Button>
-          </div>
         </Form>
+        <div className="footer-login">
+          <Button variant="primary" size="sm" onClick={handleSubmit}>
+            Đăng nhập
+          </Button>
+        </div>
       </div>
     </Wrapper>
   );

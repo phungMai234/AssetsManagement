@@ -1,26 +1,38 @@
 import React, { useCallback } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import LoginForm from './LoginForm';
+import { auth } from 'database';
+import useAlert from 'hooks/useAlert';
 
 const LoginPage = () => {
   const history = useHistory();
+  const { setAlert } = useAlert();
 
-  const handleLogin = useCallback(() => {
-    // history.push('/dashboard/categories');
-    console.log('login');
-  }, []);
+  const handleLogin = useCallback(
+    (values) => {
+      const { email, password } = values;
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          history.push('/dashboard/categories');
+        })
+        .catch((error) => {
+          setAlert({ status: 'danger', message: error.message });
+        });
+    },
+    [history, setAlert],
+  );
 
-  const validationSchema = Yup.object({
+  const validationSchema = Yup.object().shape({
     email: Yup.string().required('Đây là trường bắt buộc '),
     password: Yup.string().required('Đây là trường bắt buộc '),
   });
 
   return (
     <Formik
-      initialValues={{ email2: '', password2: '' }}
+      initialValues={{ email: '', password: '' }}
       enableReinitialize
       validationSchema={validationSchema}
       onSubmit={handleLogin}

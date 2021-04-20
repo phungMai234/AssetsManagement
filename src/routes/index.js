@@ -15,7 +15,7 @@ import { DeliveryReportContextProvider } from 'contexts/DeliveryReportContext';
 
 export default [
   {
-    path: '/login',
+    path: '/auth/login',
     component: <Login />,
     exact: true,
   },

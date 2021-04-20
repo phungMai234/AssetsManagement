@@ -6,13 +6,13 @@ export default styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url(${logo});
+  /* background: url(${logo});
   background-size: contain;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 
   .wrapper-form {
     width: 400px;
-    border: 1px solid #ddd;
+    border: 1px solid #6666;
     background-color: #fff;
     border-radius: 3px;
   }
@@ -27,6 +27,7 @@ export default styled.div`
 
     .logo-txt {
       font-weight: bold;
+      color: #004683;
     }
   }
 

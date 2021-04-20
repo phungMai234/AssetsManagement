@@ -7,10 +7,16 @@ const Wrapper = styled.div`
     }
     td {
       text-align: center;
+      vertical-align: middle;
     }
     .td-manager {
       width: 15%;
       word-wrap: break-word;
+    }
+
+    img {
+      height: 50px;
+      width: 50px;
     }
   }
   margin: 5px;
