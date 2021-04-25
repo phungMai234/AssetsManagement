@@ -16,21 +16,22 @@
   width: 20px;
 }
 .nav-menu li a span {
-  padding-left: 20px;
+  padding-left: 5px;
+  font-size: 15px;
 }
 
 .nav-item a {
   text-align: left !important;
-  color: #004683;
+  color: #007bff;
 }
 
 .nav-pills .nav-link.active {
-  background-color: #004683;
+  background-color: #007bff;
   color: #fff;
   cursor: default;
 }
 .active:hover {
-  background-color: #004683 !important;
+  background-color: #007bff !important;
 }
 
 .nav-pills .nav-link {

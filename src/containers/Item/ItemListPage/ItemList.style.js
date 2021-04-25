@@ -14,9 +14,11 @@ const Wrapper = styled.div`
       word-wrap: break-word;
     }
 
-    img {
-      height: 50px;
-      width: 50px;
+    .td-picture {
+      img {
+        height: 50px;
+        width: 50px;
+      }
     }
   }
   margin: 5px;

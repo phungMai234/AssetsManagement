@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 import Wrapper from './Login.styles';
 import MessageRes from 'components/MessageRes';
-
+import { LogIn } from 'react-feather';
 import useAlert from 'hooks/useAlert';
+import { Link } from 'react-router-dom';
 
 const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
   const { alert, clearAlert } = useAlert();
@@ -18,9 +19,10 @@ const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
               src="https://firebasestorage.googleapis.com/v0/b/assetsmanagementfirebase.appspot.com/o/images%2Flogo2_new.png?alt=media&token=338cbb32-2c47-4945-bfcd-081bf460eb54"
               alt="logo"
             />
-            <h6 className="logo-txt">UET Financial Management</h6>
+            <h6 className="logo-txt">Assets Management</h6>
           </div>
         </div>
+        <div className="title">Đăng nhập hệ thống</div>
         <Form>
           {!!alert && <MessageRes content={alert.message} status={alert.status} onHide={clearAlert} />}
 
@@ -36,7 +38,7 @@ const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               name="password"
               type="password"
@@ -48,7 +50,11 @@ const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
           </Form.Group>
         </Form>
         <div className="footer-login">
+          <div className="link-reset">
+            <Link to="/auth/password_reset">Quên mật khẩu?</Link>
+          </div>
           <Button variant="primary" size="sm" onClick={handleSubmit}>
+            <LogIn size={15} />
             Đăng nhập
           </Button>
         </div>

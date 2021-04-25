@@ -40,6 +40,11 @@ export default function Categories() {
           <Edit3 size={20} />
         </Button>
       ),
+      note: (
+        <div className="memo line-clamp">
+          <p title={record?.note}>{record?.note}</p>
+        </div>
+      ),
       delete_row: (
         <Button
           variant="danger"
@@ -79,7 +84,7 @@ export default function Categories() {
             field: 'name',
           },
           {
-            name: 'Đơn vị quản lý/Người quản lý',
+            name: 'Đơn vị quản lý',
             field: 'manager',
           },
           {

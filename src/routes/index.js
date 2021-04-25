@@ -10,6 +10,7 @@ import {
   DeliveryReportsNewPage,
 } from 'containers/DeliveryReports';
 import Login from 'containers/Login';
+import PasswordReset from 'containers/PasswordReset';
 
 import { DeliveryReportContextProvider } from 'contexts/DeliveryReportContext';
 
@@ -18,6 +19,13 @@ export default [
     path: '/auth/login',
     component: <Login />,
     exact: true,
+    authentication: false,
+  },
+  {
+    path: '/auth/password_reset',
+    component: <PasswordReset />,
+    exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/categories',
@@ -27,6 +35,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/devices',
@@ -36,6 +45,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/devices/new',
@@ -45,6 +55,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/devices/:id/detail',
@@ -54,6 +65,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/devices/:id/edit',
@@ -63,6 +75,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/delivery_reports',
@@ -72,6 +85,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/delivery_reports/:id/detail',
@@ -83,6 +97,7 @@ export default [
       </DeliveryReportContextProvider>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/delivery_reports/:id/edit',
@@ -92,6 +107,7 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
   {
     path: '/dashboard/delivery_reports/new',
@@ -101,5 +117,6 @@ export default [
       </LayoutPage>
     ),
     exact: true,
+    authentication: false,
   },
 ];

@@ -5,7 +5,7 @@
   align-content: center;
   border: 1px solid #000;
 }
-img {
+.header-left > img {
   width: 60px;
   height: 60px;
 }
@@ -32,4 +32,8 @@ img {
 }
 .fz {
   font-size: 14px;
+}
+
+.dropdown svg {
+  margin-right: 5px;
 }

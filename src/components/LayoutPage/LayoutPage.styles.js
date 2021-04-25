@@ -26,9 +26,7 @@ export default styled.div`
   }
   .sidenav {
     border-right: 1px solid #eee;
-    padding: unset;
   }
   .content {
-    padding: unset;
   }
 `;

@@ -21,6 +21,11 @@ export default styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px 0px;
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
     & > div {
       text-align: center;
     }
@@ -31,11 +36,25 @@ export default styled.div`
     }
   }
 
+  .title {
+    padding: 0 25px 10px 25px;
+    font-size: 20px;
+    text-align: center;
+  }
   .footer-login {
     border-top: 1px solid #ddd;
     display: flex;
-    justify-content: flex-end;
-    padding: 25px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+
+    svg {
+      margin-right: 5px;
+    }
+
+    .link-reset {
+      font-size: 14px;
+    }
   }
   form {
     padding: 25px;
@@ -43,6 +62,7 @@ export default styled.div`
 
     .form-label {
       font-weight: bold;
+      font-size: 14px;
     }
   }
 

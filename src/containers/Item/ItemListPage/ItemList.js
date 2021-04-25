@@ -132,7 +132,7 @@ export default function Item() {
             field: 'status',
           },
           {
-            name: 'Giá tiền (vnđ)',
+            name: 'Đơn giá (vnđ)',
             field: 'price_each',
           },
         ]}
