@@ -35,15 +35,16 @@ const ProductLine = ({ values, setFieldValue, errors, touched }) => {
                       name="product_line_code"
                       value={device?.product_line_code}
                       onChange={(e) => setFieldValue(`orderDetails.${index}.product_line_code`, e.target.value)}
-                      isInvalid={
-                        touched.orderDetails &&
-                        errors.orderDetails &&
-                        errors.orderDetails[index] &&
-                        errors.orderDetails[index]?.product_line_code
-                      }
+                      isInvalid={touched.orderDetails && errors.orderDetails && errors.orderDetails[index]}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {!!errors?.orderDetails && errors?.orderDetails[index]?.product_line_code}
+                      {touched.orderDetails && !!errors.orderDetails && !!errors.orderDetails[index] && (
+                        <>
+                          {typeof errors.orderDetails[index] === 'string'
+                            ? errors.orderDetails[index]
+                            : errors.orderDetails[index].product_line_code}
+                        </>
+                      )}
                     </Form.Control.Feedback>
                   </Form.Group>
 

@@ -7,7 +7,7 @@ module.exports = {
   entry: ['./src/index.js'],
   devServer: {
     contentBase: __dirname,
-    port: 3001,
+    port: 3002,
     host: 'localhost',
     historyApiFallback: true,
   },
