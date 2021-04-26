@@ -12,34 +12,36 @@ import BoxSearch from 'components/BoxSearch/BoxSearch';
 import { formatStringToMoney, formatDateToString } from 'utils/helper';
 import { useQuery } from 'hooks/useQuery';
 import DatePickerInput from 'components/DatePickerInput';
+import ModalImportFile from 'components/ModalImportFile';
 
 export default function Item() {
   const history = useHistory();
 
   const [params, setParams] = useState({});
+  const [openModalImport, setOpenModalImport] = useState(false);
 
   const { data: dataItems, loading: loadingItems } = useQuery({ url: 'devices' });
-  const { data: dataCate, loading: loadingCates } = useQuery({ url: 'categories' });
+  const { data: dataCate, loading: loadingCates } = useQuery({ url: 'productlines' });
 
   const recordItems = useMemo(() => {
     const newData = (dataItems || []).map((record) => ({
       ...record,
-      import_date: formatDateToString(record?.import_date?.seconds),
+      purchase_date: formatDateToString(record?.purchase_date?.seconds),
     }));
     const filterParams = {
-      id_category: params.id_category,
-      import_date: params.import_date && format(params.import_date, 'dd/MM/yyyy'),
+      id_productline: params.id_productline,
+      purchase_date: params.purchase_date && format(params.purchase_date, 'dd/MM/yyyy'),
     };
 
-    !params.import_date && delete filterParams.import_date;
-    !params.id_category && delete filterParams.id_category;
+    !params.purchase_date && delete filterParams.purchase_date;
+    !params.id_productline && delete filterParams.id_productline;
 
     const customData = params.keyword
       ? filter(newData, (item) => includes(lowerCase(item.name), lowerCase(params.keyword)))
       : newData;
 
     return filter(customData, filterParams);
-  }, [params.id_category, params.import_date, params.keyword, dataItems]);
+  }, [params.id_productline, params.purchase_date, params.keyword, dataItems]);
 
   const restructureData = useMemo(() => {
     if (!recordItems) return [];
@@ -50,7 +52,7 @@ export default function Item() {
         picture: !!record?.image_detail && !!record?.image_detail.length && (
           <img src={record?.image_detail[0].preview} alt="image_detail" />
         ),
-        import_date: record?.import_date,
+        purchase_date: record?.purchase_date,
         price_each: formatStringToMoney(record.price_each),
         onClick: () => history.push(`/dashboard/devices/${record.id}/detail`),
       };
@@ -65,15 +67,15 @@ export default function Item() {
         </Col>
         <Col md={4} lg={3}>
           <DatePickerInput
-            value={params.import_date}
-            onSelect={(date) => setParams({ ...params, import_date: date })}
+            value={params.purchase_date}
+            onSelect={(date) => setParams({ ...params, purchase_date: date })}
           />
         </Col>
         <Col md={4} lg={3}>
           <Form.Control
             as="select"
-            value={params.id_category || ''}
-            onChange={(e) => setParams({ ...params, id_category: e.target.value })}
+            value={params.id_productline || ''}
+            onChange={(e) => setParams({ ...params, id_productline: e.target.value })}
           >
             <option key="" value="">
               Chọn tất cả
@@ -98,7 +100,7 @@ export default function Item() {
             <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
-          <Button variant="success" size="sm" className="btn-import">
+          <Button variant="success" size="sm" className="btn-import" onClick={() => setOpenModalImport(true)}>
             <FilePlus size={20} />
             <span>Nhập file</span>
           </Button>
@@ -116,12 +118,16 @@ export default function Item() {
             field: 'picture',
           },
           {
+            name: 'Mã tài sản',
+            field: 'code',
+          },
+          {
             name: 'Tên',
             field: 'name',
           },
           {
             name: 'Ngày mua',
-            field: 'import_date',
+            field: 'purchase_date',
           },
           {
             name: 'Số lượng',
@@ -129,7 +135,7 @@ export default function Item() {
           },
           {
             name: 'Tình trạng',
-            field: 'status',
+            field: 'current_status',
           },
           {
             name: 'Đơn giá (vnđ)',
@@ -139,6 +145,8 @@ export default function Item() {
         data={restructureData}
         loading={loadingItems || loadingCates}
       />
+
+      {openModalImport && <ModalImportFile onCancel={() => setOpenModalImport(false)} />}
     </Wrapper>
   );
 }

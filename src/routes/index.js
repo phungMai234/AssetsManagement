@@ -1,7 +1,7 @@
 import React from 'react';
 
 import LayoutPage from 'components/LayoutPage';
-import CategoriesPage from 'containers/Categories';
+import CategoriesPage, { CategoriesEditPage } from 'containers/Categories';
 import { ItemListPage, ItemDetailPage, ItemNewPage, ItemEditPage } from 'containers/Item';
 import {
   DeliveryReportsListPage,
@@ -32,6 +32,16 @@ export default [
     component: (
       <LayoutPage>
         <CategoriesPage />
+      </LayoutPage>
+    ),
+    exact: true,
+    authentication: false,
+  },
+  {
+    path: '/dashboard/categories/:id/edit',
+    component: (
+      <LayoutPage>
+        <CategoriesEditPage />
       </LayoutPage>
     ),
     exact: true,

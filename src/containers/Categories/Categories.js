@@ -9,8 +9,11 @@ import EditPage from './EditPage';
 import { Plus, Edit3, Trash2 } from 'react-feather';
 import { useQuery } from 'hooks/useQuery';
 import useDelete from 'hooks/useDelete';
+import { useHistory } from 'react-router-dom';
 
 export default function Categories() {
+  const history = useHistory();
+
   const [recordSelected, setRecordSelected] = useState();
   const [recordSelectedDel, setRecordSelectedDel] = useState();
 
@@ -56,8 +59,9 @@ export default function Categories() {
           <Trash2 size={20} />
         </Button>
       ),
+      onClick: () => history.push(`/dashboard/categories/${record.id}/edit`),
     }));
-  }, [dataCategories, setRecordSelected]);
+  }, [dataCategories, history]);
 
   const [modalAdd, setModalAdd] = useState(false);
 

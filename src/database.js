@@ -20,5 +20,5 @@ let db = firebase.firestore();
 let storage = firebase.storage();
 let auth = firebase.auth();
 
-export { db, storage, auth };
+export { db, storage, auth, firebase };
 export default db;

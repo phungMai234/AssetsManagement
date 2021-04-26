@@ -12,7 +12,7 @@ import ClearButton from 'components/ClearButton';
 import { Plus, Edit } from 'react-feather';
 
 const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {
-  const { data: dataCate, loading } = useQuery({ url: 'categories' });
+  const { data: dataCate, loading } = useQuery({ url: 'productlines' });
 
   const breadcrumb = [
     {
@@ -49,7 +49,24 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           </Row>
 
           <Row>
-            <Form.Group as={Col} md="12">
+            <Form.Group as={Col} md="4">
+              <Form.Label>
+                <Label isRequired>Mã tài sản</Label>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="code"
+                value={values.code}
+                onChange={handleChange}
+                isInvalid={touched.code && !!errors.code}
+              />
+              {!!values.code && (
+                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('code', '')} />
+              )}
+
+              <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="8">
               <Form.Label>
                 <Label isRequired>Tên</Label>
               </Form.Label>
@@ -74,10 +91,11 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
                 <Label isRequired>Loại tài sản</Label>
               </Form.Label>
               <Form.Control
-                name="id_category"
-                onChange={(e) => setFieldValue('id_category', e.target.value)}
+                name="id_productline"
+                value={values?.id_productline}
+                onChange={(e) => setFieldValue('id_productline', e.target.value)}
                 as="select"
-                isInvalid={!!errors.id_category && !!touched.id_category}
+                isInvalid={!!errors.id_productline && !!touched.id_productline}
               >
                 <option key="" value="">
                   Chọn 1 loại tài sản
@@ -88,24 +106,24 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
                   </option>
                 ))}
               </Form.Control>
-              <Form.Control.Feedback type="invalid">{errors.id_category}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.id_productline}</Form.Control.Feedback>
             </Form.Group>
-            <Col md={4} className={touched.import_date && errors.import_date ? 'has-error' : ''}>
+            <Col md={4} className={touched.purchase_date && errors.purchase_date ? 'has-error' : ''}>
               <Form.Label>
                 <Label isRequired>Ngày mua</Label>
               </Form.Label>
               <DatePickerInput
-                name="import_date"
+                name="purchase_date"
                 onSelect={(date) => {
                   if (!date) {
-                    setFieldValue('import_date', new Date());
+                    setFieldValue('purchase_date', new Date());
                     return;
                   }
-                  setFieldValue('import_date', new Date(date));
+                  setFieldValue('purchase_date', new Date(date));
                 }}
-                value={values.import_date || new Date()}
+                value={values.purchase_date || new Date()}
               />
-              {!!errors.import_date && !!touched.import_date && <p className="error">{errors.import_date}</p>}
+              {!!errors.purchase_date && !!touched.purchase_date && <p className="error">{errors.purchase_date}</p>}
             </Col>
             <Form.Group as={Col} md="4">
               <Form.Label>
@@ -113,16 +131,16 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
               </Form.Label>
               <Form.Control
                 type="text"
-                name="status"
-                value={values.status}
+                name="current_status"
+                value={values.current_status}
                 onChange={handleChange}
-                isInvalid={touched.status && !!errors.status}
+                isInvalid={touched.current_status && !!errors.current_status}
               />
-              {!!values.status && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('status', '')} />
+              {!!values.current_status && (
+                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('current_status', '')} />
               )}
 
-              <Form.Control.Feedback type="invalid">{errors.status}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback>
             </Form.Group>
           </Row>
 

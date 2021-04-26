@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 
@@ -12,12 +12,14 @@ import useDelete from 'hooks/useDelete';
 import useGetDetail from 'hooks/useGetDetail';
 import Loading from 'components/Loading';
 import PhotoSlider from 'components/PhotoSlider';
+import db from 'database';
 
 const ItemDetail = () => {
   const { id } = useParams();
   const history = useHistory();
 
   const [modalConfirm, setShowModalConfirm] = useState(false);
+  const [typeName, setTypeName] = useState('');
 
   const [remove] = useDelete({
     id: id,
@@ -28,6 +30,18 @@ const ItemDetail = () => {
   });
 
   const { data, loading: loadingItems } = useGetDetail({ nameCollection: 'devices', id: id });
+
+  useEffect(() => {
+    if (loadingItems || !data) return;
+
+    db.collection('productlines')
+      .doc(data?.id_productline)
+      .onSnapshot((querySnapshot) => {
+        if (querySnapshot.exists) {
+          setTypeName(querySnapshot.data()?.name);
+        }
+      });
+  }, [data, loadingItems]);
 
   const breadcrumb = [
     {
@@ -69,21 +83,30 @@ const ItemDetail = () => {
             <PhotoSlider data={data?.image_detail} isPreview interval={null} />
           </div>
         </Col>
+
         <Col md={6}>
+          <Row className="info-item">
+            <Col md={6}>
+              <Label>Mã tài sản: </Label>
+            </Col>
+            <Col md={6}>
+              <div className="item-value">{data?.code}</div>
+            </Col>
+          </Row>
           <Row className="info-item">
             <Col md={6}>
               <Label>Loại tài sản: </Label>
             </Col>
-            {/* <Col md={4}>
-            <div className="item-value">{dataCate?.name}</div>
-          </Col> */}
+            <Col md={4}>
+              <div className="item-value">{typeName}</div>
+            </Col>
           </Row>
           <Row className="info-item">
             <Col md={6}>
               <Label>Ngày mua: </Label>
             </Col>
             <Col md={6}>
-              <div className="item-value">{formatDateToString(data?.import_date?.seconds)}</div>
+              <div className="item-value">{formatDateToString(data?.purchase_date?.seconds)}</div>
             </Col>
           </Row>
           <Row className="info-item">
@@ -107,7 +130,7 @@ const ItemDetail = () => {
           <Row className="info-item">
             <Col md={12}>
               <Label>Mô tả: </Label>
-              <div className="item-value">{data?.description}</div>
+              <textarea rows={8} className="detail-memo" defaultValue={data?.description} />
             </Col>
           </Row>
         </Col>

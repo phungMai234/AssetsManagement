@@ -8,6 +8,37 @@ const Wrapper = styled.div`
     margin-top: 20px;
   }
 
+  textarea {
+    padding: 10px;
+    box-sizing: border-box;
+    color: #707070;
+    height: 195px;
+    width: 100%;
+    border-radius: 3px;
+    background: #f5f5f5;
+    border: 1px solid #b9b9b9;
+    font-size: 16px;
+    -webkit-appearance: none;
+    color: #707070;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: unset;
+      box-shadow: none;
+    }
+  }
+
+  .detail-memo {
+    border: none !important;
+    height: 200px;
+    resize: none;
+    padding: 0px;
+  }
+
   .info-item {
     display: flex;
     align-items: center;
