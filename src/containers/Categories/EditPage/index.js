@@ -2,9 +2,12 @@ import React, { useCallback } from 'react';
 import ModalAddCategory from '../ModalAddCategory';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import db from '../../../database';
+import db from 'database';
+import useAlert from 'hooks/useAlert';
 
 const EditPage = ({ onCancel, record }) => {
+  const { setAlert } = useAlert();
+
   const initialValues = {
     name: record?.name || '',
     manager: record?.manager || '',
@@ -17,17 +20,21 @@ const EditPage = ({ onCancel, record }) => {
     note: Yup.string().trim().max(2000, 'Không quá 2000 kí tự'),
   });
 
-  const handleSubmit = useCallback((values) => {
-    db.collection('categories')
-      .doc(record?.id)
-      .update({ ...values })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id);
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error);
-      });
-  }, []);
+  const handleSubmit = useCallback(
+    (values) => {
+      db.collection('categories')
+        .doc(record?.id)
+        .update({ ...values })
+        .then(() => {
+          onCancel();
+          setAlert({ status: 'success', message: 'Cập nhật chỉnh sửa thành công' });
+        })
+        .catch(() => {
+          setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+        });
+    },
+    [onCancel, record, setAlert],
+  );
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>

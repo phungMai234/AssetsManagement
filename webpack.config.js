@@ -8,7 +8,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname,
     port: 3001,
-    host: 'localhost',
+    host: '192.168.1.97',
     historyApiFallback: true,
   },
   output: {

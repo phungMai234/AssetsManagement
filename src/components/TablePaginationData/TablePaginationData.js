@@ -44,7 +44,7 @@ const TablePaginationData = ({ columns, data, loading }) => {
         </select>
       </div>
       <div>
-        <Table striped hover>
+        <Table hover bordered>
           <thead>
             <tr>
               {columns.map(({ name, field }, index) => (

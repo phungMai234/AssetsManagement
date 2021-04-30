@@ -25,17 +25,21 @@ const FormContainer = ({ data }) => {
       price_each: data?.price_each || '',
       unit: data?.unit || '',
       image_detail: data?.image_detail || [],
+      serial_number: data?.serial_number || '',
+      model_number: data?.model_number || '',
     }),
     [data],
   );
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Đây là trường bắt buộc ').max(255, 'Nhập không quá 255 kí tự'),
-    description: Yup.string().max(2000, 'Nhập không quá 2000 kí tự'),
-    import_date: Yup.string().required('Đây là trường bắt buộc '),
-    id_category: Yup.string().required('Đây là trường bắt buộc '),
+    name: Yup.string().trim().required('Đây là trường bắt buộc ').max(255, 'Nhập không quá 255 kí tự'),
+    description: Yup.string().trim().max(2000, 'Nhập không quá 2000 kí tự'),
+    import_date: Yup.string().trim().required('Đây là trường bắt buộc '),
+    id_category: Yup.string().trim().required('Đây là trường bắt buộc '),
     price_each: Yup.number().required('Đây là trường bắt buộc '),
     amount: Yup.number().required('Đây là trường bắt buộc'),
+    serial_number: Yup.string().trim().required('Đây là trường bắt buộc').max(255, 'Nhập không quá 255 kí tự'),
+    model_number: Yup.string().trim().max(255, 'Nhập không quá 255 kí tự'),
   });
 
   const handleSubmit = useCallback(

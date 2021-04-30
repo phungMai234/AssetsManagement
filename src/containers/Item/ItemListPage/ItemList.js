@@ -90,7 +90,7 @@ export default function Item() {
       <Row>
         <Col md={12} className="row-button">
           <Button
-            variant="primary"
+            variant="success"
             size="sm"
             className="btn-add"
             onClick={() => history.push('/dashboard/devices/new')}
@@ -98,7 +98,7 @@ export default function Item() {
             <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
-          <Button variant="success" size="sm" className="btn-import">
+          <Button variant="warning" size="sm" className="btn-import">
             <FilePlus size={20} />
             <span>Nhập file</span>
           </Button>
@@ -116,6 +116,14 @@ export default function Item() {
             field: 'picture',
           },
           {
+            name: 'Model Number(M/N)',
+            field: 'model_number',
+          },
+          {
+            name: 'Serial Number(S/N)',
+            field: 'serial_number',
+          },
+          {
             name: 'Tên',
             field: 'name',
           },
@@ -126,10 +134,6 @@ export default function Item() {
           {
             name: 'Số lượng',
             field: 'amount',
-          },
-          {
-            name: 'Tình trạng',
-            field: 'status',
           },
           {
             name: 'Đơn giá (vnđ)',

@@ -63,154 +63,150 @@ const DetailPage = () => {
   }
 
   return (
-    <Container>
-      <Wrapper>
-        <BreadCrumb breadcrumb={breadcrumb} />
+    <Wrapper>
+      <BreadCrumb breadcrumb={breadcrumb} />
 
-        <div className="group-btn-action">
-          <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
-            <Trash2 size={20} />
-          </Button>
-          <Button variant="info" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
-            <Printer size={20} />
-            In biên bản
-          </Button>
-          <Button
-            size="sm"
-            variant="warning"
-            className="btn-edit"
-            onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
-          >
-            <Edit size={15} />
-            Chỉnh sửa
-          </Button>
-        </div>
+      <div className="group-btn-action">
+        <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
+          <Trash2 size={20} />
+        </Button>
+        <Button variant="info" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
+          <Printer size={20} />
+          In biên bản
+        </Button>
+        <Button
+          size="sm"
+          variant="warning"
+          className="btn-edit"
+          onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
+        >
+          <Edit size={15} />
+          Chỉnh sửa
+        </Button>
+      </div>
 
-        <Row className="info-item">
-          <Col md={2}>
-            <Label>Người mượn: </Label>
-          </Col>
-          <Col md={6}>
-            <div className="item-value">{restructureData?.user_name}</div>
-          </Col>
-        </Row>
-        <Row className="info-item">
-          <Col md={2}>
-            <Label>Ngày mượn: </Label>
-          </Col>
-          <Col md={6}>
-            <div className="item-value">{formatDateToString(restructureData?.date_borrowed?.seconds)}</div>
-          </Col>
-        </Row>
-        <Row className="info-item">
-          <Col md={2}>
-            <Label>Ngày trả: </Label>
-          </Col>
-          <Col md={6}>
-            <div className="item-value">
-              {formatDateToString(restructureData?.date_return?.seconds) || '--/--/----'}
+      <Row className="info-item">
+        <Col md={2}>
+          <Label>Người mượn: </Label>
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{restructureData?.user_name}</div>
+        </Col>
+      </Row>
+      <Row className="info-item">
+        <Col md={2}>
+          <Label>Ngày mượn: </Label>
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{formatDateToString(restructureData?.date_borrowed?.seconds)}</div>
+        </Col>
+      </Row>
+      <Row className="info-item">
+        <Col md={2}>
+          <Label>Ngày trả: </Label>
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{formatDateToString(restructureData?.date_return?.seconds) || '--/--/----'}</div>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={3}>
+          <Label>Biên bản giao nhận: </Label>
+        </Col>
+      </Row>
+      <Row className="info-item">
+        <Col md={2}></Col>
+        <Col md={6}>
+          {(restructureData?.files || []).map((file, index) => (
+            <div key={index} className="item-file">
+              <a href={file.url} target="_blank" rel="noreferrer">
+                <FileText size={20} />
+                <span>{file.name}</span>
+              </a>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={3}>
-            <Label>Biên bản giao nhận: </Label>
-          </Col>
-        </Row>
-        <Row className="info-item">
-          <Col md={2}></Col>
-          <Col md={6}>
-            {(restructureData?.files || []).map((file, index) => (
-              <div key={index} className="item-file">
-                <a href={file.url} target="_blank" rel="noreferrer">
-                  <FileText size={20} />
-                  <span>{file.name}</span>
-                </a>
-              </div>
-            ))}
-          </Col>
-        </Row>
+          ))}
+        </Col>
+      </Row>
 
-        <Row className="info-item">
-          <Col md={3}>
-            <Label>Danh sách tài sản: </Label>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <Table bordered hover>
-              <thead>
+      <Row className="info-item">
+        <Col md={3}>
+          <Label>Danh sách tài sản: </Label>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <Table bordered hover>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Mã tài sản</th>
+                <th>Tên</th>
+                <th>Số lượng</th>
+                <th>Đơn vị</th>
+                <th>Tình trạng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!restructureData.order_details && (
                 <tr>
-                  <th>STT</th>
-                  <th>Mã tài sản</th>
-                  <th>Tên</th>
-                  <th>Số lượng</th>
-                  <th>Đơn vị</th>
-                  <th>Tình trạng</th>
+                  <td colSpan={6}>Không có dữ liễu để hiển thị</td>
                 </tr>
-              </thead>
-              <tbody>
-                {!restructureData.order_details && (
-                  <tr>
-                    <td colSpan={6}>Không có dữ liễu để hiển thị</td>
+              )}
+              {!!restructureData.order_details &&
+                restructureData?.order_details.map((e, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{e.id_device}</td>
+                    <td className="td-name">
+                      <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
+                        {e.name}
+                        <ExternalLink size={20} />
+                      </Link>
+                    </td>
+                    <td>{e.quantity_ordered}</td>
+                    <td>{e.unit}</td>
+                    <td>{e.status}</td>
                   </tr>
-                )}
-                {!!restructureData.order_details &&
-                  restructureData?.order_details.map((e, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{e.id_device}</td>
-                      <td className="td-name">
-                        <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
-                          {e.name}
-                          <ExternalLink size={20} />
-                        </Link>
-                      </td>
-                      <td>{e.quantity_ordered}</td>
-                      <td>{e.unit}</td>
-                      <td>{e.status}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-        <Row className="info-item">
-          <Col md={2}>
-            <Label>Ghi chú: </Label>
-          </Col>
-          <Col md={6}>
-            <div className="item-value">{restructureData?.note}</div>
-          </Col>
-        </Row>
+                ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+      <Row className="info-item">
+        <Col md={2}>
+          <Label>Ghi chú: </Label>
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{restructureData?.note}</div>
+        </Col>
+      </Row>
 
-        <BaseModal
-          show={!!modalConfirm}
-          onConfirm={() => {
-            remove();
-            setShowModalConfirm(false);
-          }}
-          onCancel={() => setShowModalConfirm(false)}
-          typeBtnConfirm="danger"
-          confirmText="Xóa"
-          typeModal="sm"
-          content={
-            <>
-              <span
-                style={{
-                  color: '#dc3545',
-                  fontSize: '30px',
-                  paddingRight: '10px',
-                }}
-              >
-                <Trash2 size={20} />
-              </span>
-              <span>Bạn có chắc chắn muốn xóa?</span>
-            </>
-          }
-        />
-      </Wrapper>
-    </Container>
+      <BaseModal
+        show={!!modalConfirm}
+        onConfirm={() => {
+          remove();
+          setShowModalConfirm(false);
+        }}
+        onCancel={() => setShowModalConfirm(false)}
+        typeBtnConfirm="danger"
+        confirmText="Xóa"
+        typeModal="sm"
+        content={
+          <>
+            <span
+              style={{
+                color: '#dc3545',
+                fontSize: '30px',
+                paddingRight: '10px',
+              }}
+            >
+              <Trash2 size={20} />
+            </span>
+            <span>Bạn có chắc chắn muốn xóa?</span>
+          </>
+        }
+      />
+    </Wrapper>
   );
 };
 export default DetailPage;

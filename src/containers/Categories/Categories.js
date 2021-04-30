@@ -31,7 +31,7 @@ export default function Categories() {
       index: index + 1,
       edit_row: (
         <Button
-          variant="info"
+          variant="outline-info"
           size="sm"
           onClick={() => {
             setRecordSelected(record);
@@ -40,14 +40,10 @@ export default function Categories() {
           <Edit3 size={20} />
         </Button>
       ),
-      note: (
-        <div className="memo line-clamp">
-          <p title={record?.note}>{record?.note}</p>
-        </div>
-      ),
+      note: <div title={record?.note}>{record?.note}</div>,
       delete_row: (
         <Button
-          variant="danger"
+          variant="outline-danger"
           size="sm"
           onClick={() => {
             setRecordSelectedDel(record);
@@ -68,7 +64,7 @@ export default function Categories() {
   return (
     <Wrapper>
       <div className="header-content">
-        <Button variant="primary" size="sm" onClick={toggleModal}>
+        <Button variant="success" size="sm" onClick={toggleModal}>
           <Plus size={20} />
           <span>Thêm mới</span>
         </Button>

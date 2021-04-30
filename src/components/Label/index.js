@@ -24,7 +24,7 @@ const propTypes = {
 
 const Label = ({ children, isRequired }) => {
   return (
-    <Wrapper>
+    <Wrapper className="wrapper-title">
       <label className="default-title">
         {children}
         {isRequired && <sup className="operator-require">*</sup>}

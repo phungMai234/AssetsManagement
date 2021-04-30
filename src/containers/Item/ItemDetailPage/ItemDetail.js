@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 
@@ -6,18 +6,20 @@ import Wrapper from './ItemDetail.style';
 import Label from 'components/Label';
 import BreadCrumb from 'components/BreadCrumb';
 import { formatStringToMoney, formatDateToString } from 'utils/helper';
-import { Trash2, Edit } from 'react-feather';
+import { Trash2, Edit3 } from 'react-feather';
 import BaseModal from 'components/BaseModal';
 import useDelete from 'hooks/useDelete';
 import useGetDetail from 'hooks/useGetDetail';
 import Loading from 'components/Loading';
 import PhotoSlider from 'components/PhotoSlider';
+import db from 'database';
 
 const ItemDetail = () => {
   const { id } = useParams();
   const history = useHistory();
 
   const [modalConfirm, setShowModalConfirm] = useState(false);
+  const [typeName, setTypeName] = useState('');
 
   const [remove] = useDelete({
     id: id,
@@ -39,6 +41,19 @@ const ItemDetail = () => {
       title: 'Chi tiết',
     },
   ];
+
+  useEffect(() => {
+    if (loadingItems || !data) return;
+
+    db.collection('categories')
+      .doc(data?.id_category)
+      .onSnapshot((querySnapshot) => {
+        if (querySnapshot.exists) {
+          setTypeName(querySnapshot.data()?.name);
+        }
+      });
+  }, [data, loadingItems]);
+
   if (loadingItems) {
     return <Loading />;
   }
@@ -53,63 +68,64 @@ const ItemDetail = () => {
         </Button>
         <Button
           size="sm"
-          variant="warning"
+          variant="info"
           className="btn-edit"
           onClick={() => history.push(`/dashboard/devices/${id}/edit`)}
         >
-          <Edit size={15} />
+          <Edit3 size={15} />
           Chỉnh sửa
         </Button>
       </div>
       <h3 className="title">{data?.name}</h3>
 
       <Row>
-        <Col md={6}>
+        <Col md={6} lg={5} className="wrapper-image">
           <div className="image-slider">
             <PhotoSlider data={data?.image_detail} isPreview interval={null} />
           </div>
         </Col>
-        <Col md={6}>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Loại tài sản: </Label>
-            </Col>
-            {/* <Col md={4}>
-            <div className="item-value">{dataCate?.name}</div>
-          </Col> */}
-          </Row>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Ngày mua: </Label>
-            </Col>
-            <Col md={6}>
-              <div className="item-value">{formatDateToString(data?.import_date?.seconds)}</div>
-            </Col>
-          </Row>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Giá 1 thiết bị: </Label>
-            </Col>
-            <Col md={6}>
-              <div className="item-value">{formatStringToMoney(data?.price_each)} (vnđ)</div>
-            </Col>
-          </Row>
-          <Row className="info-item">
-            <Col md={6}>
-              <Label>Số lượng trong kho: </Label>
-            </Col>
-            <Col md={6}>
-              <div className="item-value">
-                {data?.amount} {!!data?.unit && `(${data?.unit})`}
-              </div>
-            </Col>
-          </Row>
-          <Row className="info-item">
-            <Col md={12}>
-              <Label>Mô tả: </Label>
-              <div className="item-value">{data?.description}</div>
-            </Col>
-          </Row>
+        <Col md={1} />
+        <Col md={5}>
+          <div className="info-item">
+            <Label>Model Number: </Label>
+            <div className="item-value">{data?.model_number}</div>
+          </div>
+          <div className="info-item">
+            <Label>Serial Number: </Label>
+            <div className="item-value">{data?.serial_number}</div>
+          </div>
+          <div className="info-item">
+            <Label>Loại tài sản: </Label>
+            <div className="item-value">{typeName}</div>
+          </div>
+          <div className="info-item">
+            <Label>Tên tài sản: </Label>
+            <div className="item-value">{data?.name}</div>
+          </div>
+          <div className="info-item">
+            <Label>Ngày mua: </Label>
+            <div className="item-value">{formatDateToString(data?.import_date?.seconds)}</div>
+          </div>
+          <div className="info-item">
+            <Label>Giá 1 thiết bị: </Label>
+            <div className="item-value">{formatStringToMoney(data?.price_each)} (vnđ)</div>
+          </div>
+          <div className="info-item">
+            <Label>Số lượng trong kho: </Label>
+            <div className="item-value">
+              {data?.amount} {!!data?.unit && `(${data?.unit})`}
+            </div>
+          </div>
+          <div className="info-item">
+            <Label>Tổng số lượng: </Label>
+            <div className="item-value">
+              {data?.amount} {!!data?.unit && `(${data?.unit})`}
+            </div>
+          </div>
+          <div>
+            <Label>Mô tả: </Label>
+            <textarea rows={8} className="detail-memo" defaultValue={data?.description} />
+          </div>
         </Col>
       </Row>
 

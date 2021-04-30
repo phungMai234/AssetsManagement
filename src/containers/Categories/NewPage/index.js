@@ -26,13 +26,14 @@ const NewPage = ({ onCancel }) => {
       db.collection('categories')
         .add({ ...values })
         .then(() => {
+          onCancel();
           setAlert({ status: 'success', message: 'Tạo mới thành công' });
         })
         .catch(() => {
           setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
         });
     },
-    [setAlert],
+    [onCancel, setAlert],
   );
 
   return (

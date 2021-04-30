@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   table {
     table-layout: fixed;
     .index {
-      width: 10%;
+      width: 5%;
     }
     .name {
       width: 20%;
@@ -21,30 +21,24 @@ const Wrapper = styled.div`
     }
     .edit_row,
     .delete_row {
-      width: 10%;
+      width: 5%;
+    }
+
+    .no-result {
+      text-align: center;
     }
   }
   td {
     vertical-align: middle;
   }
   .td-note {
-    /* div {
-      max-width: 200px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    } */
-
-    .memo p {
-      word-wrap: break-word;
-      margin: 0;
-      font-size: 14px;
-    }
-
-    .line-clamp {
+    div {
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      max-width: 400px;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 `;

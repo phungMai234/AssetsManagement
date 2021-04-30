@@ -2,16 +2,39 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   table {
+    table-layout: fixed;
+
+    .index,
+    .amount {
+      width: 7%;
+    }
+
+    .import_date {
+      width: 8%;
+    }
+
+    .picture,
+    .image,
+    .price_each {
+      width: 10%;
+    }
+
+    .model_number,
+    .serial_number {
+      width: 15%;
+    }
+
+    .name {
+      width: 20%;
+    }
+
     th {
       text-align: center;
+      vertical-align: middle;
     }
     td {
       text-align: center;
       vertical-align: middle;
-    }
-    .td-manager {
-      width: 15%;
-      word-wrap: break-word;
     }
 
     .td-picture {
@@ -21,7 +44,6 @@ const Wrapper = styled.div`
       }
     }
   }
-  margin: 5px;
   .row {
     margin-bottom: 20px;
   }
@@ -68,6 +90,12 @@ const Wrapper = styled.div`
     border-radius: 3px;
     padding: 6px;
     width: 200px;
+  }
+
+  input,
+  select {
+    font-size: 14px;
+    height: 38px;
   }
 `;
 export default Wrapper;

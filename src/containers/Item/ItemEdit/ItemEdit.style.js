@@ -69,7 +69,6 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 20px;
 
     span {
       margin-left: 5px;
