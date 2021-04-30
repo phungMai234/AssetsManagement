@@ -12,7 +12,7 @@ import useDelete from 'hooks/useDelete';
 import useGetDetail from 'hooks/useGetDetail';
 import Loading from 'components/Loading';
 import PhotoSlider from 'components/PhotoSlider';
-import db from 'database';
+import db, { firebase } from 'database';
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -31,6 +31,7 @@ const ItemDetail = () => {
 
   const { data, loading: loadingItems } = useGetDetail({ nameCollection: 'devices', id: id });
 
+  console.log('data: ', data);
   const breadcrumb = [
     {
       url: '/dashboard/devices',
@@ -78,20 +79,27 @@ const ItemDetail = () => {
       </div>
       <h3 className="title">{data?.name}</h3>
 
-      <Row>
-        <Col md={6} lg={5} className="wrapper-image">
+      <div className="wrapper-detail">
+        <div className="wrapper-image">
           <div className="image-slider">
-            <PhotoSlider data={data?.image_detail} isPreview interval={null} />
+            {data?.image_detail && data?.image_detail?.length ? (
+              <PhotoSlider data={data?.image_detail} isPreview interval={null} />
+            ) : (
+              <img
+                className="no-image"
+                src="https://firebasestorage.googleapis.com/v0/b/assetsmanagementfirebase.appspot.com/o/images%2Fno-image.png?alt=media&token=e885dc29-ba97-45c8-8f0f-acad14a7b946"
+                alt="no-image"
+              />
+            )}
           </div>
-        </Col>
-        <Col md={1} />
-        <Col md={5}>
+        </div>
+        <div className="wrapper-info">
           <div className="info-item">
-            <Label>Model Number: </Label>
+            <Label>Số kiểu(P/N): </Label>
             <div className="item-value">{data?.model_number}</div>
           </div>
           <div className="info-item">
-            <Label>Serial Number: </Label>
+            <Label>Số seri(S/N): </Label>
             <div className="item-value">{data?.serial_number}</div>
           </div>
           <div className="info-item">
@@ -104,7 +112,11 @@ const ItemDetail = () => {
           </div>
           <div className="info-item">
             <Label>Ngày mua: </Label>
-            <div className="item-value">{formatDateToString(data?.import_date?.seconds)}</div>
+            <div className="item-value">{formatDateToString(data?.purchase_date?.seconds)}</div>
+          </div>
+          <div className="info-item">
+            <Label>Tình trạng: </Label>
+            <div className="item-value">{data?.current_status}</div>
           </div>
           <div className="info-item">
             <Label>Giá 1 thiết bị: </Label>
@@ -126,8 +138,8 @@ const ItemDetail = () => {
             <Label>Mô tả: </Label>
             <textarea rows={8} className="detail-memo" defaultValue={data?.description} />
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
 
       <BaseModal
         show={!!modalConfirm}

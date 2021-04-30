@@ -17,7 +17,7 @@ const FormContainer = ({ data }) => {
   const initialValues = useMemo(
     () => ({
       name: data?.name || '',
-      import_date: (!!data?.import_date && getUtcTime(data.import_date.seconds)) || new Date(),
+      purchase_date: (!!data?.purchase_date && getUtcTime(data.purchase_date.seconds)) || new Date(),
       id_category: data?.id_category || '',
       amount: data?.amount || '',
       status: data?.status || '',
@@ -34,7 +34,7 @@ const FormContainer = ({ data }) => {
   const validationSchema = Yup.object({
     name: Yup.string().trim().required('Đây là trường bắt buộc ').max(255, 'Nhập không quá 255 kí tự'),
     description: Yup.string().trim().max(2000, 'Nhập không quá 2000 kí tự'),
-    import_date: Yup.string().trim().required('Đây là trường bắt buộc '),
+    purchase_date: Yup.string().trim().required('Đây là trường bắt buộc '),
     id_category: Yup.string().trim().required('Đây là trường bắt buộc '),
     price_each: Yup.number().required('Đây là trường bắt buộc '),
     amount: Yup.number().required('Đây là trường bắt buộc'),
@@ -46,7 +46,7 @@ const FormContainer = ({ data }) => {
     (values) => {
       const cloneValues = { ...values };
 
-      const formatValues = { ...cloneValues, import_date: { seconds: getUnixTime(values.import_date) } };
+      const formatValues = { ...cloneValues, purchase_date: { seconds: getUnixTime(values.purchase_date) } };
 
       if (data) {
         db.collection('devices')

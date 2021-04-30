@@ -67,5 +67,11 @@ const Wrapper = styled.div`
     width: 20px;
     height: 20px;
   }
+
+  input,
+  select {
+    font-size: 14px;
+    height: 38px;
+  }
 `;
 export default Wrapper;

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import useAlert from 'hooks/useAlert';
 import { auth } from 'database';
 
-import { LogOut, Lock } from 'react-feather';
+import { LogOut, User, Lock } from 'react-feather';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 function Header() {
@@ -33,17 +33,26 @@ function Header() {
         <span className="logo-txt">UET Assets Management</span>
       </Link>
       <div className="header-right">
-        <ul className="nav">
-          <li className="nav-item">
-            <DropdownButton id="dropdown-basic-button" title="Admin">
-              <Dropdown.Item> Change password</Dropdown.Item>
-              <Dropdown.Item onClick={logout}>
-                <LogOut size={15} />
-                Log out
-              </Dropdown.Item>
-            </DropdownButton>
-          </li>
-        </ul>
+        <DropdownButton
+          size="sm"
+          menuAlign="right"
+          title={
+            <span>
+              <User size={15} />
+              Admin
+            </span>
+          }
+          id="dropdown-menu-align-right"
+        >
+          <Dropdown.Item eventKey="1">
+            <Lock size={15} />
+            Change password
+          </Dropdown.Item>
+          <Dropdown.Item eventKey="2" onClick={logout}>
+            <LogOut size={15} />
+            Log out
+          </Dropdown.Item>
+        </DropdownButton>
       </div>
     </>
   );

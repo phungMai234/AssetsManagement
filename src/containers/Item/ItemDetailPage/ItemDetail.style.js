@@ -35,14 +35,29 @@ const Wrapper = styled.div`
       justify-content: space-between;
     }
   }
-  .wrapper-image {
+
+  .wrapper-detail {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+
+    .wrapper-info {
+      width: 50%;
+    }
+  }
+  .wrapper-image {
+    width: 50%;
 
     .image-slider {
       height: 400px;
       width: 400px;
     }
+  }
+  .no-image {
+    width: 100%;
+  }
+
+  .row {
+    justify-content: center;
   }
 
   textarea {

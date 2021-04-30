@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useContext } from 'react';
 import { isEmpty } from 'lodash';
-import { Row, Col, Button, Table, Container } from 'react-bootstrap';
+import { Row, Col, Button, Table } from 'react-bootstrap';
 import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
 import { useParams, useHistory, Link } from 'react-router-dom';
 
@@ -70,13 +70,13 @@ const DetailPage = () => {
         <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
           <Trash2 size={20} />
         </Button>
-        <Button variant="info" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
+        <Button variant="light" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
           <Printer size={20} />
           In biên bản
         </Button>
         <Button
           size="sm"
-          variant="warning"
+          variant="info"
           className="btn-edit"
           onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
         >
@@ -139,7 +139,8 @@ const DetailPage = () => {
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Mã tài sản</th>
+                <th>Số kiểu</th>
+                <th>Số seri</th>
                 <th>Tên</th>
                 <th>Số lượng</th>
                 <th>Đơn vị</th>
@@ -156,7 +157,8 @@ const DetailPage = () => {
                 restructureData?.order_details.map((e, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{e.id_device}</td>
+                    <td>{e.model_number}</td>
+                    <td>{e.serial_number}</td>
                     <td className="td-name">
                       <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
                         {e.name}
@@ -165,7 +167,7 @@ const DetailPage = () => {
                     </td>
                     <td>{e.quantity_ordered}</td>
                     <td>{e.unit}</td>
-                    <td>{e.status}</td>
+                    <td>{e.current_status}</td>
                   </tr>
                 ))}
             </tbody>

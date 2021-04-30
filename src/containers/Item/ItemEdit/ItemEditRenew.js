@@ -50,7 +50,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
         <Row>
           <Form.Group as={Col} md="6">
             <Form.Label>
-              <Label>Model Number/ Part Number(P/N)</Label>
+              <Label>Số kiểu(P/N)</Label>
             </Form.Label>
             <Form.Control
               type="text"
@@ -67,7 +67,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           </Form.Group>
           <Form.Group as={Col} md="6">
             <Form.Label>
-              <Label isRequired>Serial Number(S/N)</Label>
+              <Label isRequired>Số seri(S/N)</Label>
             </Form.Label>
             <Form.Control
               type="text"
@@ -126,22 +126,22 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
         </Row>
 
         <Row>
-          <Col md={4} className={touched.import_date && errors.import_date ? 'has-error' : ''}>
+          <Col md={4} className={touched.purchase_date && errors.purchase_date ? 'has-error' : ''}>
             <Form.Label>
               <Label isRequired>Ngày mua</Label>
             </Form.Label>
             <DatePickerInput
-              name="import_date"
+              name="purchase_date"
               onSelect={(date) => {
                 if (!date) {
-                  setFieldValue('import_date', new Date());
+                  setFieldValue('purchase_date', new Date());
                   return;
                 }
-                setFieldValue('import_date', new Date(date));
+                setFieldValue('purchase_date', new Date(date));
               }}
-              value={values.import_date || new Date()}
+              value={values.purchase_date || new Date()}
             />
-            {!!errors.import_date && !!touched.import_date && <p className="error">{errors.import_date}</p>}
+            {!!errors.purchase_date && !!touched.purchase_date && <p className="error">{errors.purchase_date}</p>}
           </Col>
           <Form.Group as={Col} md="8">
             <Form.Label>
@@ -149,16 +149,16 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
             </Form.Label>
             <Form.Control
               type="text"
-              name="status"
-              value={values.status}
+              name="current_status"
+              value={values.current_status}
               onChange={handleChange}
-              isInvalid={touched.status && !!errors.status}
+              isInvalid={touched.current_status && !!errors.current_status}
             />
-            {!!values.status && (
-              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('status', '')} />
+            {!!values.current_status && (
+              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('current_status', '')} />
             )}
 
-            <Form.Control.Feedback type="invalid">{errors.status}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback>
           </Form.Group>
         </Row>
 

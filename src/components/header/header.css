@@ -26,6 +26,10 @@
   display: flex;
   align-items: center;
 }
+
+.header-right a {
+  font-size: 14px;
+}
 .btn-cs {
   font-size: 14px;
   color: #ffff;
