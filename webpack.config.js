@@ -15,12 +15,17 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname + '/dist',
     publicPath: '/',
+    library: 'XLSX',
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         use: ['babel-loader'],
+      },
+      {
+        test: /\.json$/,
+        use: 'json-loader',
       },
       {
         test: /\.css$/,

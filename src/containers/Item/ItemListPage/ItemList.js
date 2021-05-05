@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { Plus, FilePlus } from 'react-feather';
+import { Plus, FilePlus, Download } from 'react-feather';
 
 import Wrapper from './ItemList.style.js';
 import TablePaginationData from 'components/TablePaginationData/TablePaginationData';
@@ -65,6 +65,11 @@ export default function Item() {
     });
   }, [recordItems, history]);
 
+  // const DownloadExcel = useCallback(() => {
+  //   const file = new File('hello', 'hello world.txt', { type: 'text/plain;charset=utf-8' });
+  //   FileSaver.saveAs(file);
+  // }, [restructureData]);
+
   return (
     <Wrapper>
       <Row>
@@ -109,6 +114,10 @@ export default function Item() {
           <Button variant="warning" size="sm" className="btn-import" onClick={() => setOpenModalImport(true)}>
             <FilePlus size={20} />
             <span>Nhập file</span>
+          </Button>
+          <Button variant="info" size="sm" className="btn-add">
+            <Download size={20} />
+            <span>Tải Danh sách</span>
           </Button>
         </Col>
       </Row>

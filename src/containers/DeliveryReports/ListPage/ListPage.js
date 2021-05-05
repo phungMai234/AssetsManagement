@@ -89,7 +89,7 @@ const ListPage = () => {
       <Row>
         <Col md={12} className="row-button">
           <Button
-            variant="primary"
+            variant="success"
             size="sm"
             className="btn-add"
             onClick={() => history.push('/dashboard/delivery_reports/new')}
@@ -97,7 +97,7 @@ const ListPage = () => {
             <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
-          <Button variant="success" size="sm" className="btn-import">
+          <Button variant="warning" size="sm" className="btn-import">
             <FilePlus size={20} />
             <span>Nhập file</span>
           </Button>

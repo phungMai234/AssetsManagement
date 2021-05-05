@@ -25,7 +25,7 @@ function Menu() {
           to={'/dashboard/devices'}
         >
           <Database size={20} />
-          <span>Quản lý các thiết bị, đồ dùng</span>
+          <span>Quản lý tài sản</span>
         </Link>
       </li>
       <li className="nav-item">

@@ -13,6 +13,7 @@ import Loading from 'components/Loading';
 import genHtmlTemplate from '../Printer/genHtmlTemplate';
 import Wrapper from './DetailPage.styles';
 import useDeleteDeliveryReport from 'hooks/useDeleteDeliveryReport';
+import StatusBorrow from 'components/StatusBorrow';
 
 const DetailPage = () => {
   const { id } = useParams();
@@ -107,6 +108,14 @@ const DetailPage = () => {
         </Col>
         <Col md={6}>
           <div className="item-value">{formatDateToString(restructureData?.date_return?.seconds) || '--/--/----'}</div>
+        </Col>
+      </Row>
+      <Row className="info-item">
+        <Col md={2}>
+          <Label>Trạng thái: </Label>
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{<StatusBorrow status={restructureData?.status} />}</div>
         </Col>
       </Row>
       <Row>

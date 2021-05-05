@@ -21,27 +21,27 @@ const ModalImportFile = ({ onCancel }) => {
   };
 
   const schema = {
-    'Ngay mua': {
+    'Ngày mua': {
       prop: 'purchase_date',
       type: Date,
     },
-    Ten: {
+    Tên: {
       prop: 'name',
     },
-    'Ma code': {
+    'Số seri': {
       prop: 'serial_number',
     },
-    'Ma kieu': {
+    'Số kiểu': {
       prop: 'model_number',
     },
-    'Mo ta': {
+    'Mô tả': {
       prop: 'description',
     },
-    'Tinh trang': { prop: 'current_status' },
-    'Loai tai san': { prop: 'id_category' },
-    'So luong': { prop: 'amount' },
-    'Don vi': { prop: 'unit' },
-    'Don gia': { prop: 'price_each' },
+    'Tình trạng': { prop: 'current_status' },
+    'Loai tài sản': { prop: 'id_category' },
+    'Số lượng': { prop: 'amount' },
+    'Đơn vị': { prop: 'unit' },
+    'Đơn giá': { prop: 'price_each' },
   };
 
   const handleUploadFile = useCallback((e) => {
