@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --setupFiles dotenv/config --watchAll=false --coverage",
     "start": "webpack-dev-server --hot",
     "build": "webpack",
     "lint": "eslint .",
@@ -48,7 +48,14 @@
         "lines": 80,
         "statements": -10
       }
-    }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/*/index.js"
+    ]
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
