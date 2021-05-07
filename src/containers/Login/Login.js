@@ -19,7 +19,6 @@ const LoginPage = () => {
           history.push('/dashboard/categories');
         })
         .catch((error) => {
-          console.log('error');
           setAlert({ status: 'danger', message: error.message });
         });
     },

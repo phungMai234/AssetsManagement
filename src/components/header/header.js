@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import './header.css';
 import { Link } from 'react-navi';
 import { useHistory } from 'react-router-dom';
@@ -7,11 +7,12 @@ import { auth } from 'database';
 
 import { LogOut, User, Lock } from 'react-feather';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import ModalChangePassword from 'components/ModalChangePassword';
 
 function Header() {
   const { setAlert } = useAlert();
   const history = useHistory();
-
+  const [modalChangePass, setModalChangePass] = useState(false);
   const logout = useCallback(() => {
     auth
       .signOut()
@@ -44,7 +45,7 @@ function Header() {
           }
           id="dropdown-menu-align-right"
         >
-          <Dropdown.Item eventKey="1">
+          <Dropdown.Item eventKey="1" onClick={() => setModalChangePass(true)}>
             <Lock size={15} />
             Change password
           </Dropdown.Item>
@@ -53,6 +54,7 @@ function Header() {
             Log out
           </Dropdown.Item>
         </DropdownButton>
+        {modalChangePass && <ModalChangePassword onClose={setModalChangePass} />}
       </div>
     </>
   );
