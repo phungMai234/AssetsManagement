@@ -5,12 +5,11 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import MessageRes from 'components/MessageRes';
 import useAlert from 'hooks/useAlert';
-import { useHistory } from 'react-router-dom';
 import { firebase, auth } from 'database';
+import Label from 'components/Label';
 
 const ModalChangePassword = ({ onClose }) => {
   const { alert, setAlert, clearAlert } = useAlert();
-  const { history } = useHistory();
   const handleChangePassWord = useCallback(
     (values) => {
       const user = auth.currentUser;
@@ -29,31 +28,35 @@ const ModalChangePassword = ({ onClose }) => {
               window.location.replace('/login');
             })
             .catch(function (error) {
-              setAlert({ status: 'danger', message: error.mess });
+              setAlert({ status: 'danger', message: error.message });
             });
         })
         .catch(function (error) {
-          setAlert({ status: 'danger', message: error });
+          setAlert({ status: 'danger', message: error.message });
         });
     },
     [setAlert],
   );
 
   const validationSchema = Yup.object({
-    current_password: Yup.string().required('Day la truong bat buoc'),
+    current_password: Yup.string().required('Đây là trường bắt buộc '),
     new_password: Yup.string()
-      .required('Day la truong bat buoc')
+      .required('Đây là trường bắt buộc ')
       .trim()
-      .max(255, 'Nhap khong qua 255 ki tu')
-      .test('check_confirm_mail', 'Nhap mat khau moi khong trung khop', function required(new_password) {
+      .max(255, 'Nhập không quá 255 kí tự')
+      .test('check valid password', 'Mật khẩu mới không trùng khớp', function required(new_password) {
+        const { confirm_password } = this.parent;
+        return confirm_password === new_password;
+      })
+      .test('check_confirm_mail', 'Mật khẩu mới không trùng khớp', function required(new_password) {
         const { confirm_password } = this.parent;
         return confirm_password === new_password;
       }),
     confirm_password: Yup.string()
-      .required('Day la truong bat buoc')
+      .required('Đây là trường bắt buộc ')
       .trim()
-      .max(255, 'Nhap khong qua 255 ki tu')
-      .test('check_confirm_mail', 'Nhap mat khau moi khong trung khop', function required(confirm_password) {
+      .max(255, 'Nhập không quá 255 kí tự')
+      .test('check_confirm_mail', 'Mật khẩu mới không trùng khớp', function required(confirm_password) {
         const { new_password } = this.parent;
         return confirm_password === new_password;
       }),
@@ -72,7 +75,7 @@ const ModalChangePassword = ({ onClose }) => {
       {({ handleSubmit, handleChange, values, touched, errors }) => (
         <Modal show onHide={onClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Thay doi mat khau</Modal.Title>
+            <Modal.Title>Thay đổi mật khẩu</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Container>
@@ -81,7 +84,9 @@ const ModalChangePassword = ({ onClose }) => {
 
                 <Form.Row>
                   <Form.Group as={Col} controlId="validationFormik01">
-                    <Form.Label>Mat khau hien tai</Form.Label>
+                    <Form.Label>
+                      <Label isRequired>Mật khẩu hiện tại</Label>
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       name="current_password"
@@ -94,7 +99,9 @@ const ModalChangePassword = ({ onClose }) => {
                 </Form.Row>
                 <Form.Row>
                   <Form.Group as={Col} controlId="validationFormik01">
-                    <Form.Label>Nhap mat khau moi</Form.Label>
+                    <Form.Label>
+                      <Label isRequired>Nhập mật khẩu mới</Label>
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       name="new_password"
@@ -107,7 +114,9 @@ const ModalChangePassword = ({ onClose }) => {
                 </Form.Row>
                 <Form.Row>
                   <Form.Group as={Col} controlId="validationFormik01">
-                    <Form.Label>Xac nhan lai mat khau</Form.Label>
+                    <Form.Label>
+                      <Label isRequired>Xác nhận lại mật khẩu</Label>
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       name="confirm_password"
@@ -122,22 +131,18 @@ const ModalChangePassword = ({ onClose }) => {
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="button" variant="secondary" onClick={onClose}>
-              Huy bo
+            <Button type="button" size="sm" variant="secondary" onClick={onClose}>
+              Hủy bỏ
             </Button>
             <Button
               type="submit"
               variant="primary"
-              onkeypress={() => {
-                handleSubmit();
-                onClose();
-              }}
               onClick={() => {
                 handleSubmit();
                 onClose();
               }}
             >
-              Luu lai thay doi
+              Lưu lại thay đổi
             </Button>
           </Modal.Footer>
         </Modal>
