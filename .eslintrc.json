@@ -11,6 +11,11 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
+  "settings": {
+    "import/resolver": {
+      "alias": [["@components", "./src/components"]]
+    }
+  },
   "plugins": ["react", "react-hooks"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",

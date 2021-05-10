@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const Dotenv = require('dotenv-webpack');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -16,6 +17,12 @@ module.exports = {
     path: __dirname + '/dist',
     publicPath: '/',
     library: 'XLSX',
+  },
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, './src/components'),
+      '@container': path.resolve(__dirname, './src/container'),
+    },
   },
   module: {
     rules: [

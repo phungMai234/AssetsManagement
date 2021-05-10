@@ -8,7 +8,7 @@ import { useQuery } from 'hooks/useQuery';
 import Loading from 'components/Loading';
 import PhotoUpload from 'components/PhotoUploadRenew';
 import BreadCrumb from 'components/BreadCrumb';
-import ClearButton from 'components/ClearButton';
+import ClearButton from '@components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
 
 const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {
