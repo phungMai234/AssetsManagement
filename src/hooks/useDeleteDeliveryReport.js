@@ -3,6 +3,7 @@ import db from '../database';
 import { useCallback, useState } from 'react';
 
 import useAlert from 'hooks/useAlert';
+import { FREE } from 'utils/constant';
 
 const useDeleteDeliveryReport = ({ id, orderDetails, callback }) => {
   const { setAlert } = useAlert();
@@ -18,11 +19,10 @@ const useDeleteDeliveryReport = ({ id, orderDetails, callback }) => {
         setErrorDel(true);
       });
 
-    orderDetails.forEach((element) => {
-      const ref = db.collection('orderDetails').doc(element.id);
-
-      ref
-        .delete()
+    orderDetails.forEach((e) => {
+      db.collection('assets')
+        .doc(e.id)
+        .update({ status: FREE })
         .then(() => {})
         .catch(() => {
           setErrorDel(true);

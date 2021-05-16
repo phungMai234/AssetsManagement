@@ -66,7 +66,6 @@ const DetailPage = () => {
   return (
     <Wrapper>
       <BreadCrumb breadcrumb={breadcrumb} />
-
       <div className="group-btn-action">
         <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
           <Trash2 size={20} />
@@ -148,7 +147,7 @@ const DetailPage = () => {
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Số kiểu</th>
+                <th>Model</th>
                 <th>Số seri</th>
                 <th>Tên</th>
                 <th>Số lượng</th>
@@ -174,21 +173,25 @@ const DetailPage = () => {
                         <ExternalLink size={20} />
                       </Link>
                     </td>
-                    <td>{e.quantity_ordered}</td>
+                    <td>1</td>
                     <td>{e.unit}</td>
-                    <td>{e.current_status}</td>
+                    <td>{e.status_order}</td>
                   </tr>
                 ))}
+              <tr>
+                <td colSpan={4}>Tổng</td>
+                <td>{restructureData?.order_details.length}</td>
+                <td />
+                <td />
+              </tr>
             </tbody>
           </Table>
         </Col>
       </Row>
       <Row className="info-item">
-        <Col md={2}>
+        <Col md={12}>
           <Label>Ghi chú: </Label>
-        </Col>
-        <Col md={6}>
-          <div className="item-value">{restructureData?.note}</div>
+          <textarea rows={2} className="detail-memo" defaultValue={restructureData?.note} />
         </Col>
       </Row>
 

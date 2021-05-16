@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
@@ -9,24 +9,28 @@ import { Plus, FilePlus, Download } from 'react-feather';
 import Wrapper from './ItemList.style.js';
 import TablePaginationData from 'components/TablePaginationData/TablePaginationData';
 import BoxSearch from 'components/BoxSearch/BoxSearch';
-import { formatStringToMoney, formatDateToString } from 'utils/helper';
+import { formatStringToMoney, formatDateToString, getNameCategory, formatDateToString2 } from 'utils/helper';
 import { useQuery } from 'hooks/useQuery';
+import { useQueryAssets } from 'hooks/useQueryAssets';
 import DatePickerInput from 'components/DatePickerInput';
 import ModalImportFile from 'components/ModalImportFile';
+import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
 
 export default function Item() {
   const history = useHistory();
 
   const [params, setParams] = useState({});
   const [openModalImport, setOpenModalImport] = useState(false);
+  const [exporter, setExporter] = useState();
 
-  const { data: dataItems, loading: loadingItems } = useQuery({ url: 'devices' });
+  const { data: dataItems, loading: loadingItems } = useQueryAssets({});
   const { data: dataCate, loading: loadingCates } = useQuery({ url: 'categories' });
 
   const recordItems = useMemo(() => {
     const newData = (dataItems || []).map((record) => ({
       ...record,
       purchase_date: formatDateToString(record?.purchase_date?.seconds),
+      purchase_date_file: formatDateToString2(record?.purchase_date?.seconds),
     }));
     const filterParams = {
       id_category: params.id_category,
@@ -49,6 +53,8 @@ export default function Item() {
       return {
         ...record,
         index: index + 1,
+        nameCate: getNameCategory(dataCate, record.id_category),
+        amount: 1,
         picture:
           !!record?.image_detail && !!record?.image_detail.length ? (
             <img src={record?.image_detail[0].preview} alt="image_detail" />
@@ -60,24 +66,24 @@ export default function Item() {
           ),
         purchase_date: record?.purchase_date,
         price_each: formatStringToMoney(record.price_each),
-        onClick: () => history.push(`/dashboard/devices/${record.id}/detail`),
+        onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
       };
     });
-  }, [recordItems, history]);
-
-  // const DownloadExcel = useCallback(() => {
-  //   const file = new File('hello', 'hello world.txt', { type: 'text/plain;charset=utf-8' });
-  //   FileSaver.saveAs(file);
-  // }, [restructureData]);
+  }, [recordItems, dataCate, history]);
 
   return (
     <Wrapper>
       <Row>
         <Col md={4} lg={3}>
-          <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
+          <BoxSearch
+            placeholderText="Tìm kiếm"
+            value={params.keyword}
+            onChange={(e) => setParams({ ...params, keyword: e.target.value })}
+          />
         </Col>
         <Col md={4} lg={3}>
           <DatePickerInput
+            placeholderText="Ngày mua"
             value={params.purchase_date}
             onSelect={(date) => setParams({ ...params, purchase_date: date })}
           />
@@ -89,7 +95,7 @@ export default function Item() {
             onChange={(e) => setParams({ ...params, id_category: e.target.value })}
           >
             <option key="" value="">
-              Chọn tất cả
+              Loại tài sản
             </option>
 
             {(dataCate || []).map((e) => (
@@ -102,12 +108,7 @@ export default function Item() {
       </Row>
       <Row>
         <Col md={12} className="row-button">
-          <Button
-            variant="success"
-            size="sm"
-            className="btn-add"
-            onClick={() => history.push('/dashboard/devices/new')}
-          >
+          <Button variant="success" size="sm" className="btn-add" onClick={() => history.push('/dashboard/assets/new')}>
             <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
@@ -115,7 +116,7 @@ export default function Item() {
             <FilePlus size={20} />
             <span>Nhập file</span>
           </Button>
-          <Button variant="info" size="sm" className="btn-add">
+          <Button variant="info" size="sm" className="btn-add" onClick={() => exporter.save()}>
             <Download size={20} />
             <span>Tải Danh sách</span>
           </Button>
@@ -133,7 +134,7 @@ export default function Item() {
             field: 'picture',
           },
           {
-            name: 'Số kiểu (P/N)',
+            name: 'Model',
             field: 'model_number',
           },
           {
@@ -149,11 +150,11 @@ export default function Item() {
             field: 'purchase_date',
           },
           {
-            name: 'Số lượng',
-            field: 'amount',
+            name: 'Tình trạng sử dụng',
+            field: 'status',
           },
           {
-            name: 'Đơn giá (vnđ)',
+            name: 'Giá (vnđ)',
             field: 'price_each',
           },
         ]}
@@ -161,6 +162,26 @@ export default function Item() {
         loading={loadingItems || loadingCates}
       />
       {openModalImport && <ModalImportFile onCancel={() => setOpenModalImport(false)} />}
+      <ExcelExport
+        data={restructureData}
+        fileName="Danh_sach_tai_san.xlsx"
+        ref={(exporter) => {
+          setExporter(exporter);
+        }}
+      >
+        <ExcelExportColumn field="index" title="STT" />
+        <ExcelExportColumn field="serial_number" title="Số seri (S/N)" />
+        <ExcelExportColumn field="name" title="Tên" />
+        <ExcelExportColumn field="model_number" title="Model" />
+        <ExcelExportColumn field="nameCate" title="Loại tài sản" />
+        <ExcelExportColumn field="amount" title="Số lượng" />
+        <ExcelExportColumn field="unit" title="Đơn vị" />
+        <ExcelExportColumn field="price_each" title="Giá (vnđ)" />
+        <ExcelExportColumn field="purchase_date_file" title="Ngày mua" />
+        <ExcelExportColumn field="status" title="Trạng thái sử dụng" />
+        <ExcelExportColumn field="current_status" title="Tình trạng hiện tại" />
+        <ExcelExportColumn field="description" title="Mô tả" />
+      </ExcelExport>
     </Wrapper>
   );
 }

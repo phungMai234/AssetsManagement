@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Wrapper from './DatePickerInput.style';
 import { Calendar } from 'react-feather';
 
-const DatePickerInput = ({ value, onSelect }) => {
+const DatePickerInput = ({ value, onSelect, placeholderText = 'Chọn ngày' }) => {
   return (
     <Wrapper>
       <div className="icon-calendar">
@@ -15,7 +15,7 @@ const DatePickerInput = ({ value, onSelect }) => {
         selected={value}
         onSelect={(date) => onSelect(date)}
         onChange={(date) => onSelect(date)}
-        placeholderText="Chọn ngày"
+        placeholderText={placeholderText}
         className="date-picker-input"
         isClearable={!!value}
       />

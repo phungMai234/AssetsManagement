@@ -8,12 +8,8 @@ const validate = () => {
 
       return Yup.object()
         .shape({
-          id_device: Yup.string().required('Đây là trường bắt buộc '),
-          quantity_ordered: Yup.number()
-            .required('Đây là trường bắt buộc ')
-            .test('test value', 'Số lượng phải lớn hơn 0', function (quantity_ordered) {
-              return quantity_ordered > 0;
-            }),
+          device_info: Yup.object().required('Đây là trường bắt buộc '),
+          status_order: Yup.string().required('Đây là trường bắt buộc '),
         })
         .test('conflict_device', 'Vui lòng không chọn tài sản lặp lại', function (object) {
           if (!sleepList) return true;
@@ -21,7 +17,7 @@ const validate = () => {
           const otherSleep = sleepList.filter((otherSleep, index) => {
             if (index === object.index) return false;
 
-            return object.id_device === otherSleep.id_device;
+            return object.device_info.value === otherSleep.device_info.value;
           });
 
           return !otherSleep.length;

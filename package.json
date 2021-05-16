@@ -60,6 +60,8 @@
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@fortawesome/fontawesome-free": "^5.15.1",
+    "@progress/kendo-licensing": "^1.1.4",
+    "@progress/kendo-react-excel-export": "^4.6.0",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.8",
@@ -98,6 +100,7 @@
     "react-js-pagination": "^3.0.3",
     "react-navi": "^0.14.4",
     "react-router-dom": "^5.2.0",
+    "react-select": "^4.3.0",
     "read-excel-file": "^5.1.0",
     "style-loader": "^2.0.0",
     "styled-components": "^5.2.1",

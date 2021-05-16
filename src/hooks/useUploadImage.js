@@ -5,12 +5,13 @@ import { useField } from 'formik';
 import useAlert from 'hooks/useAlert';
 import focusOnTop from 'utils/focusOnTop';
 
-const useUploadImage = (name) => {
+const useUploadImage = ({ name, setSubmitting }) => {
   const [{ value = [] }, , { setValue }] = useField({ name });
   const { setAlert } = useAlert();
 
   const uploadImage = useCallback(
     (file) => {
+      setSubmitting(true);
       let metadata = {
         contentType: 'image/jpeg',
       };
@@ -32,10 +33,11 @@ const useUploadImage = (name) => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
             setValue([...value, { path: file.name, preview: downloadURL }]);
           });
+          setSubmitting(false);
         },
       );
     },
-    [setAlert, setValue, value],
+    [setAlert, setSubmitting, setValue, value],
   );
 
   return [uploadImage];

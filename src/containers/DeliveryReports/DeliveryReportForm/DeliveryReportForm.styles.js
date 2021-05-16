@@ -84,12 +84,22 @@ const Wrapper = styled.div`
   .wrapper-button-del {
     display: flex;
     align-items: flex-end;
-
+    padding-right: unset;
     .btn-del {
       display: flex;
       align-items: center;
       height: 38px;
     }
+  }
+
+  .error {
+    color: red;
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .name-asset {
+    padding-right: unset;
   }
 
   .divide {

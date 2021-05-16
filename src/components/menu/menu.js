@@ -21,8 +21,8 @@ function Menu() {
       </li>
       <li className="nav-item">
         <Link
-          className={`nav-link ${activeRoute.match(/\/dashboard\/devices/) ? 'active' : ''}`}
-          to={'/dashboard/devices'}
+          className={`nav-link ${activeRoute.match(/\/dashboard\/assets/) ? 'active' : ''}`}
+          to={'/dashboard/assets'}
         >
           <Database size={20} />
           <span>Quản lý tài sản</span>

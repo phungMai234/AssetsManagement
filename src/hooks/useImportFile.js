@@ -10,7 +10,7 @@ const useImportFile = ({ callback }) => {
   const importFile = useCallback(
     (values) => {
       values.map((e) => {
-        db.collection('devices')
+        db.collection('assets')
           .add({
             ...e,
             purchase_date: firebase.firestore.Timestamp.fromDate(e.purchase_date),

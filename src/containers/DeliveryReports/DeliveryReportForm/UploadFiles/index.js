@@ -33,10 +33,10 @@ const Wrapper = styled.div`
     }
   }
 `;
-const UploadFiles = ({ name, errors, touched }) => {
+const UploadFiles = ({ name, errors, touched, setSubmitting }) => {
   const [{ value = [] }, , {}] = useField({ name });
 
-  const [uploadFiles, { loading }] = useUploadFiles({ name });
+  const [uploadFiles, { loading }] = useUploadFiles({ name, setSubmitting });
   const [deleteFile] = useDeleteFile(name);
 
   return (

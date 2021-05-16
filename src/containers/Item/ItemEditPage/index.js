@@ -8,7 +8,7 @@ import Loading from 'components/Loading';
 const EditPage = () => {
   const { id } = useParams();
 
-  const { data, loading } = useGetDetail({ nameCollection: 'devices', id: id });
+  const { data, loading } = useGetDetail({ nameCollection: 'assets', id: id });
 
   if (loading) {
     return <Loading />;

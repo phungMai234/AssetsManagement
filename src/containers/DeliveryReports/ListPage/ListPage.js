@@ -4,7 +4,7 @@ import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { Plus, FilePlus, FileText } from 'react-feather';
+import { Plus, FileText } from 'react-feather';
 
 import Wrapper from './ListPage.styles';
 import TablePaginationData from 'components/TablePaginationData/TablePaginationData';
@@ -64,6 +64,7 @@ const ListPage = () => {
         </Col>
         <Col md={3}>
           <DatePickerInput
+            placeholderText="Ngày mượn"
             value={params.date_borrowed}
             onSelect={(date) => setParams({ ...params, date_borrowed: date })}
           />
@@ -75,7 +76,7 @@ const ListPage = () => {
             onChange={(e) => setParams({ ...params, status: e.target.value })}
           >
             <option key="" value="">
-              Chọn tất cả
+              Trạng thái
             </option>
 
             {(LIST_STATUS || []).map((status) => (
@@ -97,10 +98,10 @@ const ListPage = () => {
             <Plus size={20} />
             <span>Thêm mới</span>
           </Button>
-          <Button variant="warning" size="sm" className="btn-import">
+          {/* <Button variant="warning" size="sm" className="btn-import">
             <FilePlus size={20} />
             <span>Nhập file</span>
-          </Button>
+          </Button> */}
         </Col>
       </Row>
 

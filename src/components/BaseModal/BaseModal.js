@@ -28,6 +28,7 @@ const BaseModal = ({
   typeModal,
   typeBtnConfirm,
   typeBtnCancel,
+  disableBtnConfirm,
   ...props
 }) => {
   return (
@@ -44,7 +45,12 @@ const BaseModal = ({
         <Button size="sm" variant={typeBtnCancel ? typeBtnCancel : TYPE_BTN_CANCEL} onClick={onCancel}>
           {cancelText ? cancelText : TEXT_CANCEL}
         </Button>
-        <Button size="sm" variant={typeBtnConfirm ? typeBtnConfirm : TYPE_BTN_CONFIRM} onClick={onConfirm}>
+        <Button
+          size="sm"
+          disabled={disableBtnConfirm}
+          variant={typeBtnConfirm ? typeBtnConfirm : TYPE_BTN_CONFIRM}
+          onClick={onConfirm}
+        >
           {confirmText ? confirmText : TEXT_OK}
         </Button>
       </Modal.Footer>

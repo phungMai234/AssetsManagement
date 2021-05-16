@@ -143,7 +143,7 @@ export default ({ dataDevices }) => `
     <thead>
       <tr>
         <th>STT</th>
-        <th>Số kiểu(P/N)</th>
+        <th>Model</th>
         <th>Số seri(S/N)</th>
         <th>Tên tài sản</th>
         <th>Số lượng</th>
@@ -159,11 +159,17 @@ export default ({ dataDevices }) => `
           <td>${item.model_number}</td>
           <td>${item.serial_number}</td>
           <td>${item.name}</td>
-          <td>${item.amount}</td>
+          <td>1</td>
           <td>${item.unit}</td>
           <td>${item.current_status}</td>
         </tr>`,
       )}
+      <tr>
+        <td colspan="4">Tổng</td>
+        <td>${dataDevices.length}</td>
+        <td />
+        <td />
+      </tr>
       </tbody>
      
     </table>

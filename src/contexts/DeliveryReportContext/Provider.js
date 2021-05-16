@@ -2,45 +2,38 @@ import React, { useMemo } from 'react';
 
 import { useQuery } from 'hooks/useQuery';
 import DeliveryReportContext from './Context';
-import { mergeParentToChild, mergeChildToParent } from 'utils/restructureData';
 
 const Provider = ({ children }) => {
   const { data: orders, loading: loadingOrders } = useQuery({ url: 'orders' });
-  const { data: orderDetails, loading: loadingOrderDetail } = useQuery({ url: 'orderDetails' });
-  const { data: devices, loading: loadingDevices } = useQuery({ url: 'devices' });
+  const { data: devices, loading: loadingDevices } = useQuery({ url: 'assets' });
 
   const restructureData = useMemo(() => {
-    if (loadingOrders || loadingOrderDetail || loadingDevices) {
+    if (loadingOrders || loadingDevices) {
       return [];
     }
 
-    if (!orders.length || !orderDetails.length || !devices.length) {
+    if (!orders.length || !devices.length) {
       return [];
     }
+    const data = orders.map((order) => {
+      const { orderDetails } = order;
 
-    let data = mergeParentToChild({
-      parents: orderDetails,
-      childs: devices,
-      parentKey: 'id_device',
-      childKey: 'id',
-    });
-
-    data = mergeChildToParent({
-      parents: orders,
-      childs: data,
-      parentKey: 'id',
-      childKey: 'id_order',
-      childName: 'order_details',
+      const listOrder = orderDetails.map((e) => {
+        const item = devices.find((device) => device.id === e.id);
+        return { ...item, ...e };
+      });
+      delete order.orderDetails;
+      return { ...order, order_details: [...listOrder] };
     });
 
     return data;
-  }, [devices, loadingDevices, loadingOrderDetail, loadingOrders, orderDetails, orders]);
+  }, [devices, loadingDevices, loadingOrders, orders]);
 
   return (
     <DeliveryReportContext.Provider
       value={{
         data: restructureData,
-        loading: loadingOrders || loadingOrderDetail || loadingDevices,
+        loading: loadingOrders || loadingDevices,
       }}
     >
       {children}

@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { BORROWING, BORROWING_TEXT, CLOSED, CLOSED_TEXT, DRAFT, DRAFT_TEXT } from 'utils/constant';
 
 const Wrapper = styled.div`
-  .pending {
+  .draft {
     color: #ffc107;
   }
 
@@ -16,21 +17,18 @@ const Wrapper = styled.div`
 
   .closed {
     color: #6c757d;
-    text-decoration: line-through;
   }
 `;
 
 const StatusBorrow = ({ status }) => {
   const textStatus = useMemo(() => {
     switch (status) {
-      case 'pending':
-        return 'Đang chờ xác nhận';
-      case 'borrowing':
-        return 'Đang mượn';
-      case 'canceled':
-        return 'Đã hủy';
-      case 'closed':
-        return 'Đã đóng';
+      case BORROWING:
+        return BORROWING_TEXT;
+      case CLOSED:
+        return CLOSED_TEXT;
+      case DRAFT:
+        return DRAFT_TEXT;
       default:
         return '';
     }

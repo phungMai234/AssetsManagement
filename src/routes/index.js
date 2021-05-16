@@ -38,7 +38,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/devices',
+    path: '/dashboard/assets',
     component: (
       <LayoutPage>
         <ItemListPage />
@@ -48,7 +48,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/devices/new',
+    path: '/dashboard/assets/new',
     component: (
       <LayoutPage>
         <ItemNewPage />
@@ -58,7 +58,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/devices/:id/detail',
+    path: '/dashboard/assets/:id/detail',
     component: (
       <LayoutPage>
         <ItemDetailPage />
@@ -68,7 +68,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/devices/:id/edit',
+    path: '/dashboard/assets/:id/edit',
     component: (
       <LayoutPage>
         <ItemEditPage />
@@ -102,9 +102,11 @@ export default [
   {
     path: '/dashboard/delivery_reports/:id/edit',
     component: (
-      <LayoutPage>
-        <DeliveryReportsEditPage />
-      </LayoutPage>
+      <DeliveryReportContextProvider>
+        <LayoutPage>
+          <DeliveryReportsEditPage />
+        </LayoutPage>
+      </DeliveryReportContextProvider>
     ),
     exact: true,
     authentication: false,

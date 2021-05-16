@@ -13,9 +13,19 @@ import SelectDevices from './SelectDevices';
 import UploadFiles from './UploadFiles';
 import { LIST_STATUS } from 'utils/constant';
 
-const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {
-  const { data: dataDevices, loading } = useQuery({ url: 'devices' });
-
+const ItemEdit = ({
+  isEdit,
+  listId,
+  values,
+  errors,
+  setFieldValue,
+  handleChange,
+  handleSubmit,
+  touched,
+  isSubmitting,
+  setSubmitting,
+}) => {
+  const { data: dataDevices, loading } = useQuery({ url: 'assets' });
   const breadcrumb = [
     {
       url: '/dashboard/delivery_reports',
@@ -42,7 +52,13 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
       <Form onSubmit={handleSubmit}>
         <Row>
           <Form.Group as={Col} md="12" className="wrapper-button">
-            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              variant={isEdit ? 'info' : 'success'}
+              className="btn-add"
+              size="sm"
+            >
               {isEdit ? <Edit size={20} /> : <Plus size={20} />}
               <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
             </Button>
@@ -65,7 +81,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
               <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('user_name', '')} />
             )}
 
-            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.user_name}</Form.Control.Feedback>
           </Form.Group>
         </Row>
 
@@ -132,6 +148,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           setFieldValue={setFieldValue}
           errors={errors}
           touched={touched}
+          listId={listId}
         />
 
         <Row>
@@ -156,11 +173,17 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           </Form.Group>
         </Row>
 
-        <UploadFiles name="files" errors={errors} touched={touched} />
+        <UploadFiles name="files" errors={errors} touched={touched} setSubmitting={setSubmitting} />
 
         <Row>
           <Form.Group as={Col} md="12" className="wrapper-button">
-            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              variant={isEdit ? 'info' : 'success'}
+              className="btn-add"
+              size="sm"
+            >
               {isEdit ? <Edit size={20} /> : <Plus size={20} />}
               <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
             </Button>
