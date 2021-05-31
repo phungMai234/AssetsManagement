@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">30% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>6/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">49.21% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/63</span>
+                <span class='fraction'>31/63</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">8.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>1/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">30% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>6/20</span>
             </div>
         
             
@@ -316,7 +316,8 @@
 <a name='L257'></a><a href='#L257'>257</a>
 <a name='L258'></a><a href='#L258'>258</a>
 <a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -329,13 +330,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -343,11 +342,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -578,35 +580,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { Button, Row, Col, Form, Container } from 'react-bootstrap';
 &nbsp;
-import DatePickerInput from '../../../components/DatePickerInput';
+import DatePickerInput from 'components/DatePickerInput';
 import Wrapper from './ItemEdit.style';
-import Label from '../../../components/Label';
+import Label from 'components/Label';
 import { useQuery } from 'hooks/useQuery';
 import Loading from 'components/Loading';
 import PhotoUpload from 'components/PhotoUploadRenew';
+&nbsp;
 import BreadCrumb from 'components/BreadCrumb';
 import ClearButton from 'components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
 &nbsp;
-const ItemEdit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) =&gt; {</span>
-  const { data: dataCate, loading } = <span class="cstat-no" title="statement not covered" >useQuery({ url: 'categories' });</span>
+const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) =&gt; {
+  const { data: dataCate, loading } = useQuery({ url: 'categories' });
 &nbsp;
-  const breadcrumb = <span class="cstat-no" title="statement not covered" >[</span>
+  const breadcrumb = [
     {
       url: '/dashboard/devices',
       title: 'Danh sách các thiết bị',
     },
     {
       url: '',
-      title: isEdit ? 'Chỉnh sửa' : 'Tạo mới',
+      title: isEdit ? 'Chỉnh sửa' : <span class="branch-1 cbranch-no" title="branch not covered" >'Tạo mới',</span>
     },
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (loading) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;Loading /&gt;;</span>
+  if (loading) {
+    return &lt;Loading /&gt;;
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Wrapper&gt;
       &lt;Row&gt;
         &lt;Col md={6}&gt;
@@ -617,9 +620,9 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
       &lt;Form onSubmit={handleSubmit}&gt;
         &lt;Row&gt;
           &lt;Form.Group as={Col} md="12" className="wrapper-button"&gt;
-            &lt;Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm"&gt;
-              {isEdit ? &lt;Edit3 size={20} /&gt; : &lt;Plus size={20} /&gt;}
-              &lt;span&gt;{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}&lt;/span&gt;
+            &lt;Button type="submit" variant={isEdit ? 'info' : <span class="branch-1 cbranch-no" title="branch not covered" >'success'}</span> className="btn-add" size="sm"&gt;
+              {isEdit ? &lt;Edit3 size={20} /&gt; : <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Plus size={20} /&gt;}</span>
+              &lt;span&gt;{isEdit ? 'Lưu lại thay đổi' : <span class="branch-1 cbranch-no" title="branch not covered" >'Tạo mới'}</span>&lt;/span&gt;
             &lt;/Button&gt;
           &lt;/Form.Group&gt;
         &lt;/Row&gt;
@@ -634,10 +637,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="model_number"
               value={values.model_number}
               onChange={handleChange}
-              isInvalid={touched.model_number &amp;&amp; !!errors.model_number}
+              isInvalid={touched.model_number &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.model_number}</span>
             /&gt;
             {!!values.model_number &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('model_number', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('model_number', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.model_number}&lt;/Form.Control.Feedback&gt;
@@ -651,10 +654,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="serial_number"
               value={values.serial_number}
               onChange={handleChange}
-              isInvalid={touched.serial_number &amp;&amp; !!errors.serial_number}
+              isInvalid={touched.serial_number &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.serial_number}</span>
             /&gt;
             {!!values.serial_number &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('serial_number', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('serial_number', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.serial_number}&lt;/Form.Control.Feedback&gt;
@@ -670,10 +673,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="name"
               value={values.name}
               onChange={handleChange}
-              isInvalid={touched.name &amp;&amp; !!errors.name}
+              isInvalid={touched.name &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.name}</span>
             /&gt;
             {!!values.name &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('name', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('name', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.name}&lt;/Form.Control.Feedback&gt;
@@ -687,12 +690,12 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="id_category"
               onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('id_category', e.target.value)}</span>
               as="select"
-              isInvalid={!!errors.id_category &amp;&amp; !!touched.id_category}
+              isInvalid={!!errors.id_category &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!touched.id_category}</span>
             &gt;
               &lt;option key="" value=""&gt;
                 Chọn 1 loại tài sản
               &lt;/option&gt;
-              {(dataCate || []).map(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; (
+              {(dataCate || <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>.map(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;option key={e.id} value={e.id}&gt;</span>
                   {e.name}
                 &lt;/option&gt;
@@ -703,7 +706,7 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
         &lt;/Row&gt;
 &nbsp;
         &lt;Row&gt;
-          &lt;Col md={4} className={touched.purchase_date &amp;&amp; errors.purchase_date ? 'has-error' : ''}&gt;
+          &lt;Col md={4} className={touched.purchase_date &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >errors.purchase_date </span>? <span class="branch-0 cbranch-no" title="branch not covered" >'has-error' </span>: ''}&gt;
             &lt;Form.Label&gt;
               &lt;Label isRequired&gt;Ngày mua&lt;/Label&gt;
             &lt;/Form.Label&gt;
@@ -716,9 +719,9 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
                 }
 <span class="cstat-no" title="statement not covered" >                setFieldValue('purchase_date', new Date(date));</span>
               }}
-              value={values.purchase_date || new Date()}
+              value={values.purchase_date || <span class="branch-1 cbranch-no" title="branch not covered" >new Date()}</span>
             /&gt;
-            {!!errors.purchase_date &amp;&amp; !!touched.purchase_date &amp;&amp; &lt;p className="error"&gt;{errors.purchase_date}&lt;/p&gt;}
+            {!!errors.purchase_date &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!touched.purchase_date </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >&lt;p className="error"&gt;{errors.purchase_date}&lt;/p&gt;}</span>
           &lt;/Col&gt;
           &lt;Form.Group as={Col} md="8"&gt;
             &lt;Form.Label&gt;
@@ -729,10 +732,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="current_status"
               value={values.current_status}
               onChange={handleChange}
-              isInvalid={touched.current_status &amp;&amp; !!errors.current_status}
+              isInvalid={touched.current_status &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.current_status}</span>
             /&gt;
             {!!values.current_status &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('current_status', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('current_status', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.current_status}&lt;/Form.Control.Feedback&gt;
@@ -749,10 +752,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="amount"
               value={values.amount}
               onChange={handleChange}
-              isInvalid={touched.amount &amp;&amp; !!errors.amount}
+              isInvalid={touched.amount &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.amount}</span>
             /&gt;
             {!!values.amount &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('amount', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('amount', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.amount}&lt;/Form.Control.Feedback&gt;
@@ -766,10 +769,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="unit"
               value={values.unit}
               onChange={handleChange}
-              isInvalid={touched.unit &amp;&amp; !!errors.unit}
+              isInvalid={touched.unit &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.unit}</span>
             /&gt;
             {!!values.unit &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('unit', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('unit', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.unit}&lt;/Form.Control.Feedback&gt;
@@ -783,10 +786,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="price_each"
               value={values.price_each}
               onChange={handleChange}
-              isInvalid={touched.price_each &amp;&amp; !!errors.price_each}
+              isInvalid={touched.price_each &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.price_each}</span>
             /&gt;
             {!!values.price_each &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('price_each', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('price_each', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.price_each}&lt;/Form.Control.Feedback&gt;
@@ -805,10 +808,10 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
               name="description"
               value={values.description}
               onChange={handleChange}
-              isInvalid={touched.description &amp;&amp; !!errors.description}
+              isInvalid={touched.description &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!!errors.description}</span>
             /&gt;
             {!!values.description &amp;&amp; (
-              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('description', '')}</span> /&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >              &lt;ClearButton size="medium" className="btn-close" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setFieldValue('description', '')}</span> /&gt;</span>
             )}
 &nbsp;
             &lt;Form.Control.Feedback type="invalid"&gt;{errors.description}&lt;/Form.Control.Feedback&gt;
@@ -823,9 +826,9 @@ const ItemEdit = <span class="cstat-no" title="statement not covered" ><span cla
 &nbsp;
         &lt;Row&gt;
           &lt;Form.Group as={Col} md="12" className="wrapper-button"&gt;
-            &lt;Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm"&gt;
-              {isEdit ? &lt;Edit3 size={20} /&gt; : &lt;Plus size={20} /&gt;}
-              &lt;span&gt;{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}&lt;/span&gt;
+            &lt;Button type="submit" variant={isEdit ? 'info' : <span class="branch-1 cbranch-no" title="branch not covered" >'success'}</span> className="btn-add" size="sm"&gt;
+              {isEdit ? &lt;Edit3 size={20} /&gt; : <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Plus size={20} /&gt;}</span>
+              &lt;span&gt;{isEdit ? 'Lưu lại thay đổi' : <span class="branch-1 cbranch-no" title="branch not covered" >'Tạo mới'}</span>&lt;/span&gt;
             &lt;/Button&gt;
           &lt;/Form.Group&gt;
         &lt;/Row&gt;
@@ -841,7 +844,7 @@ export default ItemEdit;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
+                at Mon May 31 2021 14:50:35 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

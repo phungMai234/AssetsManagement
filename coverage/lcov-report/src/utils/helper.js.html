@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>4/20</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>4/16</span>
             </div>
         
             
@@ -91,22 +91,12 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -116,19 +106,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { format } from 'date-fns';
 &nbsp;
-export const formatStringToMoney = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(m</span>oneyValue) =&gt; {</span>
+export const formatStringToMoney = <span class="fstat-no" title="function not covered" >(m</span>oneyValue) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!moneyValue) <span class="cstat-no" title="statement not covered" >return '';</span></span>
 <span class="cstat-no" title="statement not covered" >  return moneyValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');</span>
 };
 &nbsp;
-export const formatDateToString = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>econds) =&gt; {</span>
+export const formatDateToString = <span class="fstat-no" title="function not covered" >(s</span>econds) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!seconds) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
   const milliseconds = <span class="cstat-no" title="statement not covered" >seconds * 1000;</span>
@@ -138,7 +138,7 @@ export const formatDateToString = <span class="cstat-no" title="statement not co
 <span class="cstat-no" title="statement not covered" >  return format(dateObject, 'dd/MM/yyyy');</span>
 };
 &nbsp;
-export const getUtcTime = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>econds) =&gt; {</span>
+export const getUtcTime = <span class="fstat-no" title="function not covered" >(s</span>econds) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!seconds) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
   const milliseconds = <span class="cstat-no" title="statement not covered" >seconds * 1000;</span>
@@ -148,7 +148,7 @@ export const getUtcTime = <span class="cstat-no" title="statement not covered" >
 <span class="cstat-no" title="statement not covered" >  return dateObject;</span>
 };
 &nbsp;
-export const getUnixTime = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>ime) =&gt; {</span>
+export const getUnixTime = <span class="fstat-no" title="function not covered" >(t</span>ime) =&gt; {
 <span class="cstat-no" title="statement not covered" >  if (!time) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return new Date(time).getTime() / 1000;</span>
@@ -160,7 +160,7 @@ export const getUnixTime = <span class="cstat-no" title="statement not covered" 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
+                at Mon May 31 2021 14:50:35 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

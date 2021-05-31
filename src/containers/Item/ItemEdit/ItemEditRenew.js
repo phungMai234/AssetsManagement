@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, Row, Col, Form, Container } from 'react-bootstrap';
 
-import DatePickerInput from '../../../components/DatePickerInput';
+import DatePickerInput from 'components/DatePickerInput';
 import Wrapper from './ItemEdit.style';
-import Label from '../../../components/Label';
+import Label from 'components/Label';
 import { useQuery } from 'hooks/useQuery';
 import Loading from 'components/Loading';
 import PhotoUpload from 'components/PhotoUploadRenew';
+
 import BreadCrumb from 'components/BreadCrumb';
-import ClearButton from '@components/ClearButton';
+import ClearButton from 'components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
 
 const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {

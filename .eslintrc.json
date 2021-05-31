@@ -27,12 +27,61 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal"],
+        "groups": ["builtin", "external", "sibling", "internal", "unknown"],
         "pathGroups": [
           {
             "pattern": "react",
             "group": "external",
             "position": "before"
+          },
+          {
+            "pattern": "assets/**",
+            "group": "unknown",
+            "position": "before"
+          },
+          {
+            "pattern": "components/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "containers/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "contexts/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "domain/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "hooks/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "routes/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "themes/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "utils/**",
+            "group": "internal"
+          },
+          {
+            "pattern": "configureAxios",
+            "group": "internal"
+          },
+          {
+            "pattern": "../**",
+            "group": "internal"
+          },
+          {
+            "pattern": "./**",
+            "group": "internal"
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,22 +115,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,12 +164,12 @@ import useUploadImage from 'hooks/useUploadImage';
 import useDeleteImage from 'hooks/useDeleteImage';
 import { useField } from 'formik';
 &nbsp;
-const PhotoUpload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> name }) =&gt; {</span>
-  const [uploadImage] = <span class="cstat-no" title="statement not covered" >useUploadImage(name);</span>
-  const [deleteImage] = <span class="cstat-no" title="statement not covered" >useDeleteImage(name);</span>
-  const [{ value }, , {}] = <span class="cstat-no" title="statement not covered" >useField({ name });</span>
+const PhotoUpload = ({ name }) =&gt; {
+  const [uploadImage] = useUploadImage(name);
+  const [deleteImage] = useDeleteImage(name);
+  const [{ value }, , {}] = useField({ name });
 &nbsp;
-  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = <span class="cstat-no" title="statement not covered" >useDropzone({</span>
+  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',
     maxFiles: 5,
     onDrop: <span class="fstat-no" title="function not covered" >(a</span>cceptedFiles) =&gt; {
@@ -179,7 +179,7 @@ const PhotoUpload = <span class="cstat-no" title="statement not covered" ><span 
     },
   });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Wrapper&gt;
       &lt;CustomDropzone {...getRootProps({ isDragActive, isDragAccept, isDragReject })}&gt;
         &lt;input {...getInputProps()} /&gt;
@@ -188,9 +188,9 @@ const PhotoUpload = <span class="cstat-no" title="statement not covered" ><span 
           &lt;div&gt;Kéo thả, hoặc click chọn ảnh tại đây &lt;/div&gt;
         &lt;/div&gt;
       &lt;/CustomDropzone&gt;
-      {isDragReject &amp;&amp; &lt;p className="help-text"&gt;Loại tệp không được chấp nhận, chỉ được tải lên tối đa 2 ảnh &lt;/p&gt;}
+      {isDragReject &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;p className="help-text"&gt;Loại tệp không được chấp nhận, chỉ được tải lên tối đa 2 ảnh &lt;/p&gt;}</span>
       &lt;aside className="thumbsContainer"&gt;
-        {(value || []).map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
+        {(value || <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>.map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;div className="thumb" key={file.path}&gt;</span>
             &lt;div className="thumb-inner"&gt;
               &lt;img src={file.preview} /&gt;
@@ -211,7 +211,7 @@ export default PhotoUpload;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
+                at Mon May 31 2021 14:50:35 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
