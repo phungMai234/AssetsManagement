@@ -1,7 +1,4 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
-import 'jquery';
 
 import './LayoutPage.css';
 import Header from '../header/header';
@@ -27,7 +24,7 @@ function LayoutPage({ children }) {
         <main>
           <Row>
             <Col md={12}>
-              {!!alert && <MessageRes content={alert.message} status={alert.status} onHide={clearAlert} />}
+              {alert && <MessageRes content={alert.message} status={alert.status} onHide={clearAlert} />}
             </Col>
           </Row>
           {children}

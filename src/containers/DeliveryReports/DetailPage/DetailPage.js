@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import { Row, Col, Button, Table } from 'react-bootstrap';
-import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
+import { Trash2, Edit, Printer, FileText, ExternalLink, AlertTriangle } from 'react-feather';
 import { useParams, useHistory, Link } from 'react-router-dom';
 
 import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
@@ -209,12 +209,10 @@ const DetailPage = () => {
           <>
             <span
               style={{
-                color: '#dc3545',
-                fontSize: '30px',
-                paddingRight: '10px',
+                paddingRight: '5px',
               }}
             >
-              <Trash2 size={20} />
+              <AlertTriangle size={50} fill={'#dc3545'} stroke="#fff" />
             </span>
             <span>Bạn có chắc chắn muốn xóa?</span>
           </>

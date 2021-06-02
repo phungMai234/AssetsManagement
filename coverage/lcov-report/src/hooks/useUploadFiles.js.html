@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
@@ -101,7 +101,12 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,19 +116,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -133,6 +140,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -151,14 +159,17 @@ import { useCallback, useState } from 'react';
 &nbsp;
 import { useField } from 'formik';
 import { storage } from 'database';
+import useAlert from 'hooks/useAlert';
 &nbsp;
-export default function <span class="fstat-no" title="function not covered" >useUploadFiles(</span>{ name }) {
+export default function <span class="fstat-no" title="function not covered" >useUploadFiles(</span>{ name, setSubmitting }) {
   const [{ value }, , { setValue }] = <span class="cstat-no" title="statement not covered" >useField({ name });</span>
   const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const { setAlert } = <span class="cstat-no" title="statement not covered" >useAlert();</span>
 &nbsp;
   const uploadFile = <span class="cstat-no" title="statement not covered" >useCallback(</span>
 <span class="fstat-no" title="function not covered" >    (f</span>ile) =&gt; {
 <span class="cstat-no" title="statement not covered" >      setLoading(true);</span>
+<span class="cstat-no" title="statement not covered" >      setSubmitting(true);</span>
       var metadata = <span class="cstat-no" title="statement not covered" >{</span>
         contentType: 'application/pdf',
       };
@@ -174,17 +185,18 @@ export default function <span class="fstat-no" title="function not covered" >use
 <span class="cstat-no" title="statement not covered" >          console.log('Upload is ' + progress + '% done');</span>
         },
 <span class="fstat-no" title="function not covered" >        (e</span>rror) =&gt; {
-<span class="cstat-no" title="statement not covered" >          console.log('error: ', error);</span>
+<span class="cstat-no" title="statement not covered" >          !!error &amp;&amp; setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });</span>
         },
 <span class="fstat-no" title="function not covered" >        ()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >          uploadTask.snapshot.ref.getDownloadURL().then(<span class="fstat-no" title="function not covered" >(d</span>ownloadURL) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            setValue([...value, { name: file.name, url: downloadURL }]);</span>
 <span class="cstat-no" title="statement not covered" >            setLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >            setSubmitting(false);</span>
           });
         },
       );
     },
-    [setValue, value],
+    [setAlert, setSubmitting, setValue, value],
   );
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return [uploadFile, { loading }];</span>
@@ -196,7 +208,7 @@ export default function <span class="fstat-no" title="function not covered" >use
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
+                at Tue Jun 01 2021 22:09:37 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

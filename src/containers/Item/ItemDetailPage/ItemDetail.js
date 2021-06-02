@@ -6,7 +6,7 @@ import Wrapper from './ItemDetail.style';
 import Label from 'components/Label';
 import BreadCrumb from 'components/BreadCrumb';
 import { formatStringToMoney, formatDateToString } from 'utils/helper';
-import { Trash2, Edit3 } from 'react-feather';
+import { Trash2, Edit3, AlertTriangle } from 'react-feather';
 import BaseModal from 'components/BaseModal';
 import useDeleteAsset from 'hooks/useDeleteAsset';
 import useGetDetail from 'hooks/useGetDetail';
@@ -152,12 +152,10 @@ const ItemDetail = () => {
             <>
               <span
                 style={{
-                  color: '#dc3545',
-                  fontSize: '30px',
-                  paddingRight: '10px',
+                  paddingRight: '5px',
                 }}
               >
-                <Trash2 size={20} />
+                <AlertTriangle size={50} fill={'#dc3545'} stroke="#fff" />
               </span>
               <span>Bạn có chắc chắn muốn xóa?</span>
             </>

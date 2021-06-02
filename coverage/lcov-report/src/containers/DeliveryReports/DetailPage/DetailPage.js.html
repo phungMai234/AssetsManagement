@@ -280,7 +280,8 @@
 <a name='L221'></a><a href='#L221'>221</a>
 <a name='L222'></a><a href='#L222'>222</a>
 <a name='L223'></a><a href='#L223'>223</a>
-<a name='L224'></a><a href='#L224'>224</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -349,7 +350,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -477,12 +477,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -506,7 +508,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useMemo, useCallback, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import { Row, Col, Button, Table } from 'react-bootstrap';
-import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
+import { Trash2, Edit, Printer, FileText, ExternalLink, AlertTriangle } from 'react-feather';
 import { useParams, useHistory, Link } from 'react-router-dom';
 &nbsp;
 import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
@@ -571,7 +573,6 @@ const DetailPage = <span class="cstat-no" title="statement not covered" ><span c
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Wrapper&gt;
       &lt;BreadCrumb breadcrumb={breadcrumb} /&gt;
-&nbsp;
       &lt;div className="group-btn-action"&gt;
         &lt;Button variant="danger" size="sm" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShowModalConfirm(true)}</span>&gt;
           &lt;Trash2 size={20} /&gt;
@@ -653,7 +654,7 @@ const DetailPage = <span class="cstat-no" title="statement not covered" ><span c
             &lt;thead&gt;
               &lt;tr&gt;
                 &lt;th&gt;STT&lt;/th&gt;
-                &lt;th&gt;Số kiểu&lt;/th&gt;
+                &lt;th&gt;Model&lt;/th&gt;
                 &lt;th&gt;Số seri&lt;/th&gt;
                 &lt;th&gt;Tên&lt;/th&gt;
                 &lt;th&gt;Số lượng&lt;/th&gt;
@@ -679,21 +680,25 @@ const DetailPage = <span class="cstat-no" title="statement not covered" ><span c
                         &lt;ExternalLink size={20} /&gt;
                       &lt;/Link&gt;
                     &lt;/td&gt;
-                    &lt;td&gt;{e.quantity_ordered}&lt;/td&gt;
+                    &lt;td&gt;1&lt;/td&gt;
                     &lt;td&gt;{e.unit}&lt;/td&gt;
-                    &lt;td&gt;{e.current_status}&lt;/td&gt;
+                    &lt;td&gt;{e.status_order}&lt;/td&gt;
                   &lt;/tr&gt;
                 ))}
+              &lt;tr&gt;
+                &lt;td colSpan={4}&gt;Tổng&lt;/td&gt;
+                &lt;td&gt;{restructureData?.order_details.length}&lt;/td&gt;
+                &lt;td /&gt;
+                &lt;td /&gt;
+              &lt;/tr&gt;
             &lt;/tbody&gt;
           &lt;/Table&gt;
         &lt;/Col&gt;
       &lt;/Row&gt;
       &lt;Row className="info-item"&gt;
-        &lt;Col md={2}&gt;
+        &lt;Col md={12}&gt;
           &lt;Label&gt;Ghi chú: &lt;/Label&gt;
-        &lt;/Col&gt;
-        &lt;Col md={6}&gt;
-          &lt;div className="item-value"&gt;{restructureData?.note}&lt;/div&gt;
+          &lt;textarea rows={2} className="detail-memo" defaultValue={restructureData?.note} /&gt;
         &lt;/Col&gt;
       &lt;/Row&gt;
 &nbsp;
@@ -711,12 +716,10 @@ const DetailPage = <span class="cstat-no" title="statement not covered" ><span c
           &lt;&gt;
             &lt;span
               style={{
-                color: '#dc3545',
-                fontSize: '30px',
-                paddingRight: '10px',
+                paddingRight: '5px',
               }}
             &gt;
-              &lt;Trash2 size={20} /&gt;
+              &lt;AlertTriangle size={50} fill={'#dc3545'} stroke="#fff" /&gt;
             &lt;/span&gt;
             &lt;span&gt;Bạn có chắc chắn muốn xóa?&lt;/span&gt;
           &lt;/&gt;
@@ -733,7 +736,7 @@ export default DetailPage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
+                at Tue Jun 01 2021 22:09:37 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

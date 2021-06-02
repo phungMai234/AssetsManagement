@@ -66,6 +66,7 @@ export default function Item() {
           ),
         purchase_date: record?.purchase_date,
         price_each: formatStringToMoney(record.price_each),
+        price_each_print: record.price_each,
         onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
       };
     });
@@ -176,7 +177,7 @@ export default function Item() {
         <ExcelExportColumn field="nameCate" title="Loại tài sản" />
         <ExcelExportColumn field="amount" title="Số lượng" />
         <ExcelExportColumn field="unit" title="Đơn vị" />
-        <ExcelExportColumn field="price_each" title="Giá (vnđ)" />
+        <ExcelExportColumn field="price_each_print" title="Giá (vnđ)" />
         <ExcelExportColumn field="purchase_date_file" title="Ngày mua" />
         <ExcelExportColumn field="status" title="Trạng thái sử dụng" />
         <ExcelExportColumn field="current_status" title="Tình trạng hiện tại" />

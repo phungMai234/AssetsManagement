@@ -47,11 +47,11 @@ function Header() {
         >
           <Dropdown.Item eventKey="1" onClick={() => setModalChangePass(true)}>
             <Lock size={15} />
-            Change password
+            Thay đổi mật khẩu
           </Dropdown.Item>
           <Dropdown.Item eventKey="2" onClick={logout}>
             <LogOut size={15} />
-            Log out
+            Đăng xuất
           </Dropdown.Item>
         </DropdownButton>
         {modalChangePass && <ModalChangePassword onClose={setModalChangePass} />}

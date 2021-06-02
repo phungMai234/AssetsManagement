@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'jquery';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import routes from './routes/index';
 import { auth } from 'database';

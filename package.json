@@ -55,7 +55,19 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/*/index.js"
-    ]
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg|jpg|jpeg|png)$": "/__mocks__/fileMock.js",
+      "^config$": "/configs/app-config.js"
+    }
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
@@ -83,6 +95,7 @@
     "fs": "0.0.1-security",
     "html-webpack-inline-source-plugin": "^1.0.0-beta.2",
     "html-webpack-plugin": "^4.5.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
