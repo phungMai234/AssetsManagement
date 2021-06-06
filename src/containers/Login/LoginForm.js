@@ -50,9 +50,7 @@ const LoginForm = ({ handleSubmit, handleChange, errors, values, touched }) => {
           </Form.Group>
         </Form>
         <div className="footer-login">
-          <div className="link-reset">
-            <Link to="/auth/password_reset">Quên mật khẩu?</Link>
-          </div>
+          <div className="link-reset">{/* <Link to="/auth/password_reset">Quên mật khẩu?</Link> */}</div>
           <Button variant="primary" size="sm" onClick={handleSubmit} onkeypress={handleSubmit}>
             <LogIn size={15} />
             Đăng nhập

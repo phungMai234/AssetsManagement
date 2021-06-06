@@ -13,9 +13,7 @@ const AuthRoute = (props) => {
         setCurrentUser(null);
       }
     });
-  }, []);
-
-  if (!currentUser) return <Redirect to="/a/login" />;
+  }, [currentUser]);
 
   return <Route {...props}>{props.children}</Route>;
 };

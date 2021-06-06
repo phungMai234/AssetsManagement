@@ -11,7 +11,7 @@ import {
 } from 'containers/DeliveryReports';
 import Login from 'containers/Login';
 import PasswordReset from 'containers/PasswordReset';
-
+import HomePage from 'containers/HomePage';
 import { DeliveryReportContextProvider } from 'contexts/DeliveryReportContext';
 
 export default [
@@ -24,6 +24,16 @@ export default [
   {
     path: '/auth/password_reset',
     component: <PasswordReset />,
+    exact: true,
+    authentication: false,
+  },
+  {
+    path: '/dashboard/manual',
+    component: (
+      <LayoutPage>
+        <HomePage />
+      </LayoutPage>
+    ),
     exact: true,
     authentication: false,
   },

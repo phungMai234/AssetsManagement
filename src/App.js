@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -12,6 +12,7 @@ import { auth } from 'database';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
@@ -22,14 +23,14 @@ const App = () => {
         // No user is signed in.
       }
     });
-  }, []);
+  }, [currentUser]);
 
   return (
     <Switch>
       {(routes || []).map((route, index) => {
         if (route.authentication) {
           if (!currentUser) {
-            return <Redirect to="/auth/login" />;
+            history.replace('/auth/login');
           } else {
             return (
               <Route key={index} exact={route.exact} path={route.path}>
