@@ -59,8 +59,12 @@ const ListPage = () => {
   return (
     <Wrapper>
       <Row>
-        <Col md={3}>
-          <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
+        <Col md={4}>
+          <BoxSearch
+            value={params.keyword}
+            placeholderText="Tìm kiếm theo tên người mượn"
+            onChange={(e) => setParams({ ...params, keyword: e.target.value })}
+          />
         </Col>
         <Col md={3}>
           <DatePickerInput

@@ -10,6 +10,7 @@ import PhotoUpload from 'components/PhotoUploadRenew';
 import BreadCrumb from 'components/BreadCrumb';
 import ClearButton from 'components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
+import { UNIT_LIST } from 'utils/constant';
 
 const ItemEdit = ({
   isEdit,
@@ -183,19 +184,23 @@ const ItemEdit = ({
           <Row>
             <Form.Group as={Col} md="4">
               <Form.Label>
-                <Label>Đơn vị</Label>
+                <Label isRequired>Đơn vị</Label>
               </Form.Label>
               <Form.Control
-                type="text"
                 name="unit"
-                value={values.unit}
-                onChange={handleChange}
-                isInvalid={touched.unit && !!errors.unit}
-              />
-              {!!values.unit && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('unit', '')} />
-              )}
-
+                onChange={(e) => setFieldValue('unit', e.target.value)}
+                as="select"
+                isInvalid={!!errors.unit && !!touched.unit}
+              >
+                <option key="" value="">
+                  Chọn 1 loại đơn vị
+                </option>
+                {(UNIT_LIST || []).map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Control>
               <Form.Control.Feedback type="invalid">{errors.unit}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="4">

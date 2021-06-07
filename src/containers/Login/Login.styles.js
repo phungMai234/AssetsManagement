@@ -5,7 +5,8 @@ export default styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
+  height: 100vh;
   /* background: url(${logo});
   background-size: contain;
   background-repeat: no-repeat; */

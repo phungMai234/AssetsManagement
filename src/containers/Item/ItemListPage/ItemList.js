@@ -15,6 +15,7 @@ import { useQueryAssets } from 'hooks/useQueryAssets';
 import DatePickerInput from 'components/DatePickerInput';
 import ModalImportFile from 'components/ModalImportFile';
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
+import { LIST_STATUS_USED } from 'utils/constant';
 
 export default function Item() {
   const history = useHistory();
@@ -35,17 +36,19 @@ export default function Item() {
     const filterParams = {
       id_category: params.id_category,
       purchase_date: params.purchase_date && format(params.purchase_date, 'dd/MM/yyyy'),
+      status: params?.status,
     };
 
     !params.purchase_date && delete filterParams.purchase_date;
     !params.id_category && delete filterParams.id_category;
+    !params.status && delete filterParams.status;
 
     const customData = params.keyword
       ? filter(newData, (item) => includes(lowerCase(item.serial_number), lowerCase(params.keyword)))
       : newData;
 
     return filter(customData, filterParams);
-  }, [params.id_category, params.purchase_date, params.keyword, dataItems]);
+  }, [params, dataItems]);
 
   const restructureData = useMemo(() => {
     if (!recordItems) return [];
@@ -77,7 +80,7 @@ export default function Item() {
       <Row>
         <Col md={4} lg={3}>
           <BoxSearch
-            placeholderText="Tìm kiếm"
+            placeholderText="Tìm kiếm theo số seri"
             value={params.keyword}
             onChange={(e) => setParams({ ...params, keyword: e.target.value })}
           />
@@ -102,6 +105,23 @@ export default function Item() {
             {(dataCate || []).map((e) => (
               <option key={e.id} value={e.id}>
                 {e.name}
+              </option>
+            ))}
+          </Form.Control>
+        </Col>
+        <Col md={4} lg={3}>
+          <Form.Control
+            as="select"
+            value={params.status || ''}
+            onChange={(e) => setParams({ ...params, status: e.target.value })}
+          >
+            <option key="" value="">
+              Tình trạng sử dụng
+            </option>
+
+            {(LIST_STATUS_USED || []).map((e) => (
+              <option key={e.value} value={e.value}>
+                {e.label}
               </option>
             ))}
           </Form.Control>

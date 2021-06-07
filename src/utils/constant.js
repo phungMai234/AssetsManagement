@@ -48,3 +48,18 @@ export const LIST_STATUS_OLD = [
     label: 'Đã đóng ',
   },
 ];
+
+export const LIST_STATUS_USED = [
+  {
+    value: 'Đang sử dụng',
+    label: 'Đang sử dụng',
+  },
+  {
+    value: 'Không sử dụng',
+    label: 'Không sử dụng',
+  },
+];
+
+export const UNIT_LIST = ['Cái', 'Chiếc', 'Quyển', 'Thiết bị', 'Bộ', 'Máy', 'Khác'];
+
+export const STATUS_LIST = ['Mới mua', 'Cũ', 'Hỏng', 'Tốt'];
