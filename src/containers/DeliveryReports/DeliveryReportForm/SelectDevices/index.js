@@ -4,34 +4,9 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import LabelReNew from 'components/Label';
 import { PlusCircle, MinusCircle } from 'react-feather';
 import Select from 'react-select';
-import { parseData } from '../parseData';
+import { parseDataExcel } from '../parseData';
 
-const groupStyles = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-};
-const groupBadgeStyles = {
-  backgroundColor: '#EBECF0',
-  borderRadius: '2em',
-  color: '#172B4D',
-  display: 'inline-block',
-  fontSize: 12,
-  fontWeight: 'normal',
-  lineHeight: '1',
-  minWidth: 1,
-  padding: '0.16666666666667em 0.5em',
-  textAlign: 'center',
-};
-
-const formatGroupLabel = (data) => (
-  <div style={groupStyles}>
-    <span>{data.label}</span>
-    <span style={groupBadgeStyles}>{data.options.length}</span>
-  </div>
-);
-
-const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, touched }) => {
+const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) => {
   return (
     <div>
       <Row>
@@ -43,6 +18,17 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
               </Form.Label>
             </Form.Group>
           </Row>
+          <Row className="row-title">
+            <Col md={1}>
+              <LabelReNew>STT</LabelReNew>
+            </Col>
+            <Col md={5}>
+              <LabelReNew isRequired>Tên tài sản</LabelReNew>
+            </Col>
+            <Col md={4}>
+              <LabelReNew isRequired>Số lượng</LabelReNew>
+            </Col>
+          </Row>
           {!!values &&
             !!values.length &&
             values.map((device, index) => {
@@ -51,21 +37,17 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                   <Row>
                     <Form.Group as={Col} md="1" className="wrapper-button-del">
                       <Form.Label>
-                        <LabelReNew>{`Tài sản ${index + 1}`} </LabelReNew>
+                        <LabelReNew>{`${index + 1}`} </LabelReNew>
                       </Form.Label>
                     </Form.Group>
                     <Form.Group as={Col} md="5" className="name-asset">
-                      <Form.Label>
-                        <LabelReNew isRequired>Tên tài sản</LabelReNew>
-                      </Form.Label>
                       <Select
                         value={device.device_info}
                         defaultValue={device.device_info}
                         onChange={(option) => {
                           setFieldValue(`orderDetails.${index}.device_info`, option);
                         }}
-                        options={parseData(dataDevices, listId)}
-                        formatGroupLabel={formatGroupLabel}
+                        options={parseDataExcel(dataDevices)}
                         isClearable={true}
                         placeholder="Chọn 1 tài sản"
                       />
@@ -81,24 +63,21 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                     </Form.Group>
 
                     <Form.Group as={Col} md="4">
-                      <Form.Label>
-                        <LabelReNew isRequired>Tình trạng</LabelReNew>
-                      </Form.Label>
                       <Form.Control
                         type="text"
-                        name="status_order"
-                        value={device?.status_order}
-                        onChange={(e) => setFieldValue(`orderDetails.${index}.status_order`, e.target.value)}
+                        name="amount"
+                        value={device?.amount}
+                        onChange={(e) => setFieldValue(`orderDetails.${index}.amount`, e.target.value)}
                         isInvalid={
                           touched.orderDetails &&
                           errors.orderDetails &&
                           errors.orderDetails[index] &&
-                          errors.orderDetails[index]?.status_order
+                          errors.orderDetails[index]?.amount
                         }
                       />
 
                       <Form.Control.Feedback type="invalid">
-                        {!!errors?.orderDetails && errors?.orderDetails[index]?.status_order}
+                        {!!errors?.orderDetails && errors?.orderDetails[index]?.amount}
                       </Form.Control.Feedback>
                     </Form.Group>
                     {index > 0 && (
@@ -132,7 +111,7 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                           onClick={() => {
                             setFieldValue('orderDetails', [
                               ...values,
-                              { device_info: '', status_order: '', index: values?.length },
+                              { device_info: null, amount: '', index: values?.length },
                             ]);
                           }}
                         >

@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import useAlert from 'hooks/useAlert';
 import { FREE } from 'utils/constant';
 
-const useDeleteDeliveryReport = ({ id, orderDetails, callback }) => {
+const useDeleteDeliveryReport = ({ id, data, callback }) => {
   const { setAlert } = useAlert();
   const [errorDel, setErrorDel] = useState(false);
 
@@ -19,9 +19,9 @@ const useDeleteDeliveryReport = ({ id, orderDetails, callback }) => {
         setErrorDel(true);
       });
 
-    orderDetails.forEach((e) => {
+    data.list_id.forEach((e) => {
       db.collection('assets')
-        .doc(e.id)
+        .doc(e)
         .update({ status: FREE })
         .then(() => {})
         .catch(() => {
@@ -35,7 +35,7 @@ const useDeleteDeliveryReport = ({ id, orderDetails, callback }) => {
       !!callback && callback();
       setAlert({ status: 'success', message: 'Đã xóa bản ghi thành công' });
     }
-  }, [callback, errorDel, orderDetails, recordRef, setAlert]);
+  }, [callback, data.list_id, errorDel, recordRef, setAlert]);
 
   return [remove];
 };

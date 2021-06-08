@@ -12,7 +12,7 @@ export const formatDateToString = (seconds) => {
 
   const dateObject = new Date(milliseconds);
 
-  return format(dateObject, 'dd/MM/yyyy');
+  return format(dateObject, 'd/M/yyyy');
 };
 
 export const formatDateToString2 = (seconds) => {

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
@@ -14,6 +14,7 @@ import { useQuery } from 'hooks/useQuery';
 import DatePickerInput from 'components/DatePickerInput';
 import StatusBorrow from 'components/StatusBorrow';
 import { LIST_STATUS } from 'utils/constant';
+import genHtmlTemplate from '../Printer/genHtmlTemplate';
 
 const ListPage = () => {
   const history = useHistory();
@@ -44,17 +45,43 @@ const ListPage = () => {
     return filter(customData, filterParams);
   }, [dataItems, params.date_borrowed, params.keyword, params.status]);
 
+  const pdfGenerator = useCallback((record) => {
+    console.log(record);
+    // let printContents = genHtmlTemplate({ dataDevices: e || [] });
+    // const w = window.open();
+    // w.document.write(printContents);
+    // setTimeout(() => {
+    //   w.print();
+    //   w.close();
+    // }, 3000);
+  }, []);
+
   const restructureData = useMemo(() => {
     if (!recordItems) return [];
     return recordItems.map((record, index) => ({
       ...record,
       index: index + 1,
+      user_name: record.user_name.label,
       date_return: record?.date_return ? record.date_return : '--/--/----',
       status: <StatusBorrow status={record?.status} />,
+      group_button_action: (
+        <div>
+          <Button
+            size="sm"
+            variant="warning"
+            className="button-action"
+            onClick={() => history.push(`/dashboard/delivery_reports/${record?.id}/detail`)}
+          >
+            Chi tiết
+          </Button>
+          <Button size="sm" variant="info" className="button-action" onClick={() => pdfGenerator(record)}>
+            In biên bản
+          </Button>
+        </div>
+      ),
       report_file: !!record.files && record.files.length ? <FileText className="file-text" /> : '-',
-      onClick: () => history.push(`/dashboard/delivery_reports/${record.id}/detail`),
     }));
-  }, [recordItems, history]);
+  }, [recordItems, history, pdfGenerator]);
 
   return (
     <Wrapper>
@@ -138,6 +165,10 @@ const ListPage = () => {
           {
             name: 'Đính kèm file',
             field: 'report_file',
+          },
+          {
+            name: '',
+            field: 'group_button_action',
           },
         ]}
         data={restructureData}

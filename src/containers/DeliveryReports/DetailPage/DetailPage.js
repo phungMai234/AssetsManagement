@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useContext } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, sum } from 'lodash';
 import { Row, Col, Button, Table } from 'react-bootstrap';
 import { Trash2, Edit, Printer, FileText, ExternalLink, AlertTriangle } from 'react-feather';
 import { useParams, useHistory, Link } from 'react-router-dom';
@@ -14,54 +14,63 @@ import genHtmlTemplate from '../Printer/genHtmlTemplate';
 import Wrapper from './DetailPage.styles';
 import useDeleteDeliveryReport from 'hooks/useDeleteDeliveryReport';
 import StatusBorrow from 'components/StatusBorrow';
+import useGetDetail from 'hooks/useGetDetail';
 
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const { data, loading } = useContext(DeliveryReportContext);
+  const { data: dataOrder, loadingOrder } = useGetDetail({ nameCollection: 'orders', id });
   const [modalConfirm, setShowModalConfirm] = useState(false);
 
   const restructureData = useMemo(() => {
-    if (loading) {
+    if (loading || loadingOrder) {
       return {};
     }
 
-    let order = data.find((e) => e.id === id);
-
-    return order;
-  }, [data, id, loading]);
+    return dataOrder;
+  }, [dataOrder, loading, loadingOrder]);
 
   const [remove] = useDeleteDeliveryReport({
     id: id,
-    orderDetails: restructureData?.order_details || [],
+    data: restructureData || [],
     callback: () => {
       history.push('/dashboard/delivery_reports');
     },
   });
 
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [] });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.orderDetails || [] });
     const w = window.open();
     w.document.write(printContents);
     setTimeout(() => {
       w.print();
       w.close();
-    }, 30000);
+    }, 3000);
   }, [restructureData]);
 
   const breadcrumb = [
     {
       url: '/dashboard/delivery_reports',
-      title: 'Danh sách các biên bản bàn giao',
+      title: 'Danh sách biên bản bàn giao',
     },
     {
       url: `/dashboard/delivery_reports/${id}/detail`,
       title: 'Chi tiết',
     },
   ];
-  if (loading || isEmpty(restructureData)) {
-    return <Loading />;
-  }
+
+  // const totalAssets = useMemo(() => {
+  //   if (!restructureData) {
+  //     return;
+  //   }
+  //   const result = restructureData?.orderDetails.map((e) => e.amount);
+  //   return sum(result);
+  // }, [restructureData]);
+
+  // if (loading || isEmpty(restructureData)) {
+  //   return <Loading />;
+  // }
 
   return (
     <Wrapper>
@@ -90,7 +99,7 @@ const DetailPage = () => {
           <Label>Người mượn: </Label>
         </Col>
         <Col md={6}>
-          <div className="item-value">{restructureData?.user_name}</div>
+          <div className="item-value">{restructureData?.user_name?.label}</div>
         </Col>
       </Row>
       <Row className="info-item">
@@ -148,39 +157,41 @@ const DetailPage = () => {
               <tr>
                 <th>STT</th>
                 <th>Model</th>
-                <th>Số seri</th>
                 <th>Tên</th>
+                <th>Danh sách Seri</th>
                 <th>Số lượng</th>
                 <th>Đơn vị</th>
-                <th>Tình trạng</th>
               </tr>
             </thead>
             <tbody>
-              {!restructureData.order_details && (
+              {!restructureData.orderDetails && (
                 <tr>
                   <td colSpan={6}>Không có dữ liễu để hiển thị</td>
                 </tr>
               )}
-              {!!restructureData.order_details &&
-                restructureData?.order_details.map((e, index) => (
+              {!!restructureData.orderDetails &&
+                restructureData?.orderDetails.map((e, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{e.model_number}</td>
-                    <td>{e.serial_number}</td>
+                    <td>{e.device_info.label}</td>
                     <td className="td-name">
                       <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
-                        {e.name}
+                        {e.device_info.value.name}
                         <ExternalLink size={20} />
                       </Link>
                     </td>
-                    <td>1</td>
-                    <td>{e.unit}</td>
-                    <td>{e.status_order}</td>
+                    <td>
+                      {e.listSeri.map((item) => (
+                        <div key={item}>{item}</div>
+                      ))}
+                    </td>
+                    <td>{e.amount}</td>
+                    <td>{e.device_info.value.unit}</td>
                   </tr>
                 ))}
               <tr>
                 <td colSpan={4}>Tổng</td>
-                <td>{restructureData?.order_details.length}</td>
+                <td>{restructureData?.total_amount || 0}</td>
                 <td />
                 <td />
               </tr>

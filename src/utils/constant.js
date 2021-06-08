@@ -17,10 +17,6 @@ export const IN_USE = 'Đang sử dụng';
 
 export const LIST_STATUS = [
   {
-    value: DRAFT,
-    label: DRAFT_TEXT,
-  },
-  {
     value: BORROWING,
     label: BORROWING_TEXT,
   },

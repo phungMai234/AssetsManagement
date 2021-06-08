@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
-import { filter, includes, lowerCase } from 'lodash';
+import { filter, includes, lowerCase, groupBy } from 'lodash';
 import { format } from 'date-fns';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
@@ -15,20 +15,58 @@ import { useQueryAssets } from 'hooks/useQueryAssets';
 import DatePickerInput from 'components/DatePickerInput';
 import ModalImportFile from 'components/ModalImportFile';
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
-import { LIST_STATUS_USED } from 'utils/constant';
+import { IN_USE } from 'utils/constant';
+import ModalDetailSeri from '../ModalDetailSeri';
 
 export default function Item() {
   const history = useHistory();
 
   const [params, setParams] = useState({});
   const [openModalImport, setOpenModalImport] = useState(false);
+  const [openModalDetail, setOpenModalDetail] = useState(null);
   const [exporter, setExporter] = useState();
 
-  const { data: dataItems, loading: loadingItems } = useQueryAssets({});
+  const { data: dataItems, loading: loadingItems, force } = useQueryAssets({});
   const { data: dataCate, loading: loadingCates } = useQuery({ url: 'categories' });
 
+  const dataFormatItems = useMemo(() => {
+    const dataGroupByModelNumber = groupBy(dataItems, 'model_number');
+    const listModel = Object.keys(dataGroupByModelNumber);
+    const result = listModel.map((model) => {
+      const listItemByModel = dataGroupByModelNumber[model];
+      let newObject = { ...listItemByModel[0] };
+      let newSeri = [];
+      let countStatusInUsed = 0;
+      let countStatusBroken = 0;
+
+      listItemByModel.map((e) => {
+        newSeri.push({
+          id: e.id,
+          serial_number: e.serial_number,
+          status: e.status,
+          current_status: e.current_status,
+          purchase_date: formatDateToString(e?.purchase_date?.seconds),
+          price_each: e.price_each,
+        });
+        e.status === IN_USE && countStatusInUsed++;
+        e.current_status === 'Hỏng' && e.countStatusBroken++;
+      });
+      delete newObject.id;
+      delete newObject.serial_number;
+      delete newObject.status;
+
+      newObject.total = listItemByModel.length;
+      newObject.seri_list = newSeri;
+      newObject.count_inused = countStatusInUsed;
+      newObject.count_broken = countStatusBroken;
+
+      return newObject;
+    });
+    return result;
+  }, [dataItems]);
+
   const recordItems = useMemo(() => {
-    const newData = (dataItems || []).map((record) => ({
+    const newData = (dataFormatItems || []).map((record) => ({
       ...record,
       purchase_date: formatDateToString(record?.purchase_date?.seconds),
       purchase_date_file: formatDateToString2(record?.purchase_date?.seconds),
@@ -44,20 +82,19 @@ export default function Item() {
     !params.status && delete filterParams.status;
 
     const customData = params.keyword
-      ? filter(newData, (item) => includes(lowerCase(item.serial_number), lowerCase(params.keyword)))
+      ? filter(newData, (item) => includes(lowerCase(item.name), lowerCase(params.keyword)))
       : newData;
 
     return filter(customData, filterParams);
-  }, [params, dataItems]);
+  }, [dataFormatItems, params]);
 
   const restructureData = useMemo(() => {
-    if (!recordItems) return [];
+    if (!recordItems || !recordItems.length) return [];
     return recordItems.map((record, index) => {
       return {
         ...record,
         index: index + 1,
         nameCate: getNameCategory(dataCate, record.id_category),
-        amount: 1,
         picture:
           !!record?.image_detail && !!record?.image_detail.length ? (
             <img src={record?.image_detail[0].preview} alt="image_detail" />
@@ -70,7 +107,23 @@ export default function Item() {
         purchase_date: record?.purchase_date,
         price_each: formatStringToMoney(record.price_each),
         price_each_print: record.price_each,
-        onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
+        rest: record.total - record.count_inused - record.count_broken,
+        group_button_action: (
+          <div>
+            <Button
+              size="sm"
+              variant="warning"
+              className="button-action"
+              onClick={() => history.push(`/dashboard/assets/${record?.seri_list[0].id}/edit`)}
+            >
+              Chỉnh sửa
+            </Button>
+            <Button size="sm" variant="info" className="button-action" onClick={() => setOpenModalDetail(record)}>
+              Chi tiết
+            </Button>
+          </div>
+        ),
+        // onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
       };
     });
   }, [recordItems, dataCate, history]);
@@ -80,7 +133,7 @@ export default function Item() {
       <Row>
         <Col md={4} lg={3}>
           <BoxSearch
-            placeholderText="Tìm kiếm theo số seri"
+            placeholderText="Tìm kiếm"
             value={params.keyword}
             onChange={(e) => setParams({ ...params, keyword: e.target.value })}
           />
@@ -105,23 +158,6 @@ export default function Item() {
             {(dataCate || []).map((e) => (
               <option key={e.id} value={e.id}>
                 {e.name}
-              </option>
-            ))}
-          </Form.Control>
-        </Col>
-        <Col md={4} lg={3}>
-          <Form.Control
-            as="select"
-            value={params.status || ''}
-            onChange={(e) => setParams({ ...params, status: e.target.value })}
-          >
-            <option key="" value="">
-              Tình trạng sử dụng
-            </option>
-
-            {(LIST_STATUS_USED || []).map((e) => (
-              <option key={e.value} value={e.value}>
-                {e.label}
               </option>
             ))}
           </Form.Control>
@@ -159,29 +195,36 @@ export default function Item() {
             field: 'model_number',
           },
           {
-            name: 'Số seri (S/N)',
-            field: 'serial_number',
-          },
-          {
             name: 'Tên',
             field: 'name',
           },
           {
-            name: 'Ngày mua',
-            field: 'purchase_date',
+            name: 'Tổng số lượng',
+            field: 'total',
           },
           {
-            name: 'Tình trạng sử dụng',
-            field: 'status',
+            name: 'Đang cho mượn',
+            field: 'count_inused',
           },
           {
-            name: 'Giá (vnđ)',
-            field: 'price_each',
+            name: 'Hỏng',
+            field: 'count_broken',
+          },
+          {
+            name: 'Còn',
+            field: 'rest',
+          },
+          {
+            name: '',
+            field: 'group_button_action',
           },
         ]}
         data={restructureData}
         loading={loadingItems || loadingCates}
       />
+      {openModalDetail && (
+        <ModalDetailSeri data={openModalDetail} force={force} onCancel={() => setOpenModalDetail(null)} />
+      )}
       {openModalImport && <ModalImportFile onCancel={() => setOpenModalImport(false)} />}
       <ExcelExport
         data={restructureData}

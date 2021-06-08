@@ -104,6 +104,12 @@ const Wrapper = styled.div`
 
   .divide {
     border: 1px dashed #d9d9d9;
+    margin-top: 0px;
+    margin-bottom: 15px;
+  }
+
+  .row-title {
+    margin-bottom: 15px;
   }
 `;
 export default Wrapper;

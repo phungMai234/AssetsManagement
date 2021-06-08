@@ -5,7 +5,7 @@ import { db } from 'database';
 import useAlert from 'hooks/useAlert';
 import { getUnixTime } from 'utils/helper';
 import focusOnTop from 'utils/focusOnTop';
-import { difference } from 'lodash';
+import { difference, filter } from 'lodash';
 import { CLOSED, FREE, IN_USE } from 'utils/constant';
 
 const useCreateAndUpdateOrder = ({ data, listId }) => {
@@ -17,19 +17,36 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
       const cloneValues = { ...values };
       const { orderDetails } = cloneValues;
 
-      const formatOrderDetails = orderDetails.map((e) => ({
-        id: e.device_info.id,
-        status_order: e.status_order,
-      }));
-      const listIdSelected = orderDetails.map((e) => e.device_info.id);
-      const listIdNotSelect = difference(listId, listIdSelected);
+      const arr = orderDetails.map((e) => {
+        const listSeriListUnUses = filter(e.device_info.value.seri_list, (e) => e.status !== IN_USE);
+
+        const listIdSelected = listSeriListUnUses.map((e) => e.id);
+        const newList = listIdSelected.splice(0, Number(e.amount));
+
+        return newList;
+      });
+      const arr2 = orderDetails.map((e) => {
+        const listSeriListUnUses = filter(e.device_info.value.seri_list, (e) => e.status !== IN_USE);
+
+        const listIdSelected = listSeriListUnUses.map((e) => e.serial_number);
+        const newList = listIdSelected.splice(0, Number(e.amount));
+
+        return newList;
+      });
+
+      const newSeri = orderDetails.map((e, index) => {
+        return { ...e, listSeri: arr2[index] };
+      });
+      // const listIdNotSelect = difference(listId, arr);
 
       const formatValues = {
         ...cloneValues,
+        user_name: values.user_name,
         date_borrowed: { seconds: getUnixTime(values.date_borrowed) },
         date_return: { seconds: getUnixTime(values.date_return) },
-        orderDetails: formatOrderDetails,
-        total_amount: orderDetails.length,
+        orderDetails: newSeri,
+        total_amount: arr.flat().length,
+        list_id: arr.flat(),
       };
 
       if (data) {
@@ -37,47 +54,47 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
         if (cloneValues.status === CLOSED) {
           statusOrder = FREE;
         }
-        db.collection('orders')
-          .doc(data?.id)
-          .update({ ...formatValues })
-          .then(() => {
-            formatOrderDetails.map((e) => {
-              db.collection('assets')
-                .doc(e.id)
-                .update({ status: statusOrder })
-                .then(() => {})
-                .catch(() => {
-                  setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-                });
-            });
-            listIdNotSelect.map((id) => {
-              db.collection('assets')
-                .doc(id)
-                .update({ status: FREE })
-                .then(() => {})
-                .catch(() => {
-                  setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-                });
-            });
-            history.push(`/dashboard/delivery_reports`);
-            setAlert({ status: 'success', message: 'Cập nhật thông tin thành công' });
-          })
-          .catch(() => {
-            setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-          })
-          .finally(() => {
-            actions.setSubmitting(false);
-            focusOnTop();
-          });
-        return;
+        //   db.collection('orders')
+        //     .doc(data?.id)
+        //     .update({ ...formatValues })
+        //     .then(() => {
+        //       formatOrderDetails.map((e) => {
+        //         db.collection('assets')
+        //           .doc(e.id)
+        //           .update({ status: statusOrder })
+        //           .then(() => {})
+        //           .catch(() => {
+        //             setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+        //           });
+        //       });
+        //       listIdNotSelect.map((id) => {
+        //         db.collection('assets')
+        //           .doc(id)
+        //           .update({ status: FREE })
+        //           .then(() => {})
+        //           .catch(() => {
+        //             setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+        //           });
+        //       });
+        //       history.push(`/dashboard/delivery_reports`);
+        //       setAlert({ status: 'success', message: 'Cập nhật thông tin thành công' });
+        //     })
+        //     .catch(() => {
+        //       setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+        //     })
+        //     .finally(() => {
+        //       actions.setSubmitting(false);
+        //       focusOnTop();
+        //     });
+        //   return;
+        // }
       }
-
       db.collection('orders')
         .add({ ...formatValues })
         .then(() => {
-          formatOrderDetails.map((e) => {
+          arr.flat().map((e) => {
             db.collection('assets')
-              .doc(e.id)
+              .doc(e)
               .update({ status: IN_USE })
               .then(() => {})
               .catch(() => {
@@ -95,7 +112,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
           focusOnTop();
         });
     },
-    [data, history, listId, setAlert],
+    [data, history, setAlert],
   );
 
   return [update];
