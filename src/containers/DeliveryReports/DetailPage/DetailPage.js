@@ -66,8 +66,7 @@ const DetailPage = () => {
         <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
           <Trash2 size={20} />
         </Button>
-        <Button variant="light" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
-          <Printer size={20} />
+        <Button variant="secondary" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
           In biên bản
         </Button>
         <Button

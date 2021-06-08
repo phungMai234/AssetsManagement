@@ -12,12 +12,14 @@ import useDelete from 'hooks/useDelete';
 import ModalImportFile from '../ModalImportFile';
 import BoxSearch from 'components/BoxSearch/BoxSearch';
 import { filter, includes, lowerCase } from 'lodash';
+import { useHistory } from 'react-router-dom';
 
 const ListPage = () => {
   const [recordSelected, setRecordSelected] = useState();
   const [recordSelectedDel, setRecordSelectedDel] = useState();
   const [openModalImport, setOpenModalImport] = useState(false);
   const [params, setParams] = useState({});
+  const history = useHistory();
 
   const { data: dataCategories, loading, force } = useQuery({ url: 'lecturers' });
 
@@ -40,21 +42,32 @@ const ListPage = () => {
     return recordItems.map((record, index) => ({
       ...record,
       index: index + 1,
+      preview: (
+        <Button
+          variant="info"
+          size="sm"
+          onClick={() => {
+            history.push(`/dashboard/lectures/${record.id}/detail?name=${record.name}`);
+          }}
+        >
+          Chi tiết
+        </Button>
+      ),
       edit_row: (
         <Button
-          variant="outline-info"
+          variant="secondary"
           size="sm"
           onClick={() => {
             setRecordSelected(record);
           }}
         >
-          <Edit3 size={20} />
+          Chỉnh sửa
         </Button>
       ),
       note: <div title={record?.note}>{record?.note}</div>,
       delete_row: (
         <Button
-          variant="outline-danger"
+          variant="danger"
           size="sm"
           onClick={() => {
             setRecordSelectedDel(record);
@@ -64,7 +77,7 @@ const ListPage = () => {
         </Button>
       ),
     }));
-  }, [recordItems]);
+  }, [history, recordItems]);
 
   const [modalAdd, setModalAdd] = useState(false);
 
@@ -112,8 +125,8 @@ const ListPage = () => {
             field: 'email',
           },
           {
-            name: 'Ghi chú',
-            field: 'note',
+            name: '',
+            field: 'preview',
           },
           {
             name: '',

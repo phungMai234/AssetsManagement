@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import { filter, includes, lowerCase, groupBy } from 'lodash';
 import { format } from 'date-fns';
@@ -71,7 +71,6 @@ export default function Item() {
     const newData = (dataFormatItems || []).map((record) => ({
       ...record,
       purchase_date: formatDateToString(record?.purchase_date?.seconds),
-      purchase_date_file: formatDateToString2(record?.purchase_date?.seconds),
     }));
     const filterParams = {
       id_category: params.id_category,
@@ -107,7 +106,7 @@ export default function Item() {
               alt="no-image"
             />
           ),
-        purchase_date: record?.purchase_date,
+        purchase_date: formatDateToString2(record?.purchase_date?.seconds),
         price_each: formatStringToMoney(record.price_each),
         price_each_print: record.price_each,
         rest: record.total - record.count_inused - record.count_broken,
@@ -145,7 +144,7 @@ export default function Item() {
             </Button>
             <Button
               size="sm"
-              variant="warning"
+              variant="secondary"
               className="button-action"
               onClick={() => history.push(`/dashboard/assets/${record?.seri_list[0].id}/edit`)}
             >

@@ -39,7 +39,7 @@ const ListPage = () => {
     !params.date_borrowed && delete filterParams.date_borrowed;
 
     const customData = params.keyword
-      ? filter(newData, (item) => includes(lowerCase(item.user_name), lowerCase(params.keyword)))
+      ? filter(newData, (item) => includes(lowerCase(item.user_name.label), lowerCase(params.keyword)))
       : newData;
 
     return filter(customData, filterParams);
@@ -69,7 +69,7 @@ const ListPage = () => {
           >
             Chi tiết
           </Button>
-          <Button size="sm" variant="warning" className="button-action" onClick={() => pdfGenerator(record)}>
+          <Button size="sm" variant="secondary" className="button-action print" onClick={() => pdfGenerator(record)}>
             In biên bản
           </Button>
         </div>

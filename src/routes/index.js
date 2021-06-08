@@ -2,7 +2,7 @@ import React from 'react';
 
 import LayoutPage from 'components/LayoutPage';
 import CategoriesPage from 'containers/Categories';
-import LecturesManagementListPage from 'containers/LecturesManagement';
+import LecturesManagementListPage, { DetailLecturers } from 'containers/LecturesManagement';
 import { ItemListPage, ItemDetailPage, ItemNewPage, ItemEditPage } from 'containers/Item';
 import {
   DeliveryReportsListPage,
@@ -43,6 +43,16 @@ export default [
     component: (
       <LayoutPage>
         <LecturesManagementListPage />
+      </LayoutPage>
+    ),
+    exact: true,
+    authentication: false,
+  },
+  {
+    path: '/dashboard/lectures/:id/detail',
+    component: (
+      <LayoutPage>
+        <DetailLecturers />
       </LayoutPage>
     ),
     exact: true,
