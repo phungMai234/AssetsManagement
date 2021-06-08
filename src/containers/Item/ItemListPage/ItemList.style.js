@@ -46,7 +46,7 @@ const Wrapper = styled.div`
     }
     .button-action {
       margin-top: 5px;
-      font-size: 10px;
+      font-size: 12px;
       margin-left: 5px;
     }
     th {

@@ -6,14 +6,29 @@ const Wrapper = styled.div`
       text-align: center;
     }
     td {
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .td-index {
       text-align: center;
     }
 
+    .td-amount {
+      text-align: center;
+    }
+
+    .td-unit {
+      text-align: center;
+    }
     .td-name {
       a {
         display: flex;
         align-items: center;
       }
+    }
+    .td-no-result {
+      text-align: center;
     }
   }
 

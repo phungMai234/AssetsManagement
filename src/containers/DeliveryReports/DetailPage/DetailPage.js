@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useCallback, useContext } from 'react';
-import { isEmpty, sum } from 'lodash';
+import React, { useState, useMemo, useCallback } from 'react';
+import { isEmpty } from 'lodash';
 import { Row, Col, Button, Table } from 'react-bootstrap';
-import { Trash2, Edit, Printer, FileText, ExternalLink, AlertTriangle } from 'react-feather';
-import { useParams, useHistory, Link } from 'react-router-dom';
+import { Trash2, Edit, Printer, FileText, AlertTriangle } from 'react-feather';
+import { useParams, useHistory } from 'react-router-dom';
 
-import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
 import { formatDateToString } from 'utils/helper';
 import BaseModal from 'components/BaseModal';
 import BreadCrumb from 'components/BreadCrumb';
@@ -19,17 +18,16 @@ import useGetDetail from 'hooks/useGetDetail';
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
-  const { data, loading } = useContext(DeliveryReportContext);
   const { data: dataOrder, loadingOrder } = useGetDetail({ nameCollection: 'orders', id });
   const [modalConfirm, setShowModalConfirm] = useState(false);
 
   const restructureData = useMemo(() => {
-    if (loading || loadingOrder) {
+    if (loadingOrder) {
       return {};
     }
 
     return dataOrder;
-  }, [dataOrder, loading, loadingOrder]);
+  }, [dataOrder, loadingOrder]);
 
   const [remove] = useDeleteDeliveryReport({
     id: id,
@@ -40,13 +38,10 @@ const DetailPage = () => {
   });
 
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructureData.orderDetails || [] });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.orderDetails, data: restructureData });
     const w = window.open();
     w.document.write(printContents);
-    setTimeout(() => {
-      w.print();
-      w.close();
-    }, 3000);
+    //w.print();
   }, [restructureData]);
 
   const breadcrumb = [
@@ -60,17 +55,9 @@ const DetailPage = () => {
     },
   ];
 
-  // const totalAssets = useMemo(() => {
-  //   if (!restructureData) {
-  //     return;
-  //   }
-  //   const result = restructureData?.orderDetails.map((e) => e.amount);
-  //   return sum(result);
-  // }, [restructureData]);
-
-  // if (loading || isEmpty(restructureData)) {
-  //   return <Loading />;
-  // }
+  if (loadingOrder || isEmpty(restructureData)) {
+    return <Loading />;
+  }
 
   return (
     <Wrapper>
@@ -128,7 +115,7 @@ const DetailPage = () => {
       </Row>
       <Row>
         <Col md={3}>
-          <Label>Biên bản giao nhận: </Label>
+          <Label>Tệp đính kèm: </Label>
         </Col>
       </Row>
       <Row className="info-item">
@@ -166,32 +153,31 @@ const DetailPage = () => {
             <tbody>
               {!restructureData.orderDetails && (
                 <tr>
-                  <td colSpan={6}>Không có dữ liễu để hiển thị</td>
+                  <td colSpan={6} className="td-no-result">
+                    Không có dữ liễu để hiển thị
+                  </td>
                 </tr>
               )}
               {!!restructureData.orderDetails &&
                 restructureData?.orderDetails.map((e, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td className="td-index">{index + 1}</td>
                     <td>{e.device_info.label}</td>
-                    <td className="td-name">
-                      <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
-                        {e.device_info.value.name}
-                        <ExternalLink size={20} />
-                      </Link>
-                    </td>
+                    <td className="td-name">{e.device_info.value.name}</td>
                     <td>
                       {e.listSeri.map((item) => (
                         <div key={item}>{item}</div>
                       ))}
                     </td>
-                    <td>{e.amount}</td>
-                    <td>{e.device_info.value.unit}</td>
+                    <td className="td-amount">{e.amount}</td>
+                    <td className="td-unit">{e.device_info.value.unit}</td>
                   </tr>
                 ))}
               <tr>
-                <td colSpan={4}>Tổng</td>
-                <td>{restructureData?.total_amount || 0}</td>
+                <td className="td-unit" colSpan={4}>
+                  Tổng
+                </td>
+                <td className="td-unit">{restructureData?.total_amount || 0}</td>
                 <td />
                 <td />
               </tr>

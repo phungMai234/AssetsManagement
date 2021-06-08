@@ -6,7 +6,7 @@ import useAlert from 'hooks/useAlert';
 import { getUnixTime } from 'utils/helper';
 import focusOnTop from 'utils/focusOnTop';
 import { difference, filter } from 'lodash';
-import { CLOSED, FREE, IN_USE } from 'utils/constant';
+import { FREE, IN_USE } from 'utils/constant';
 
 const useCreateAndUpdateOrder = ({ data, listId }) => {
   const { setAlert } = useAlert();
@@ -37,7 +37,8 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
       const newSeri = orderDetails.map((e, index) => {
         return { ...e, listSeri: arr2[index] };
       });
-      // const listIdNotSelect = difference(listId, arr);
+
+      const listIdNotSelect = difference(listId.flat(), arr.flat());
 
       const formatValues = {
         ...cloneValues,
@@ -50,51 +51,47 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
       };
 
       if (data) {
-        let statusOrder = IN_USE;
-        if (cloneValues.status === CLOSED) {
-          statusOrder = FREE;
-        }
-        //   db.collection('orders')
-        //     .doc(data?.id)
-        //     .update({ ...formatValues })
-        //     .then(() => {
-        //       formatOrderDetails.map((e) => {
-        //         db.collection('assets')
-        //           .doc(e.id)
-        //           .update({ status: statusOrder })
-        //           .then(() => {})
-        //           .catch(() => {
-        //             setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-        //           });
-        //       });
-        //       listIdNotSelect.map((id) => {
-        //         db.collection('assets')
-        //           .doc(id)
-        //           .update({ status: FREE })
-        //           .then(() => {})
-        //           .catch(() => {
-        //             setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-        //           });
-        //       });
-        //       history.push(`/dashboard/delivery_reports`);
-        //       setAlert({ status: 'success', message: 'Cập nhật thông tin thành công' });
-        //     })
-        //     .catch(() => {
-        //       setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
-        //     })
-        //     .finally(() => {
-        //       actions.setSubmitting(false);
-        //       focusOnTop();
-        //     });
-        //   return;
-        // }
+        db.collection('orders')
+          .doc(data?.id)
+          .update({ ...formatValues })
+          .then(() => {
+            arr.flat().map((id) => {
+              db.collection('assets')
+                .doc(id)
+                .update({ status: IN_USE })
+                .then(() => {})
+                .catch(() => {
+                  setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+                });
+            });
+            !!listIdNotSelect?.length &&
+              listIdNotSelect.map((id) => {
+                db.collection('assets')
+                  .doc(id)
+                  .update({ status: FREE })
+                  .then(() => {})
+                  .catch(() => {
+                    setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+                  });
+              });
+            history.push(`/dashboard/delivery_reports`);
+            setAlert({ status: 'success', message: 'Cập nhật thông tin thành công' });
+          })
+          .catch(() => {
+            setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+            focusOnTop();
+          });
+        return;
       }
       db.collection('orders')
         .add({ ...formatValues })
         .then(() => {
-          arr.flat().map((e) => {
+          arr.flat().map((id) => {
             db.collection('assets')
-              .doc(e)
+              .doc(id)
               .update({ status: IN_USE })
               .then(() => {})
               .catch(() => {
@@ -112,7 +109,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
           focusOnTop();
         });
     },
-    [data, history, setAlert],
+    [data, history, listId, setAlert],
   );
 
   return [update];

@@ -46,14 +46,9 @@ const ListPage = () => {
   }, [dataItems, params.date_borrowed, params.keyword, params.status]);
 
   const pdfGenerator = useCallback((record) => {
-    console.log(record);
-    // let printContents = genHtmlTemplate({ dataDevices: e || [] });
-    // const w = window.open();
-    // w.document.write(printContents);
-    // setTimeout(() => {
-    //   w.print();
-    //   w.close();
-    // }, 3000);
+    let printContents = genHtmlTemplate({ dataDevices: record.orderDetails || [], data: record });
+    const w = window.open();
+    w.document.write(printContents);
   }, []);
 
   const restructureData = useMemo(() => {
@@ -68,13 +63,13 @@ const ListPage = () => {
         <div>
           <Button
             size="sm"
-            variant="warning"
+            variant="info"
             className="button-action"
             onClick={() => history.push(`/dashboard/delivery_reports/${record?.id}/detail`)}
           >
             Chi tiết
           </Button>
-          <Button size="sm" variant="info" className="button-action" onClick={() => pdfGenerator(record)}>
+          <Button size="sm" variant="warning" className="button-action" onClick={() => pdfGenerator(record)}>
             In biên bản
           </Button>
         </div>
@@ -163,7 +158,7 @@ const ListPage = () => {
             field: 'total_amount',
           },
           {
-            name: 'Đính kèm file',
+            name: 'Tệp đính kèm',
             field: 'report_file',
           },
           {

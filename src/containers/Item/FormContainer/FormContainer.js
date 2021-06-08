@@ -36,7 +36,7 @@ const FormContainer = ({ data }) => {
     model_number: Yup.string().trim().max(255, 'Nhập không quá 255 kí tự'),
   });
 
-  const [update] = useCreateAndUpdateAsset({ data: data });
+  const [update] = useCreateAndUpdateAsset({ data: data, listId: data?.list_id });
 
   return (
     <Wrapper>

@@ -22,7 +22,6 @@ const validate = () => {
 
           const otherSleep = sleepList.filter((otherSleep, index) => {
             if (index === object.index) return false;
-
             return object.device_info.label === otherSleep.device_info.label;
           });
 

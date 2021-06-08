@@ -17,6 +17,7 @@ import ModalImportFile from 'components/ModalImportFile';
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
 import { IN_USE } from 'utils/constant';
 import ModalDetailSeri from '../ModalDetailSeri';
+import ModalAddSeri from '../ModalAddSeri';
 
 export default function Item() {
   const history = useHistory();
@@ -24,6 +25,7 @@ export default function Item() {
   const [params, setParams] = useState({});
   const [openModalImport, setOpenModalImport] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(null);
+  const [showModalAddSeri, setModalAddSeri] = useState(null);
   const [exporter, setExporter] = useState();
 
   const { data: dataItems, loading: loadingItems, force } = useQueryAssets({});
@@ -88,6 +90,31 @@ export default function Item() {
     return filter(customData, filterParams);
   }, [dataFormatItems, params]);
 
+  const dataFormatExportExcel = useMemo(() => {
+    if (!dataItems || !dataItems.length) return [];
+    return dataItems.map((record, index) => {
+      return {
+        ...record,
+        index: index + 1,
+        amount: 1,
+        nameCate: getNameCategory(dataCate, record.id_category),
+        picture:
+          !!record?.image_detail && !!record?.image_detail.length ? (
+            <img src={record?.image_detail[0].preview} alt="image_detail" />
+          ) : (
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/assetsmanagementfirebase.appspot.com/o/images%2Fno-image.png?alt=media&token=e885dc29-ba97-45c8-8f0f-acad14a7b946"
+              alt="no-image"
+            />
+          ),
+        purchase_date: record?.purchase_date,
+        price_each: formatStringToMoney(record.price_each),
+        price_each_print: record.price_each,
+        rest: record.total - record.count_inused - record.count_broken,
+      };
+    });
+  }, [dataCate, dataItems]);
+
   const restructureData = useMemo(() => {
     if (!recordItems || !recordItems.length) return [];
     return recordItems.map((record, index) => {
@@ -110,6 +137,12 @@ export default function Item() {
         rest: record.total - record.count_inused - record.count_broken,
         group_button_action: (
           <div>
+            <Button size="sm" variant="info" className="button-action" onClick={() => setOpenModalDetail(record)}>
+              Chi tiết
+            </Button>
+            <Button size="sm" variant="success" className="button-action" onClick={() => setModalAddSeri(record)}>
+              Thêm mới
+            </Button>
             <Button
               size="sm"
               variant="warning"
@@ -118,12 +151,8 @@ export default function Item() {
             >
               Chỉnh sửa
             </Button>
-            <Button size="sm" variant="info" className="button-action" onClick={() => setOpenModalDetail(record)}>
-              Chi tiết
-            </Button>
           </div>
         ),
-        // onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
       };
     });
   }, [recordItems, dataCate, history]);
@@ -225,9 +254,12 @@ export default function Item() {
       {openModalDetail && (
         <ModalDetailSeri data={openModalDetail} force={force} onCancel={() => setOpenModalDetail(null)} />
       )}
+      {showModalAddSeri && (
+        <ModalAddSeri data={showModalAddSeri} force={force} onCancel={() => setModalAddSeri(null)} />
+      )}
       {openModalImport && <ModalImportFile onCancel={() => setOpenModalImport(false)} />}
       <ExcelExport
-        data={restructureData}
+        data={dataFormatExportExcel}
         fileName="Danh_sach_tai_san.xlsx"
         ref={(exporter) => {
           setExporter(exporter);
@@ -240,8 +272,8 @@ export default function Item() {
         <ExcelExportColumn field="nameCate" title="Loại tài sản" />
         <ExcelExportColumn field="amount" title="Số lượng" />
         <ExcelExportColumn field="unit" title="Đơn vị" />
-        <ExcelExportColumn field="price_each_print" title="Giá (vnđ)" />
-        <ExcelExportColumn field="purchase_date_file" title="Ngày mua" />
+        <ExcelExportColumn field="price_each" title="Giá (vnđ)" />
+        <ExcelExportColumn field="purchase_date" title="Ngày mua" />
         <ExcelExportColumn field="status" title="Trạng thái sử dụng" />
         <ExcelExportColumn field="current_status" title="Tình trạng hiện tại" />
         <ExcelExportColumn field="description" title="Mô tả" />

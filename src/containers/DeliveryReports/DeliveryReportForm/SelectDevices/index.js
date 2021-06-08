@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { parseDataExcel } from '../parseData';
 
 const SelectDevices = ({ values, dataDevices, setFieldValue, errors, touched }) => {
+  console.log('values: ', values);
   return (
     <div>
       <Row>
