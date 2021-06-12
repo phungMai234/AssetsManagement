@@ -7,8 +7,8 @@ import useUploadImage from 'hooks/useUploadImage';
 import useDeleteImage from 'hooks/useDeleteImage';
 import { useField } from 'formik';
 
-const PhotoUpload = ({ name }) => {
-  const [uploadImage] = useUploadImage(name);
+const PhotoUpload = ({ name, setSubmitting }) => {
+  const [uploadImage] = useUploadImage({ name, setSubmitting });
   const [deleteImage] = useDeleteImage(name);
   const [{ value }, , {}] = useField({ name });
 

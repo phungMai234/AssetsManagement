@@ -84,7 +84,7 @@ const Wrapper = styled.div`
   .wrapper-button-del {
     display: flex;
     align-items: flex-end;
-
+    padding-right: unset;
     .btn-del {
       display: flex;
       align-items: center;
@@ -92,8 +92,24 @@ const Wrapper = styled.div`
     }
   }
 
+  .error {
+    color: red;
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .name-asset {
+    padding-right: unset;
+  }
+
   .divide {
     border: 1px dashed #d9d9d9;
+    margin-top: 0px;
+    margin-bottom: 15px;
+  }
+
+  .row-title {
+    margin-bottom: 15px;
   }
 `;
 export default Wrapper;

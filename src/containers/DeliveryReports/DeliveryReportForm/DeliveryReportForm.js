@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Row, Col, Form, Container } from 'react-bootstrap';
+import React, { useMemo } from 'react';
+import { Button, Row, Col, Form } from 'react-bootstrap';
 
 import DatePickerInput from 'components/DatePickerInput';
 import Wrapper from './DeliveryReportForm.styles';
@@ -12,9 +12,32 @@ import { Plus, Edit } from 'react-feather';
 import SelectDevices from './SelectDevices';
 import UploadFiles from './UploadFiles';
 import { LIST_STATUS } from 'utils/constant';
+import Select from 'react-select';
 
-const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {
-  const { data: dataDevices, loading } = useQuery({ url: 'devices' });
+const ItemEdit = ({
+  isEdit,
+  listId,
+  values,
+  errors,
+  setFieldValue,
+  handleChange,
+  handleSubmit,
+  touched,
+  isSubmitting,
+  setSubmitting,
+}) => {
+  const { data: dataDevices, loading } = useQuery({ url: 'assets' });
+  const { data: dataLectures, loadingLecture } = useQuery({ url: 'lecturers' });
+
+  const formatDataLecturers = useMemo(() => {
+    if (loadingLecture) return [];
+
+    const result = dataLectures.map((e) => ({
+      name: e.name,
+      label: e.name,
+    }));
+    return result;
+  }, [dataLectures, loadingLecture]);
 
   const breadcrumb = [
     {
@@ -27,7 +50,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
     },
   ];
 
-  if (loading) {
+  if (loading || loadingLecture) {
     return <Loading />;
   }
 
@@ -42,7 +65,13 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
       <Form onSubmit={handleSubmit}>
         <Row>
           <Form.Group as={Col} md="12" className="wrapper-button">
-            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              variant={isEdit ? 'info' : 'success'}
+              className="btn-add"
+              size="sm"
+            >
               {isEdit ? <Edit size={20} /> : <Plus size={20} />}
               <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
             </Button>
@@ -50,22 +79,22 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
         </Row>
 
         <Row>
-          <Form.Group as={Col} md="12">
+          <Form.Group as={Col} md="6">
             <Form.Label>
               <Label isRequired>Tên người mượn</Label>
             </Form.Label>
-            <Form.Control
-              type="text"
-              name="user_name"
+            <Select
               value={values.user_name}
-              onChange={handleChange}
-              isInvalid={touched.user_name && !!errors.user_name}
+              defaultValue={values.user_name}
+              onChange={(option) => {
+                setFieldValue('user_name', option);
+              }}
+              options={formatDataLecturers}
+              isClearable={true}
+              placeholder="Chọn tên người mượn"
             />
-            {!!values.user_name && (
-              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('user_name', '')} />
-            )}
 
-            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+            {touched.user_name && errors.user_name && <div className="error">{errors.user_name}</div>}
           </Form.Group>
         </Row>
 
@@ -132,6 +161,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           setFieldValue={setFieldValue}
           errors={errors}
           touched={touched}
+          listId={listId}
         />
 
         <Row>
@@ -156,16 +186,7 @@ const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleS
           </Form.Group>
         </Row>
 
-        <UploadFiles name="files" errors={errors} touched={touched} />
-
-        <Row>
-          <Form.Group as={Col} md="12" className="wrapper-button">
-            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
-              {isEdit ? <Edit size={20} /> : <Plus size={20} />}
-              <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
-            </Button>
-          </Form.Group>
-        </Row>
+        <UploadFiles name="files" errors={errors} touched={touched} setSubmitting={setSubmitting} />
       </Form>
     </Wrapper>
   );

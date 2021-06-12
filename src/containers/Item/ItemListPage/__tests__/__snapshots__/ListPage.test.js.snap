@@ -1,0 +1,797 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item Edit Page should render correctly 1`] = `
+<div>
+  <div
+    class="sc-bdfBwQ kGpjlW"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <div
+          class="sc-hKgILt kDhRMo"
+        >
+          <div
+            class="mb-3 input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <svg
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="8"
+                  />
+                  <line
+                    x1="21"
+                    x2="16.65"
+                    y1="21"
+                    y2="16.65"
+                  />
+                </svg>
+              </span>
+            </div>
+            <input
+              class="form-control"
+              placeholder="Tìm kiếm"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <div
+          class="sc-eCssSg kqYHFF"
+        >
+          <div
+            class="icon-calendar"
+          >
+            <svg
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                ry="2"
+                width="18"
+                x="3"
+                y="4"
+              />
+              <line
+                x1="16"
+                x2="16"
+                y1="2"
+                y2="6"
+              />
+              <line
+                x1="8"
+                x2="8"
+                y1="2"
+                y2="6"
+              />
+              <line
+                x1="3"
+                x2="21"
+                y1="10"
+                y2="10"
+              />
+            </svg>
+          </div>
+          <div
+            class="react-datepicker-wrapper"
+          >
+            <div
+              class="react-datepicker__input-container"
+            >
+              <input
+                class="date-picker-input"
+                placeholder="Ngày mua"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <select
+          class="form-control"
+        >
+          <option
+            value=""
+          >
+            Loại tài sản
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="row-button col-md-12"
+      >
+        <button
+          class="btn-add btn btn-success btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="12"
+              x2="12"
+              y1="5"
+              y2="19"
+            />
+            <line
+              x1="5"
+              x2="19"
+              y1="12"
+              y2="12"
+            />
+          </svg>
+          <span>
+            Thêm mới
+          </span>
+        </button>
+        <button
+          class="btn-import btn btn-warning btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline
+              points="14 2 14 8 20 8"
+            />
+            <line
+              x1="12"
+              x2="12"
+              y1="18"
+              y2="12"
+            />
+            <line
+              x1="9"
+              x2="15"
+              y1="15"
+              y2="15"
+            />
+          </svg>
+          <span>
+            Nhập file
+          </span>
+        </button>
+        <button
+          class="btn-add btn btn-info btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+            />
+            <polyline
+              points="7 10 12 15 17 10"
+            />
+            <line
+              x1="12"
+              x2="12"
+              y1="15"
+              y2="3"
+            />
+          </svg>
+          <span>
+            Tải Danh sách
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="sc-gsTCUz gTjdNH"
+    >
+      <div
+        class="wrapper-select"
+      >
+        <label
+          for="option"
+        >
+          Đang hiển thị: 
+        </label>
+        <select
+          id="option"
+        >
+          <option
+            value="5"
+          >
+            5
+          </option>
+          <option
+            value="10"
+          >
+            10
+          </option>
+          <option
+            value="15"
+          >
+            15
+          </option>
+          <option
+            value="20"
+          >
+            20
+          </option>
+        </select>
+      </div>
+      <div>
+        <table
+          class="table table-bordered table-hover"
+        >
+          <thead>
+            <tr>
+              <th
+                class="index"
+              >
+                STT
+              </th>
+              <th
+                class="picture"
+              >
+                Ảnh minh họa
+              </th>
+              <th
+                class="model_number"
+              >
+                Model
+              </th>
+              <th
+                class="serial_number"
+              >
+                Số seri (S/N)
+              </th>
+              <th
+                class="name"
+              >
+                Tên
+              </th>
+              <th
+                class="purchase_date"
+              >
+                Ngày mua
+              </th>
+              <th
+                class="status"
+              >
+                Tình trạng sử dụng
+              </th>
+              <th
+                class="price_each"
+              >
+                Giá (vnđ)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="no-result"
+                colspan="8"
+              >
+                Không có kết quả để hiển thị
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="wrapper-option"
+      >
+        <ul
+          class="pagination"
+        >
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to first page"
+              class="page-link"
+              href="#"
+            >
+              «
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to previous page"
+              class="page-link"
+              href="#"
+            >
+              ⟨
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to next page"
+              class="page-link"
+              href="#"
+            >
+              ⟩
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to last page"
+              class="page-link"
+              href="#"
+            >
+              »
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Item Edit Page should render correctly with loading 1`] = `
+<div>
+  <div
+    class="sc-bdfBwQ kGpjlW"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <div
+          class="sc-hKgILt kDhRMo"
+        >
+          <div
+            class="mb-3 input-group"
+          >
+            <div
+              class="input-group-prepend"
+            >
+              <span
+                class="input-group-text"
+              >
+                <svg
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="8"
+                  />
+                  <line
+                    x1="21"
+                    x2="16.65"
+                    y1="21"
+                    y2="16.65"
+                  />
+                </svg>
+              </span>
+            </div>
+            <input
+              class="form-control"
+              placeholder="Tìm kiếm"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <div
+          class="sc-eCssSg kqYHFF"
+        >
+          <div
+            class="icon-calendar"
+          >
+            <svg
+              fill="none"
+              height="20"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                ry="2"
+                width="18"
+                x="3"
+                y="4"
+              />
+              <line
+                x1="16"
+                x2="16"
+                y1="2"
+                y2="6"
+              />
+              <line
+                x1="8"
+                x2="8"
+                y1="2"
+                y2="6"
+              />
+              <line
+                x1="3"
+                x2="21"
+                y1="10"
+                y2="10"
+              />
+            </svg>
+          </div>
+          <div
+            class="react-datepicker-wrapper"
+          >
+            <div
+              class="react-datepicker__input-container"
+            >
+              <input
+                class="date-picker-input"
+                placeholder="Ngày mua"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4"
+      >
+        <select
+          class="form-control"
+        >
+          <option
+            value=""
+          >
+            Loại tài sản
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="row-button col-md-12"
+      >
+        <button
+          class="btn-add btn btn-success btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="12"
+              x2="12"
+              y1="5"
+              y2="19"
+            />
+            <line
+              x1="5"
+              x2="19"
+              y1="12"
+              y2="12"
+            />
+          </svg>
+          <span>
+            Thêm mới
+          </span>
+        </button>
+        <button
+          class="btn-import btn btn-warning btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline
+              points="14 2 14 8 20 8"
+            />
+            <line
+              x1="12"
+              x2="12"
+              y1="18"
+              y2="12"
+            />
+            <line
+              x1="9"
+              x2="15"
+              y1="15"
+              y2="15"
+            />
+          </svg>
+          <span>
+            Nhập file
+          </span>
+        </button>
+        <button
+          class="btn-add btn btn-info btn-sm"
+          type="button"
+        >
+          <svg
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+            />
+            <polyline
+              points="7 10 12 15 17 10"
+            />
+            <line
+              x1="12"
+              x2="12"
+              y1="15"
+              y2="3"
+            />
+          </svg>
+          <span>
+            Tải Danh sách
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="sc-gsTCUz gTjdNH"
+    >
+      <div
+        class="wrapper-select"
+      >
+        <label
+          for="option"
+        >
+          Đang hiển thị: 
+        </label>
+        <select
+          id="option"
+        >
+          <option
+            value="5"
+          >
+            5
+          </option>
+          <option
+            value="10"
+          >
+            10
+          </option>
+          <option
+            value="15"
+          >
+            15
+          </option>
+          <option
+            value="20"
+          >
+            20
+          </option>
+        </select>
+      </div>
+      <div>
+        <table
+          class="table table-bordered table-hover"
+        >
+          <thead>
+            <tr>
+              <th
+                class="index"
+              >
+                STT
+              </th>
+              <th
+                class="picture"
+              >
+                Ảnh minh họa
+              </th>
+              <th
+                class="model_number"
+              >
+                Model
+              </th>
+              <th
+                class="serial_number"
+              >
+                Số seri (S/N)
+              </th>
+              <th
+                class="name"
+              >
+                Tên
+              </th>
+              <th
+                class="purchase_date"
+              >
+                Ngày mua
+              </th>
+              <th
+                class="status"
+              >
+                Tình trạng sử dụng
+              </th>
+              <th
+                class="price_each"
+              >
+                Giá (vnđ)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="no-result"
+                colspan="8"
+              >
+                Không có kết quả để hiển thị
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="wrapper-option"
+      >
+        <ul
+          class="pagination"
+        >
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to first page"
+              class="page-link"
+              href="#"
+            >
+              «
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to previous page"
+              class="page-link"
+              href="#"
+            >
+              ⟨
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to next page"
+              class="page-link"
+              href="#"
+            >
+              ⟩
+            </a>
+          </li>
+          <li
+            class="page-item disabled"
+          >
+            <a
+              aria-label="Go to last page"
+              class="page-link"
+              href="#"
+            >
+              »
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;

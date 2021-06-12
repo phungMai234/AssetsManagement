@@ -2,24 +2,30 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   table {
-    table-layout: fixed;
+    /* table-layout: fixed; */
 
-    .index,
+    /* .index,
     .amount {
-      width: 7%;
+      width: 5%;
     }
 
     .import_date {
-      width: 8%;
+      width: 10%;
     }
 
-    .picture,
-    .image,
+    .picture {
+      width: 8%;
+    }
+    .image {
+      width: 8%;
+    }
     .price_each {
       width: 10%;
     }
 
-    .model_number,
+    .model_number {
+      width: 13%;
+    }
     .serial_number {
       width: 15%;
     }
@@ -27,7 +33,22 @@ const Wrapper = styled.div`
     .name {
       width: 20%;
     }
+    .group-button-action {
+      width: 20%;
+    } */
 
+    .td-group-button-action {
+      div {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      width: 125px;
+    }
+    .button-action {
+      margin-top: 5px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
     th {
       text-align: center;
       vertical-align: middle;

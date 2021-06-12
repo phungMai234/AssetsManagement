@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<div>
+  <div
+    class="sc-bdfBwQ kFALVl wrapper-title"
+  >
+    <label
+      class="default-title"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render correctly with required 1`] = `
+<div>
+  <div
+    class="sc-bdfBwQ kFALVl wrapper-title"
+  >
+    <label
+      class="default-title"
+    >
+      <sup
+        class="operator-require"
+      >
+        *
+      </sup>
+    </label>
+  </div>
+</div>
+`;

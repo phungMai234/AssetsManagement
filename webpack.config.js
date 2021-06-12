@@ -59,6 +59,6 @@ module.exports = {
       template: 'index.html',
       inlineSource: '.(js|css)$',
     }),
-    //new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+    new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
   ],
 };
