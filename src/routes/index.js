@@ -2,7 +2,6 @@ import React from 'react';
 
 import LayoutPage from 'components/LayoutPage';
 import CategoriesPage from 'containers/Categories';
-import LecturesManagementListPage, { DetailLecturers } from 'containers/LecturesManagement';
 import { ItemListPage, ItemDetailPage, ItemNewPage, ItemEditPage } from 'containers/Item';
 import {
   DeliveryReportsListPage,
@@ -12,7 +11,7 @@ import {
 } from 'containers/DeliveryReports';
 import Login from 'containers/Login';
 import PasswordReset from 'containers/PasswordReset';
-import HomePage from 'containers/HomePage';
+
 import { DeliveryReportContextProvider } from 'contexts/DeliveryReportContext';
 
 export default [
@@ -29,36 +28,6 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/manual',
-    component: (
-      <LayoutPage>
-        <HomePage />
-      </LayoutPage>
-    ),
-    exact: true,
-    authentication: false,
-  },
-  {
-    path: '/dashboard/lectures',
-    component: (
-      <LayoutPage>
-        <LecturesManagementListPage />
-      </LayoutPage>
-    ),
-    exact: true,
-    authentication: false,
-  },
-  {
-    path: '/dashboard/lectures/:id/detail',
-    component: (
-      <LayoutPage>
-        <DetailLecturers />
-      </LayoutPage>
-    ),
-    exact: true,
-    authentication: false,
-  },
-  {
     path: '/dashboard/categories',
     component: (
       <LayoutPage>
@@ -69,7 +38,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/assets',
+    path: '/dashboard/devices',
     component: (
       <LayoutPage>
         <ItemListPage />
@@ -79,7 +48,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/assets/new',
+    path: '/dashboard/devices/new',
     component: (
       <LayoutPage>
         <ItemNewPage />
@@ -89,7 +58,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/assets/:id/detail',
+    path: '/dashboard/devices/:id/detail',
     component: (
       <LayoutPage>
         <ItemDetailPage />
@@ -99,7 +68,7 @@ export default [
     authentication: false,
   },
   {
-    path: '/dashboard/assets/:id/edit',
+    path: '/dashboard/devices/:id/edit',
     component: (
       <LayoutPage>
         <ItemEditPage />
@@ -133,11 +102,9 @@ export default [
   {
     path: '/dashboard/delivery_reports/:id/edit',
     component: (
-      <DeliveryReportContextProvider>
-        <LayoutPage>
-          <DeliveryReportsEditPage />
-        </LayoutPage>
-      </DeliveryReportContextProvider>
+      <LayoutPage>
+        <DeliveryReportsEditPage />
+      </LayoutPage>
     ),
     exact: true,
     authentication: false,

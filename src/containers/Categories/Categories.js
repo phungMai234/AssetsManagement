@@ -6,7 +6,7 @@ import Wrapper from './Categories.style';
 import TablePaginationData from 'components/TablePaginationData';
 import NewPage from './NewPage';
 import EditPage from './EditPage';
-import { Plus, Edit3, Trash2, AlertTriangle } from 'react-feather';
+import { Plus, Edit3, Trash2 } from 'react-feather';
 import { useQuery } from 'hooks/useQuery';
 import useDelete from 'hooks/useDelete';
 
@@ -113,10 +113,12 @@ export default function Categories() {
           <>
             <span
               style={{
-                paddingRight: '5px',
+                color: '#dc3545',
+                fontSize: '30px',
+                paddingRight: '10px',
               }}
             >
-              <AlertTriangle size={50} fill={'#dc3545'} stroke="#fff" />
+              <i className="fas fa-exclamation-triangle"></i>
             </span>
             <span>Bạn có chắc chắn muốn xóa?</span>
           </>

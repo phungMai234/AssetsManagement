@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 
   .wrapper-detail {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 
     .wrapper-info {
       width: 50%;
@@ -46,8 +46,6 @@ const Wrapper = styled.div`
   }
   .wrapper-image {
     width: 50%;
-    /* display: flex;
-    justify-content: center; */
 
     .image-slider {
       height: 400px;

@@ -136,7 +136,6 @@ const ModalChangePassword = ({ onClose }) => {
             </Button>
             <Button
               type="submit"
-              size="sm"
               variant="primary"
               onClick={() => {
                 handleSubmit();

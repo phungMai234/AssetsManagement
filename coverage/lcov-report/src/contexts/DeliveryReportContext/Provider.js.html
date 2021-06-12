@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -101,23 +101,21 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -125,8 +123,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,38 +163,45 @@
 &nbsp;
 import { useQuery } from 'hooks/useQuery';
 import DeliveryReportContext from './Context';
+import { mergeParentToChild, mergeChildToParent } from 'utils/restructureData';
 &nbsp;
 const Provider = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> children }) =&gt; {</span>
   const { data: orders, loading: loadingOrders } = <span class="cstat-no" title="statement not covered" >useQuery({ url: 'orders' });</span>
-  const { data: devices, loading: loadingDevices } = <span class="cstat-no" title="statement not covered" >useQuery({ url: 'assets' });</span>
+  const { data: orderDetails, loading: loadingOrderDetail } = <span class="cstat-no" title="statement not covered" >useQuery({ url: 'orderDetails' });</span>
+  const { data: devices, loading: loadingDevices } = <span class="cstat-no" title="statement not covered" >useQuery({ url: 'devices' });</span>
 &nbsp;
   const restructureData = <span class="cstat-no" title="statement not covered" >useMemo(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (loadingOrders || loadingDevices) {</span>
+<span class="cstat-no" title="statement not covered" >    if (loadingOrders || loadingOrderDetail || loadingDevices) {</span>
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!orders.length || !devices.length) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!orders.length || !orderDetails.length || !devices.length) {</span>
 <span class="cstat-no" title="statement not covered" >      return [];</span>
     }
-    const data = <span class="cstat-no" title="statement not covered" >orders.map(<span class="fstat-no" title="function not covered" >(o</span>rder) =&gt; {</span>
-      const { orderDetails } = <span class="cstat-no" title="statement not covered" >order;</span>
 &nbsp;
-      const listOrder = <span class="cstat-no" title="statement not covered" >orderDetails.map(<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {</span>
-        const item = <span class="cstat-no" title="statement not covered" >devices.find(<span class="fstat-no" title="function not covered" >(d</span>evice) =&gt; <span class="cstat-no" title="statement not covered" >device.id === e.id)</span>;</span>
-<span class="cstat-no" title="statement not covered" >        return { ...item, ...e };</span>
-      });
-<span class="cstat-no" title="statement not covered" >      delete order.orderDetails;</span>
-<span class="cstat-no" title="statement not covered" >      return { ...order, order_details: [...listOrder] };</span>
+    let data = <span class="cstat-no" title="statement not covered" >mergeParentToChild({</span>
+      parents: orderDetails,
+      childs: devices,
+      parentKey: 'id_device',
+      childKey: 'id',
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    data = mergeChildToParent({</span>
+      parents: orders,
+      childs: data,
+      parentKey: 'id',
+      childKey: 'id_order',
+      childName: 'order_details',
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return data;</span>
-  }, [devices, loadingDevices, loadingOrders, orders]);
+  }, [devices, loadingDevices, loadingOrderDetail, loadingOrders, orderDetails, orders]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;DeliveryReportContext.Provider
       value={{
         data: restructureData,
-        loading: loadingOrders || loadingDevices,
+        loading: loadingOrders || loadingOrderDetail || loadingDevices,
       }}
     &gt;
       {children}
@@ -196,7 +217,7 @@ export default Provider;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Jun 01 2021 22:09:37 GMT+0700 (Indochina Time)
+                at Thu May 06 2021 06:51:22 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

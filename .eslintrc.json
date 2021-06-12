@@ -3,11 +3,6 @@
     "browser": true,
     "es2021": true
   },
-  "settings": {
-    "import/resolver": {
-      "alias": [["@components", "./src/components"]]
-    }
-  },
   "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
   "parserOptions": {
     "ecmaFeatures": {

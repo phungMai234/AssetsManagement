@@ -13,20 +13,6 @@ const Wrapper = styled.div`
       word-wrap: break-word;
     }
   }
-
-  .td-group-button-action {
-    div {
-      display: flex;
-      flex-wrap: wrap;
-      cursor: pointer;
-    }
-    width: 125px;
-  }
-  .button-action {
-    margin-top: 5px;
-    font-size: 12px;
-    margin-left: 15px;
-  }
   margin: 5px;
   .row {
     margin-bottom: 20px;

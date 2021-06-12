@@ -4,17 +4,14 @@ import { useCallback, useState } from 'react';
 
 import { useField } from 'formik';
 import { storage } from 'database';
-import useAlert from 'hooks/useAlert';
 
-export default function useUploadFiles({ name, setSubmitting }) {
+export default function useUploadFiles({ name }) {
   const [{ value }, , { setValue }] = useField({ name });
   const [loading, setLoading] = useState(false);
-  const { setAlert } = useAlert();
 
   const uploadFile = useCallback(
     (file) => {
       setLoading(true);
-      setSubmitting(true);
       var metadata = {
         contentType: 'application/pdf',
       };
@@ -30,18 +27,17 @@ export default function useUploadFiles({ name, setSubmitting }) {
           console.log('Upload is ' + progress + '% done');
         },
         (error) => {
-          !!error && setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+          console.log('error: ', error);
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
             setValue([...value, { name: file.name, url: downloadURL }]);
             setLoading(false);
-            setSubmitting(false);
           });
         },
       );
     },
-    [setAlert, setSubmitting, setValue, value],
+    [setValue, value],
   );
 
   return [uploadFile, { loading }];

@@ -1,30 +1,21 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import FormContainer from '../FormContainer';
 import { useParams } from 'react-router-dom';
+import useGetDetail from 'hooks/useGetDetail';
 import Loading from 'components/Loading';
-import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
+import { useGetDetailReport } from 'hooks/useGetDetailReport';
 
 const EditPage = () => {
   const { id } = useParams();
 
-  const { data, loading } = useContext(DeliveryReportContext);
+  const { data, loading } = useGetDetail({ nameCollection: 'orders', id: id });
+  const { dataOrderDetail, loading: loadingOrderDetail } = useGetDetailReport({ id: id });
 
-  const restructureData = useMemo(() => {
-    if (loading) {
-      return {};
-    }
-
-    let order = data.find((e) => e.id === id);
-
-    return order;
-  }, [data, id, loading]);
-
-  if (loading || !data) {
+  if (loading || loadingOrderDetail) {
     return <Loading />;
   }
-
-  return <FormContainer data={{ ...restructureData, orderDetails: restructureData?.order_details }} />;
+  return <FormContainer data={{ ...data, orderDetails: dataOrderDetail, id: id }} />;
 };
 
 export default EditPage;

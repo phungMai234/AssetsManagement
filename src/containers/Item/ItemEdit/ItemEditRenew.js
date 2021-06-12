@@ -1,34 +1,23 @@
 import React from 'react';
 import { Button, Row, Col, Form, Container } from 'react-bootstrap';
 
-import DatePickerInput from 'components/DatePickerInput';
+import DatePickerInput from '../../../components/DatePickerInput';
 import Wrapper from './ItemEdit.style';
-import Label from 'components/Label';
+import Label from '../../../components/Label';
 import { useQuery } from 'hooks/useQuery';
 import Loading from 'components/Loading';
 import PhotoUpload from 'components/PhotoUploadRenew';
 import BreadCrumb from 'components/BreadCrumb';
 import ClearButton from 'components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
-import { UNIT_LIST } from 'utils/constant';
 
-const ItemEdit = ({
-  isEdit,
-  values,
-  errors,
-  setFieldValue,
-  setSubmitting,
-  handleChange,
-  handleSubmit,
-  touched,
-  isSubmitting,
-}) => {
+const ItemEdit = ({ isEdit, values, errors, setFieldValue, handleChange, handleSubmit, touched, isSubmitting }) => {
   const { data: dataCate, loading } = useQuery({ url: 'categories' });
 
   const breadcrumb = [
     {
-      url: '/dashboard/assets',
-      title: 'Danh sách tài sản',
+      url: '/dashboard/devices',
+      title: 'Danh sách các thiết bị',
     },
     {
       url: '',
@@ -50,9 +39,18 @@ const ItemEdit = ({
 
       <Form onSubmit={handleSubmit}>
         <Row>
+          <Form.Group as={Col} md="12" className="wrapper-button">
+            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
+              {isEdit ? <Edit3 size={20} /> : <Plus size={20} />}
+              <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
+            </Button>
+          </Form.Group>
+        </Row>
+
+        <Row>
           <Form.Group as={Col} md="6">
             <Form.Label>
-              <Label>Model</Label>
+              <Label>Số kiểu(P/N)</Label>
             </Form.Label>
             <Form.Control
               type="text"
@@ -86,7 +84,7 @@ const ItemEdit = ({
           </Form.Group>
         </Row>
         <Row>
-          <Form.Group as={Col} md="12">
+          <Form.Group as={Col} md="8">
             <Form.Label>
               <Label isRequired>Tên</Label>
             </Form.Label>
@@ -103,9 +101,7 @@ const ItemEdit = ({
 
             <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
           </Form.Group>
-        </Row>
 
-        <Row>
           <Form.Group as={Col} md="4">
             <Form.Label>
               <Label isRequired>Loại tài sản</Label>
@@ -127,6 +123,9 @@ const ItemEdit = ({
             </Form.Control>
             <Form.Control.Feedback type="invalid">{errors.id_category}</Form.Control.Feedback>
           </Form.Group>
+        </Row>
+
+        <Row>
           <Col md={4} className={touched.purchase_date && errors.purchase_date ? 'has-error' : ''}>
             <Form.Label>
               <Label isRequired>Ngày mua</Label>
@@ -144,70 +143,9 @@ const ItemEdit = ({
             />
             {!!errors.purchase_date && !!touched.purchase_date && <p className="error">{errors.purchase_date}</p>}
           </Col>
-
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="8">
             <Form.Label>
-              <Label>Tình trạng sử dụng</Label>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="status"
-              value={values.status}
-              onChange={handleChange}
-              disabled
-              isInvalid={touched.status && !!errors.status}
-            />
-            {/* {!!values.status && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('status', '')} />
-              )} */}
-
-            {/* <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback> */}
-          </Form.Group>
-        </Row>
-
-        <Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              <Label isRequired>Đơn vị</Label>
-            </Form.Label>
-            <Form.Control
-              name="unit"
-              onChange={(e) => setFieldValue('unit', e.target.value)}
-              as="select"
-              isInvalid={!!errors.unit && !!touched.unit}
-            >
-              <option key="" value="">
-                Chọn 1 loại đơn vị
-              </option>
-              {(UNIT_LIST || []).map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </Form.Control>
-            <Form.Control.Feedback type="invalid">{errors.unit}</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              <Label isRequired>Giá tài sản (vnđ)</Label>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="price_each"
-              value={values.price_each}
-              onChange={handleChange}
-              isInvalid={touched.price_each && !!errors.price_each}
-            />
-            {!!values.price_each && (
-              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('price_each', '')} />
-            )}
-
-            <Form.Control.Feedback type="invalid">{errors.price_each}</Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              <Label>Tình trạng hiện tại</Label>
+              <Label>Tình trạng</Label>
             </Form.Label>
             <Form.Control
               type="text"
@@ -221,6 +159,60 @@ const ItemEdit = ({
             )}
 
             <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+
+        <Row>
+          <Form.Group as={Col} md="4">
+            <Form.Label>
+              <Label isRequired>Số lượng</Label>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="amount"
+              value={values.amount}
+              onChange={handleChange}
+              isInvalid={touched.amount && !!errors.amount}
+            />
+            {!!values.amount && (
+              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('amount', '')} />
+            )}
+
+            <Form.Control.Feedback type="invalid">{errors.amount}</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="4">
+            <Form.Label>
+              <Label>Đơn vị</Label>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="unit"
+              value={values.unit}
+              onChange={handleChange}
+              isInvalid={touched.unit && !!errors.unit}
+            />
+            {!!values.unit && (
+              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('unit', '')} />
+            )}
+
+            <Form.Control.Feedback type="invalid">{errors.unit}</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="4">
+            <Form.Label>
+              <Label isRequired>Đơn giá</Label>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="price_each"
+              value={values.price_each}
+              onChange={handleChange}
+              isInvalid={touched.price_each && !!errors.price_each}
+            />
+            {!!values.price_each && (
+              <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('price_each', '')} />
+            )}
+
+            <Form.Control.Feedback type="invalid">{errors.price_each}</Form.Control.Feedback>
           </Form.Group>
         </Row>
 
@@ -248,19 +240,13 @@ const ItemEdit = ({
 
         <Row>
           <Form.Group as={Col} md="12">
-            <PhotoUpload name="image_detail" setSubmitting={setSubmitting} />
+            <PhotoUpload name="image_detail" />
           </Form.Group>
         </Row>
 
         <Row>
           <Form.Group as={Col} md="12" className="wrapper-button">
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              variant={isEdit ? 'info' : 'success'}
-              className="btn-add"
-              size="sm"
-            >
+            <Button type="submit" variant={isEdit ? 'info' : 'success'} className="btn-add" size="sm">
               {isEdit ? <Edit3 size={20} /> : <Plus size={20} />}
               <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
             </Button>

@@ -20,7 +20,7 @@ const ModalAddCategory = ({
 }) => {
   return (
     <WrapperModal centered onHide={onHide} show {...props} backdrop="static">
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>{isEdit ? 'Chỉnh sửa loại tài sản ' : 'Thêm mới loại tài sản'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>

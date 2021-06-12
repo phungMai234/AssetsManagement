@@ -26,7 +26,7 @@ function Header() {
 
   return (
     <>
-      <Link href="/dashboard/categories" className="header-left">
+      <Link href="/" className="header-left">
         <img
           src="https://firebasestorage.googleapis.com/v0/b/assetsmanagementfirebase.appspot.com/o/images%2Flogo2_new.png?alt=media&token=338cbb32-2c47-4945-bfcd-081bf460eb54"
           alt="logo"
@@ -47,11 +47,11 @@ function Header() {
         >
           <Dropdown.Item eventKey="1" onClick={() => setModalChangePass(true)}>
             <Lock size={15} />
-            Thay đổi mật khẩu
+            Change password
           </Dropdown.Item>
           <Dropdown.Item eventKey="2" onClick={logout}>
             <LogOut size={15} />
-            Đăng xuất
+            Log out
           </Dropdown.Item>
         </DropdownButton>
         {modalChangePass && <ModalChangePassword onClose={setModalChangePass} />}

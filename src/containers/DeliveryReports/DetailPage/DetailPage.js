@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useContext } from 'react';
 import { isEmpty } from 'lodash';
 import { Row, Col, Button, Table } from 'react-bootstrap';
-import { Trash2, Edit, Printer, FileText, AlertTriangle } from 'react-feather';
-import { useParams, useHistory } from 'react-router-dom';
+import { Trash2, Edit, Printer, FileText, ExternalLink } from 'react-feather';
+import { useParams, useHistory, Link } from 'react-router-dom';
 
+import { DeliveryReportContext } from 'contexts/DeliveryReportContext';
 import { formatDateToString } from 'utils/helper';
 import BaseModal from 'components/BaseModal';
 import BreadCrumb from 'components/BreadCrumb';
@@ -13,60 +14,65 @@ import genHtmlTemplate from '../Printer/genHtmlTemplate';
 import Wrapper from './DetailPage.styles';
 import useDeleteDeliveryReport from 'hooks/useDeleteDeliveryReport';
 import StatusBorrow from 'components/StatusBorrow';
-import useGetDetail from 'hooks/useGetDetail';
 
 const DetailPage = () => {
   const { id } = useParams();
   const history = useHistory();
-  const { data: dataOrder, loadingOrder } = useGetDetail({ nameCollection: 'orders', id });
+  const { data, loading } = useContext(DeliveryReportContext);
   const [modalConfirm, setShowModalConfirm] = useState(false);
 
   const restructureData = useMemo(() => {
-    if (loadingOrder) {
+    if (loading) {
       return {};
     }
 
-    return dataOrder;
-  }, [dataOrder, loadingOrder]);
+    let order = data.find((e) => e.id === id);
+
+    return order;
+  }, [data, id, loading]);
 
   const [remove] = useDeleteDeliveryReport({
     id: id,
-    data: restructureData || [],
+    orderDetails: restructureData?.order_details || [],
     callback: () => {
       history.push('/dashboard/delivery_reports');
     },
   });
 
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructureData.orderDetails, data: restructureData });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [] });
     const w = window.open();
     w.document.write(printContents);
-    //w.print();
+    setTimeout(() => {
+      w.print();
+      w.close();
+    }, 30000);
   }, [restructureData]);
 
   const breadcrumb = [
     {
       url: '/dashboard/delivery_reports',
-      title: 'Danh sách biên bản bàn giao',
+      title: 'Danh sách các biên bản bàn giao',
     },
     {
       url: `/dashboard/delivery_reports/${id}/detail`,
       title: 'Chi tiết',
     },
   ];
-
-  if (loadingOrder || isEmpty(restructureData)) {
+  if (loading || isEmpty(restructureData)) {
     return <Loading />;
   }
 
   return (
     <Wrapper>
       <BreadCrumb breadcrumb={breadcrumb} />
+
       <div className="group-btn-action">
         <Button variant="danger" size="sm" onClick={() => setShowModalConfirm(true)}>
           <Trash2 size={20} />
         </Button>
-        <Button variant="secondary" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
+        <Button variant="light" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
+          <Printer size={20} />
           In biên bản
         </Button>
         <Button
@@ -85,7 +91,7 @@ const DetailPage = () => {
           <Label>Người mượn: </Label>
         </Col>
         <Col md={6}>
-          <div className="item-value">{restructureData?.user_name?.label}</div>
+          <div className="item-value">{restructureData?.user_name}</div>
         </Col>
       </Row>
       <Row className="info-item">
@@ -114,7 +120,7 @@ const DetailPage = () => {
       </Row>
       <Row>
         <Col md={3}>
-          <Label>Tệp đính kèm: </Label>
+          <Label>Biên bản giao nhận: </Label>
         </Col>
       </Row>
       <Row className="info-item">
@@ -142,52 +148,47 @@ const DetailPage = () => {
             <thead>
               <tr>
                 <th>STT</th>
-                <th>Model</th>
+                <th>Số kiểu</th>
+                <th>Số seri</th>
                 <th>Tên</th>
-                <th>Danh sách Seri</th>
                 <th>Số lượng</th>
                 <th>Đơn vị</th>
+                <th>Tình trạng</th>
               </tr>
             </thead>
             <tbody>
-              {!restructureData.orderDetails && (
+              {!restructureData.order_details && (
                 <tr>
-                  <td colSpan={6} className="td-no-result">
-                    Không có dữ liễu để hiển thị
-                  </td>
+                  <td colSpan={6}>Không có dữ liễu để hiển thị</td>
                 </tr>
               )}
-              {!!restructureData.orderDetails &&
-                restructureData?.orderDetails.map((e, index) => (
+              {!!restructureData.order_details &&
+                restructureData?.order_details.map((e, index) => (
                   <tr key={index}>
-                    <td className="td-index">{index + 1}</td>
-                    <td>{e.device_info.label}</td>
-                    <td className="td-name">{e.device_info.value.name}</td>
-                    <td>
-                      {e.listSeri.map((item) => (
-                        <div key={item}>{item}</div>
-                      ))}
+                    <td>{index + 1}</td>
+                    <td>{e.model_number}</td>
+                    <td>{e.serial_number}</td>
+                    <td className="td-name">
+                      <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
+                        {e.name}
+                        <ExternalLink size={20} />
+                      </Link>
                     </td>
-                    <td className="td-amount">{e.amount}</td>
-                    <td className="td-unit">{e.device_info.value.unit}</td>
+                    <td>{e.quantity_ordered}</td>
+                    <td>{e.unit}</td>
+                    <td>{e.current_status}</td>
                   </tr>
                 ))}
-              <tr>
-                <td className="td-unit" colSpan={4}>
-                  Tổng
-                </td>
-                <td className="td-unit">{restructureData?.total_amount || 0}</td>
-                <td />
-                <td />
-              </tr>
             </tbody>
           </Table>
         </Col>
       </Row>
       <Row className="info-item">
-        <Col md={12}>
+        <Col md={2}>
           <Label>Ghi chú: </Label>
-          <textarea rows={2} className="detail-memo" defaultValue={restructureData?.note} />
+        </Col>
+        <Col md={6}>
+          <div className="item-value">{restructureData?.note}</div>
         </Col>
       </Row>
 
@@ -205,10 +206,12 @@ const DetailPage = () => {
           <>
             <span
               style={{
-                paddingRight: '5px',
+                color: '#dc3545',
+                fontSize: '30px',
+                paddingRight: '10px',
               }}
             >
-              <AlertTriangle size={50} fill={'#dc3545'} stroke="#fff" />
+              <Trash2 size={20} />
             </span>
             <span>Bạn có chắc chắn muốn xóa?</span>
           </>

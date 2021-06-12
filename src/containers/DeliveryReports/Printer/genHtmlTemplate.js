@@ -1,4 +1,4 @@
-export default ({ dataDevices, data }) => `
+export default ({ dataDevices }) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -75,8 +75,6 @@ export default ({ dataDevices, data }) => `
 
       td {
         text-align: center;
-        vertical-align: middle;
-        padding: 5px 10px;
       }
 
       .group-sign {
@@ -97,10 +95,6 @@ export default ({ dataDevices, data }) => `
         font-style: italic;
         font-size: 12px;
       }
-
-      .td-name{
-        text-align: left;
-      }
     </style>
   </head>
   <body>
@@ -119,15 +113,16 @@ export default ({ dataDevices, data }) => `
 
     <h2>BIÊN BẢN BÀN GIAO TÀI LIỆU, THIẾT BỊ</h2>
 
-    <div>Hôm nay, ngày ${new Date().getDate()} tháng ${
-  new Date().getMonth() + 1
-} năm ${new Date().getFullYear()}, tại ...........................................chúng tôi gồm có:</div>
+    <div>Hôm nay, ngày ... tháng ... năm ...., tại .......................... chúng tôi gồm có:</div>
 
     <div class="group-info">
       <div class="index">I. Bên giao</div>
       <div class="info">
         <p>
-         Phòng/Bộ phân: Khoa Công nghệ thông tin
+          Ông/bà:....................................................................................................................................................................................
+        </p>
+        <p>
+          Chức danh:............................ Phòng/Bộ phân:.....................................................................................................................
         </p>
       </div>
     </div>
@@ -135,7 +130,7 @@ export default ({ dataDevices, data }) => `
       <div class="index">II. Bên nhận</div>
       <div class="info">
         <p>
-          Ông/bà:${data.user_name.label}
+          Ông/bà:....................................................................................................................................................................................
         </p>
         <p>
         Chức danh:............................ Phòng/Bộ phân:.....................................................................................................................
@@ -148,9 +143,9 @@ export default ({ dataDevices, data }) => `
     <thead>
       <tr>
         <th>STT</th>
-        <th>Model</th>
+        <th>Số kiểu(P/N)</th>
+        <th>Số seri(S/N)</th>
         <th>Tên tài sản</th>
-        <th>Danh sách Số seri(S/N)</th>
         <th>Số lượng</th>
         <th>Đơn vị</th>
         <th>Tình trạng</th>
@@ -161,22 +156,14 @@ export default ({ dataDevices, data }) => `
         (item, index) =>
           ` <tr>
           <td>${index + 1}</td>
-          <td class="td-name">${item.device_info.value.model_number}</td>
-          <td class="td-name">${item.device_info.value.name}</td>
-          <td class="td-name">
-            ${item.listSeri.map((item) => `<div key=${item}>${item}</div>`)}
-          </td>
-          <td>${item.amount}</td>         
-          <td>${item.device_info.value.unit}</td>
-            <td>${item.device_info.value.current_status}</td>
-          </tr>`,
+          <td>${item.model_number}</td>
+          <td>${item.serial_number}</td>
+          <td>${item.name}</td>
+          <td>${item.amount}</td>
+          <td>${item.unit}</td>
+          <td>${item.current_status}</td>
+        </tr>`,
       )}
-      <tr>
-        <td colspan="4">Tổng</td>
-        <td>${data.total_amount}</td>
-        <td />
-        <td />
-      </tr>
       </tbody>
      
     </table>

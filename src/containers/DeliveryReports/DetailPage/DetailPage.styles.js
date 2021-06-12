@@ -6,29 +6,14 @@ const Wrapper = styled.div`
       text-align: center;
     }
     td {
-      text-align: left;
-      vertical-align: middle;
-    }
-
-    .td-index {
       text-align: center;
     }
 
-    .td-amount {
-      text-align: center;
-    }
-
-    .td-unit {
-      text-align: center;
-    }
     .td-name {
       a {
         display: flex;
         align-items: center;
       }
-    }
-    .td-no-result {
-      text-align: center;
     }
   }
 
@@ -81,32 +66,6 @@ const Wrapper = styled.div`
   .image-slider {
     height: 400px;
     width: 400px;
-  }
-
-  textarea {
-    padding: 10px;
-    box-sizing: border-box;
-    color: #707070;
-    width: 100%;
-    border-radius: 3px;
-    background: #f5f5f5;
-    border: 1px solid #b9b9b9;
-    font-size: 15px;
-    -webkit-appearance: none;
-    color: #707070;
-    @media (max-width: 768px) {
-      margin-left: 0;
-    }
-    &:focus {
-      outline: none;
-      border-color: unset;
-      box-shadow: none;
-    }
-  }
-
-  .detail-memo {
-    border: none !important;
-    resize: none;
   }
 `;
 export default Wrapper;
