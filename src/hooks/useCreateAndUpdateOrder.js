@@ -35,8 +35,10 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
 
       if (data) {
         let statusOrder = IN_USE;
+        let user_name = formatValues.user_name;
         if (cloneValues.status === CLOSED) {
           statusOrder = FREE;
+          user_name = '';
         }
         db.collection('orders')
           .doc(data?.id)
@@ -45,7 +47,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
             formatOrderDetails.map((e) => {
               db.collection('assets')
                 .doc(e.id)
-                .update({ status: statusOrder, user_name: formatValues?.user_name })
+                .update({ status: statusOrder, user_name: user_name })
                 .then(() => {})
                 .catch(() => {
                   setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });

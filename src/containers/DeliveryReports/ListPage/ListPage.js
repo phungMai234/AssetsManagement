@@ -81,18 +81,7 @@ const ListPage = () => {
           </Button>
         </div>
       ),
-      report_file:
-        !!record.files && record.files.length ? (
-          <div>
-            {record.files.map((e) => (
-              <a href={e.url} key={e} target="_blank" rel="noreferrer">
-                <FileText className="file-text" />
-              </a>
-            ))}
-          </div>
-        ) : (
-          '-'
-        ),
+      report_file: !!record.files && record.files.length ? <FileText className="file-text" /> : '-',
     }));
   }, [recordItems, history]);
 

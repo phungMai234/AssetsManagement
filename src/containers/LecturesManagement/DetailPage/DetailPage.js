@@ -60,8 +60,8 @@ const DetailPage = () => {
             field: 'index',
           },
           {
-            name: 'Model',
-            field: 'model_number',
+            name: 'Mã tài sản',
+            field: 'serial_number',
           },
           {
             name: 'Tên',

@@ -12,7 +12,7 @@ export const BORROWING_TEXT = 'Đang mượn';
 export const CLOSED = 'closed';
 export const CLOSED_TEXT = 'Đã trả';
 
-export const FREE = 'Không sử dụng';
+export const FREE = 'Chưa sử dụng';
 export const IN_USE = 'Đang sử dụng';
 
 export const LIST_STATUS = [
