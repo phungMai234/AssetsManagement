@@ -73,5 +73,14 @@ const Wrapper = styled.div`
     font-size: 14px;
     height: 38px;
   }
+
+  .wrapper-btn-action {
+    display: flex;
+    flex-wrap: wrap;
+
+    .btn-edit {
+      margin-left: 15px;
+    }
+  }
 `;
 export default Wrapper;

@@ -12,7 +12,7 @@ export const formatDateToString = (seconds) => {
 
   const dateObject = new Date(milliseconds);
 
-  return format(dateObject, 'dd/MM/yyyy');
+  return format(dateObject, 'd/M/yyyy');
 };
 
 export const formatDateToString2 = (seconds) => {
@@ -22,7 +22,7 @@ export const formatDateToString2 = (seconds) => {
 
   const dateObject = new Date(milliseconds);
 
-  return format(dateObject, 'yyyy/MM/dd');
+  return format(dateObject, 'yyyy/M/d');
 };
 
 export const getUtcTime = (seconds) => {

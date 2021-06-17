@@ -17,13 +17,18 @@ const Wrapper = styled.div`
       width: 20%;
     }
     .note {
-      width: 30%;
+      width: 20%;
     }
-    .edit_row,
+    .edit_row {
+      width: 13%;
+    }
     .delete_row {
-      width: 5%;
+      width: 7%;
     }
-
+    .td-delete_row,
+    .td-edit_row {
+      text-align: center;
+    }
     .no-result {
       text-align: center;
     }

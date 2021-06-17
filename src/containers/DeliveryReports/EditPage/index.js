@@ -24,7 +24,15 @@ const EditPage = () => {
     return <Loading />;
   }
 
-  return <FormContainer data={{ ...restructureData, orderDetails: restructureData?.order_details }} />;
+  return (
+    <FormContainer
+      data={{
+        ...restructureData,
+        user_name: { name: restructureData?.user_name, label: restructureData?.user_name },
+        orderDetails: restructureData?.order_details,
+      }}
+    />
+  );
 };
 
 export default EditPage;

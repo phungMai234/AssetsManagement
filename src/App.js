@@ -25,6 +25,7 @@ const App = () => {
     });
   }, [currentUser]);
 
+  console.log({ currentUser });
   return (
     <Switch>
       {(routes || []).map((route, index) => {

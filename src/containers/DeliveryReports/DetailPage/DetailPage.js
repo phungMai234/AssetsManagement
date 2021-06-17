@@ -40,7 +40,7 @@ const DetailPage = () => {
   });
 
   const pdfGenerator = useCallback(() => {
-    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [] });
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [], data: restructureData });
     const w = window.open();
     w.document.write(printContents);
     setTimeout(() => {
@@ -71,16 +71,14 @@ const DetailPage = () => {
           <Trash2 size={20} />
         </Button>
         <Button variant="light" className="btn-print" size="sm" onClick={() => pdfGenerator()}>
-          <Printer size={20} />
           In biên bản
         </Button>
         <Button
           size="sm"
-          variant="info"
+          variant="secondary"
           className="btn-edit"
           onClick={() => history.push(`/dashboard/delivery_reports/${id}/edit`)}
         >
-          <Edit size={15} />
           Chỉnh sửa
         </Button>
       </div>
@@ -148,11 +146,10 @@ const DetailPage = () => {
               <tr>
                 <th>STT</th>
                 <th>Model</th>
-                <th>Số seri</th>
+                <th>Mã số tài sản</th>
                 <th>Tên</th>
                 <th>Số lượng</th>
                 <th>Đơn vị</th>
-                <th>Tình trạng</th>
               </tr>
             </thead>
             <tbody>
@@ -168,20 +165,18 @@ const DetailPage = () => {
                     <td>{e.model_number}</td>
                     <td>{e.serial_number}</td>
                     <td className="td-name">
-                      <Link to={`/dashboard/devices/${e.id_device}/detail`} target="_blank">
+                      <Link to={`/dashboard/assets/${e.id}/detail`} target="_blank">
                         {e.name}
                         <ExternalLink size={20} />
                       </Link>
                     </td>
                     <td>1</td>
                     <td>{e.unit}</td>
-                    <td>{e.status_order}</td>
                   </tr>
                 ))}
               <tr>
                 <td colSpan={4}>Tổng</td>
                 <td>{restructureData?.order_details.length}</td>
-                <td />
                 <td />
               </tr>
             </tbody>

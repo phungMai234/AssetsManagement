@@ -6,7 +6,7 @@ import useImportFile from 'hooks/useImportFile';
 import { useQuery } from 'hooks/useQuery';
 import { getIdCategory } from 'utils/helper';
 import Wrapper from './ModalImportFile.styles';
-import { FREE, IN_USE } from 'utils/constant';
+import { STATUS_LIST } from 'utils/constant';
 
 const ModalImportFile = ({ onCancel }) => {
   const [importData, setImportData] = useState([]);
@@ -19,11 +19,11 @@ const ModalImportFile = ({ onCancel }) => {
       required: true,
       type: Date,
     },
-    Tên: {
+    'Tên thiết bị': {
       prop: 'name',
       required: true,
     },
-    'Số seri (S/N)': {
+    'Mã tài sản': {
       prop: 'serial_number',
       required: true,
     },
@@ -34,14 +34,15 @@ const ModalImportFile = ({ onCancel }) => {
     'Mô tả': {
       prop: 'description',
     },
-    'Tình trạng sử dụng': { prop: 'status', required: true, oneOf: [FREE, IN_USE] },
-    'Tình trạng hiện tại': { prop: 'current_status' },
+    'Tình trạng hiện nay': { prop: 'status', required: true, oneOf: STATUS_LIST },
     'Loại tài sản': {
       prop: 'id_category',
       required: true,
     },
-    'Đơn vị': { prop: 'unit' },
-    'Giá (vnđ)': { prop: 'price_each', required: true },
+    'Đơn vị tính': { prop: 'unit' },
+    'Nguyên giá (VNĐ)': { prop: 'original_price' },
+    'Giá trị còn lại (VNĐ)': { prop: 'real_price' },
+    'Nơi sản xuất': { prop: 'origin' },
   };
 
   const handleUploadFile = useCallback(

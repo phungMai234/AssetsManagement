@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import { FileText, Home, Database } from 'react-feather';
+import { FileText, Home, Database, User } from 'react-feather';
 
 import './menu.css';
 
@@ -12,6 +12,15 @@ function Menu() {
     <ul className="nav flex-column nav-pills nav-fill nav-menu">
       <li className="nav-item">
         <Link
+          className={`nav-link ${activeRoute.match(/\/dashboard\/lectures/) ? 'active' : ''}`}
+          to={'/dashboard/lectures'}
+        >
+          <User size={20} />
+          <span>Quản lý danh sách cán bộ</span>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link
           className={`nav-link ${activeRoute.match(/\/dashboard\/categories/) ? 'active' : ''}`}
           to={'/dashboard/categories'}
         >
@@ -19,6 +28,7 @@ function Menu() {
           <span>Quản lý các loại tài sản</span>
         </Link>
       </li>
+
       <li className="nav-item">
         <Link
           className={`nav-link ${activeRoute.match(/\/dashboard\/assets/) ? 'active' : ''}`}

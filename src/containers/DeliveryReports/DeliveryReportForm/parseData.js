@@ -6,7 +6,7 @@ const checkDisabled = (listId, item) => {
     return false;
   }
 
-  if (item.status === 'Đang sử dụng') {
+  if (['Đang sử dụng', 'Hỏng', 'Đã thanh lý', 'Đang bảo dưỡng'].includes(item.status)) {
     return true;
   }
 
@@ -21,15 +21,20 @@ export const parseData = (data, listId = []) => {
 
   const option = [];
   allModelNumber.forEach((key) => {
-    const data = groupData[key].map((e) => ({
-      id: e.id,
-      value: e.id,
-      label: `${e.serial_number}_${e.name}`,
-      isDisabled: checkDisabled(listId, e),
-    }));
+    let tmp = [];
+    groupData[key].map((e) => {
+      if (!checkDisabled(listId, e)) {
+        tmp.push({
+          id: e.id,
+          value: e.id,
+          label: `${e.serial_number}_${e.name}`,
+        });
+      }
+      return;
+    });
     option.push({
       label: key,
-      options: data,
+      options: tmp,
     });
   });
   return option;

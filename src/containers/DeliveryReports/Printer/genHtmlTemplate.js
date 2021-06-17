@@ -1,4 +1,6 @@
-export default ({ dataDevices }) => `
+import { formatDateToString } from 'utils/helper';
+
+export default ({ dataDevices, data }) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -130,7 +132,7 @@ export default ({ dataDevices }) => `
       <div class="index">II. Bên nhận</div>
       <div class="info">
         <p>
-          Ông/bà:....................................................................................................................................................................................
+          Ông/bà: ${data.user_name}
         </p>
         <p>
         Chức danh:............................ Phòng/Bộ phân:.....................................................................................................................
@@ -143,12 +145,14 @@ export default ({ dataDevices }) => `
     <thead>
       <tr>
         <th>STT</th>
-        <th>Model</th>
-        <th>Số seri(S/N)</th>
+        <th>Ngày mua</th>
+        <th>Mã tài sản</th>
         <th>Tên tài sản</th>
+        <th>Nơi sản xuất</th>
         <th>Số lượng</th>
         <th>Đơn vị</th>
-        <th>Tình trạng</th>
+        <th>Nguyên giá (VNĐ)</th>
+        <th>Giá trị còn lại (VNĐ)</th>
       </tr>
       </thead>
       <tbody>
@@ -156,17 +160,20 @@ export default ({ dataDevices }) => `
         (item, index) =>
           ` <tr>
           <td>${index + 1}</td>
-          <td>${item.model_number}</td>
+          <td>${formatDateToString(item?.purchase_date?.seconds)}</td>
           <td>${item.serial_number}</td>
           <td>${item.name}</td>
+          <td>${item.origin}</td>
           <td>1</td>
           <td>${item.unit}</td>
-          <td>${item.current_status}</td>
+          <td>${item.original_price}</td>
+          <td>${item.real_price || ''}</td>
         </tr>`,
       )}
       <tr>
-        <td colspan="4">Tổng</td>
+        <td colspan="5">Tổng</td>
         <td>${dataDevices.length}</td>
+        <td />
         <td />
         <td />
       </tr>

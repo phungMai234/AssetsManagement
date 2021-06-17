@@ -28,12 +28,12 @@ const FormContainer = ({ data }) => {
 
   const initialValues = useMemo(
     () => ({
-      user_name: data?.user_name || '',
+      user_name: data?.user_name || {},
       date_borrowed: (!!data?.date_borrowed && getUtcTime(data.date_borrowed.seconds)) || new Date(),
       date_return: (!!data?.date_return && getUtcTime(data.date_return.seconds)) || '',
       status: data?.status || DRAFT,
       note: data?.note || '',
-      orderDetails: (formatOrderDetail || [{ device_info: {}, status_order: '' }]).map((item, index) => ({
+      orderDetails: (formatOrderDetail || [{ device_info: {} }]).map((item, index) => ({
         ...item,
         index,
       })),

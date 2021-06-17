@@ -83,7 +83,6 @@ const Wrapper = styled.div`
 
   .wrapper-button-del {
     display: flex;
-    align-items: flex-end;
     padding-right: unset;
     .btn-del {
       display: flex;
@@ -100,6 +99,11 @@ const Wrapper = styled.div`
 
   .name-asset {
     padding-right: unset;
+  }
+  .label-index {
+    .default-title {
+      line-height: 2.5;
+    }
   }
 
   .divide {

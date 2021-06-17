@@ -4,7 +4,7 @@ import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { Plus, FilePlus, Download } from 'react-feather';
+import { Plus, FilePlus, Download, Trash2 } from 'react-feather';
 
 import Wrapper from './ItemList.style.js';
 import TablePaginationData from 'components/TablePaginationData/TablePaginationData';
@@ -15,6 +15,8 @@ import { useQueryAssets } from 'hooks/useQueryAssets';
 import DatePickerInput from 'components/DatePickerInput';
 import ModalImportFile from 'components/ModalImportFile';
 import { ExcelExport, ExcelExportColumn } from '@progress/kendo-react-excel-export';
+import { STATUS_LIST } from 'utils/constant';
+import StatusAsset from 'components/StatusAsset';
 
 export default function Item() {
   const history = useHistory();
@@ -35,17 +37,19 @@ export default function Item() {
     const filterParams = {
       id_category: params.id_category,
       purchase_date: params.purchase_date && format(params.purchase_date, 'dd/MM/yyyy'),
+      status: params?.status,
     };
 
     !params.purchase_date && delete filterParams.purchase_date;
     !params.id_category && delete filterParams.id_category;
+    !params.status && delete filterParams.status;
 
     const customData = params.keyword
-      ? filter(newData, (item) => includes(lowerCase(item.serial_number), lowerCase(params.keyword)))
+      ? filter(newData, (item) => includes(lowerCase(item.name), lowerCase(params.keyword)))
       : newData;
 
     return filter(customData, filterParams);
-  }, [params.id_category, params.purchase_date, params.keyword, dataItems]);
+  }, [params, dataItems]);
 
   const restructureData = useMemo(() => {
     if (!recordItems) return [];
@@ -64,10 +68,27 @@ export default function Item() {
               alt="no-image"
             />
           ),
+        status: <StatusAsset status={record?.status} />,
+        status_print: record.status,
         purchase_date: record?.purchase_date,
-        price_each: formatStringToMoney(record.price_each),
+        original_price: formatStringToMoney(record.original_price),
+        real_price: formatStringToMoney(record.real_price),
         price_each_print: record.price_each,
-        onClick: () => history.push(`/dashboard/assets/${record.id}/detail`),
+        edit_row: (
+          <div className="wrapper-btn-action">
+            <Button variant="info" size="sm" onClick={() => history.push(`/dashboard/assets/${record.id}/detail`)}>
+              Chi tiết
+            </Button>
+            <Button
+              variant="secondary"
+              className="btn-edit"
+              size="sm"
+              onClick={() => history.push(`/dashboard/assets/${record.id}/edit`)}
+            >
+              Chỉnh sửa
+            </Button>
+          </div>
+        ),
       };
     });
   }, [recordItems, dataCate, history]);
@@ -106,6 +127,23 @@ export default function Item() {
             ))}
           </Form.Control>
         </Col>
+        <Col md={4} lg={3}>
+          <Form.Control
+            as="select"
+            value={params.status || ''}
+            onChange={(e) => setParams({ ...params, status: e.target.value })}
+          >
+            <option key="" value="">
+              Tình trạng sử dụng
+            </option>
+
+            {(STATUS_LIST || []).map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </Form.Control>
+        </Col>
       </Row>
       <Row>
         <Col md={12} className="row-button">
@@ -131,7 +169,7 @@ export default function Item() {
             field: 'index',
           },
           {
-            name: 'Ảnh minh họa',
+            name: 'Ảnh',
             field: 'picture',
           },
           {
@@ -139,7 +177,7 @@ export default function Item() {
             field: 'model_number',
           },
           {
-            name: 'Số seri (S/N)',
+            name: 'Mã tài sản',
             field: 'serial_number',
           },
           {
@@ -154,9 +192,10 @@ export default function Item() {
             name: 'Tình trạng sử dụng',
             field: 'status',
           },
+
           {
-            name: 'Giá (vnđ)',
-            field: 'price_each',
+            name: '',
+            field: 'edit_row',
           },
         ]}
         data={restructureData}
@@ -174,13 +213,14 @@ export default function Item() {
         <ExcelExportColumn field="serial_number" title="Số seri (S/N)" />
         <ExcelExportColumn field="name" title="Tên" />
         <ExcelExportColumn field="model_number" title="Model" />
+        <ExcelExportColumn field="origin" title="Nơi sản xuất" />
         <ExcelExportColumn field="nameCate" title="Loại tài sản" />
         <ExcelExportColumn field="amount" title="Số lượng" />
         <ExcelExportColumn field="unit" title="Đơn vị" />
-        <ExcelExportColumn field="price_each_print" title="Giá (vnđ)" />
-        <ExcelExportColumn field="purchase_date_file" title="Ngày mua" />
-        <ExcelExportColumn field="status" title="Trạng thái sử dụng" />
-        <ExcelExportColumn field="current_status" title="Tình trạng hiện tại" />
+        <ExcelExportColumn field="original_price" title="Nguyên giá (VNĐ)" />
+        <ExcelExportColumn field="real_price" title="Giá trị còn lại (VNĐ)" />
+        <ExcelExportColumn field="purchase_date" title="Ngày mua" />
+        <ExcelExportColumn field="status_print" title="Tình trạng hiện nay" />
         <ExcelExportColumn field="description" title="Mô tả" />
       </ExcelExport>
     </Wrapper>

@@ -14,6 +14,7 @@ import Loading from 'components/Loading';
 import PhotoSlider from 'components/PhotoSlider';
 import db from 'database';
 import { FREE } from 'utils/constant';
+import StatusAsset from 'components/StatusAsset';
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -70,11 +71,10 @@ const ItemDetail = () => {
           </Button>
           <Button
             size="sm"
-            variant="info"
+            variant="secondary"
             className="btn-edit"
             onClick={() => history.push(`/dashboard/assets/${id}/edit`)}
           >
-            <Edit3 size={15} />
             Chỉnh sửa
           </Button>
         </div>
@@ -100,7 +100,7 @@ const ItemDetail = () => {
               <div className="item-value">{data?.model_number}</div>
             </div>
             <div className="info-item">
-              <Label>Số seri(S/N): </Label>
+              <Label>Mã tài sản: </Label>
               <div className="item-value">{data?.serial_number}</div>
             </div>
             <div className="info-item">
@@ -112,23 +112,43 @@ const ItemDetail = () => {
               <div className="item-value">{data?.name}</div>
             </div>
             <div className="info-item">
+              <Label>Tình trạng hiện nay: </Label>
+              <div className="item-value">
+                <StatusAsset status={data?.status} />
+              </div>
+            </div>
+            {!!data?.user_name && (
+              <div className="info-item">
+                <Label>Người mượn: </Label>
+                <div className="item-value">
+                  <StatusAsset status={data?.user_name} />
+                </div>
+              </div>
+            )}
+
+            <div className="info-item">
               <Label>Ngày mua: </Label>
               <div className="item-value">{formatDateToString(data?.purchase_date?.seconds)}</div>
             </div>
             <div className="info-item">
-              <Label>Tình trạng sử dụng: </Label>
-              <div className="item-value">{data?.status}</div>
+              <Label>Nơi sản xuất: </Label>
+              <div className="item-value">{data?.origin}</div>
+            </div>
+
+            <div className="info-item">
+              <Label>Nguyên giá (VNĐ): </Label>
+              <div className="item-value">{formatStringToMoney(data?.original_price)}</div>
             </div>
             <div className="info-item">
-              <Label>Tình trạng hiện tại: </Label>
-              <div className="item-value">{data?.current_status}</div>
+              <Label>Giá trị còn lại (VNĐ): </Label>
+              <div className="item-value">{formatStringToMoney(data?.real_price)}</div>
             </div>
             <div className="info-item">
-              <Label>Giá 1 thiết bị: </Label>
-              <div className="item-value">{formatStringToMoney(data?.price_each)} (vnđ)</div>
+              <Label>Số lượng: </Label>
+              <div className="item-value">1</div>
             </div>
             <div className="info-item">
-              <Label>Đơn vị: </Label>
+              <Label>Đơn vị tính: </Label>
               <div className="item-value">{data?.unit}</div>
             </div>
             <div>

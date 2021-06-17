@@ -43,21 +43,27 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
               </Form.Label>
             </Form.Group>
           </Row>
+          {/* <Row>
+            <Col md={1}></Col>
+            <Col md={9}>
+              <Form.Label>
+                <LabelReNew isRequired>Tên tài sản</LabelReNew>
+              </Form.Label>
+            </Col>
+          </Row> */}
           {!!values &&
             !!values.length &&
             values.map((device, index) => {
               return (
                 <div key={index}>
                   <Row>
-                    <Form.Group as={Col} md="1" className="wrapper-button-del">
+                    <Col md={1} />
+                    <div className="label-index">
                       <Form.Label>
                         <LabelReNew>{`Tài sản ${index + 1}`} </LabelReNew>
                       </Form.Label>
-                    </Form.Group>
-                    <Form.Group as={Col} md="5" className="name-asset">
-                      <Form.Label>
-                        <LabelReNew isRequired>Tên tài sản</LabelReNew>
-                      </Form.Label>
+                    </div>
+                    <Form.Group as={Col} md="8" className="name-asset">
                       <Select
                         value={device.device_info}
                         defaultValue={device.device_info}
@@ -80,7 +86,7 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                       </div>
                     </Form.Group>
 
-                    <Form.Group as={Col} md="4">
+                    {/* <Form.Group as={Col} md="4">
                       <Form.Label>
                         <LabelReNew isRequired>Tình trạng</LabelReNew>
                       </Form.Label>
@@ -100,7 +106,7 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                       <Form.Control.Feedback type="invalid">
                         {!!errors?.orderDetails && errors?.orderDetails[index]?.status_order}
                       </Form.Control.Feedback>
-                    </Form.Group>
+                    </Form.Group> */}
                     {index > 0 && (
                       <Form.Group as={Col} md="2" className="wrapper-button-del">
                         <div className="btn-del">
@@ -114,30 +120,28 @@ const SelectDevices = ({ values, listId, dataDevices, setFieldValue, errors, tou
                             }}
                           >
                             <MinusCircle size={20} />
-                            Xóa bản ghi
+                            Xóa
                           </Button>
                         </div>
                       </Form.Group>
                     )}
                   </Row>
-                  <hr className="divide" />
+                  {/* <hr className="divide" /> */}
 
                   {index === values.length - 1 && (
                     <Row>
                       <Col md={1} className="wrapper-button-del"></Col>
-                      <Form.Group as={Col} md="4" className="name-asset">
+                      <div className="label-index"></div>
+                      <Form.Group as={Col} md="4" style={{ paddingLeft: 'unset' }} className="name-asset">
                         <Button
                           variant="outline-primary"
                           size="sm"
                           onClick={() => {
-                            setFieldValue('orderDetails', [
-                              ...values,
-                              { device_info: '', status_order: '', index: values?.length },
-                            ]);
+                            setFieldValue('orderDetails', [...values, { device_info: {}, index: values?.length }]);
                           }}
                         >
                           <PlusCircle size={20} />
-                          Tạo bản ghi
+                          Thêm
                         </Button>
                       </Form.Group>
                     </Row>

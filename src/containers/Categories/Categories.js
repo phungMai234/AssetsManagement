@@ -31,19 +31,19 @@ export default function Categories() {
       index: index + 1,
       edit_row: (
         <Button
-          variant="outline-info"
+          variant="secondary"
           size="sm"
           onClick={() => {
             setRecordSelected(record);
           }}
         >
-          <Edit3 size={20} />
+          Chỉnh sửa
         </Button>
       ),
       note: <div title={record?.note}>{record?.note}</div>,
       delete_row: (
         <Button
-          variant="outline-danger"
+          variant="danger"
           size="sm"
           onClick={() => {
             setRecordSelectedDel(record);

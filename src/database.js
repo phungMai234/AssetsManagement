@@ -5,14 +5,13 @@ import 'firebase';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyC7LATmCDgmOHSJv4bOpiriTJ5S8FXNKXI',
-  authDomain: 'assetsmanagementfirebase.firebaseapp.com',
-  databaseURL: 'https://assetsmanagementfirebase-default-rtdb.firebaseio.com',
-  projectId: 'assetsmanagementfirebase',
-  storageBucket: 'assetsmanagementfirebase.appspot.com',
-  messagingSenderId: '426351489381',
-  appId: '1:426351489381:web:c600c541e0570bd3b1318c',
-  measurementId: 'G-XM724CN3LN',
+  apiKey: 'AIzaSyA4AjKMUieuhAcw8feu5thqUtJ_vs3h1-k',
+  authDomain: 'assetsmanagement-1bfef.firebaseapp.com',
+  projectId: 'assetsmanagement-1bfef',
+  storageBucket: 'assetsmanagement-1bfef.appspot.com',
+  messagingSenderId: '751963152945',
+  appId: '1:751963152945:web:0931aaa8eb45fed7f5eb10',
+  measurementId: 'G-KGDPKZQE82',
 };
 
 firebase.initializeApp(firebaseConfig);

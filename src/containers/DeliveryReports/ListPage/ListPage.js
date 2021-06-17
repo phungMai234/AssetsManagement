@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 
 import { filter, includes, lowerCase } from 'lodash';
 import { format } from 'date-fns';
@@ -14,6 +14,7 @@ import { useQuery } from 'hooks/useQuery';
 import DatePickerInput from 'components/DatePickerInput';
 import StatusBorrow from 'components/StatusBorrow';
 import { LIST_STATUS } from 'utils/constant';
+import genHtmlTemplate from '../Printer/genHtmlTemplate';
 
 const ListPage = () => {
   const history = useHistory();
@@ -21,6 +22,16 @@ const ListPage = () => {
   const [params, setParams] = useState({});
 
   const { data: dataItems, loading: loadingItems } = useQuery({ url: 'orders' });
+
+  const pdfGenerator = useCallback(() => {
+    let printContents = genHtmlTemplate({ dataDevices: restructureData.order_details || [] });
+    const w = window.open();
+    w.document.write(printContents);
+    setTimeout(() => {
+      w.print();
+      w.close();
+    }, 30000);
+  }, [restructureData]);
 
   const recordItems = useMemo(() => {
     const newData = (dataItems || []).map((record) => ({
@@ -51,16 +62,49 @@ const ListPage = () => {
       index: index + 1,
       date_return: record?.date_return ? record.date_return : '--/--/----',
       status: <StatusBorrow status={record?.status} />,
-      report_file: !!record.files && record.files.length ? <FileText className="file-text" /> : '-',
-      onClick: () => history.push(`/dashboard/delivery_reports/${record.id}/detail`),
+      btn_action: (
+        <div className="wrapper-btn-action">
+          <Button
+            variant="info"
+            size="sm"
+            onClick={() => history.push(`/dashboard/delivery_reports/${record.id}/detail`)}
+          >
+            Chi tiết
+          </Button>
+          <Button
+            variant="secondary"
+            className="btn-edit"
+            size="sm"
+            onClick={() => history.push(`/dashboard/delivery_reports/${record.id}/edit`)}
+          >
+            Chỉnh sửa
+          </Button>
+        </div>
+      ),
+      report_file:
+        !!record.files && record.files.length ? (
+          <div>
+            {record.files.map((e) => (
+              <a href={e.url} key={e} target="_blank" rel="noreferrer">
+                <FileText className="file-text" />
+              </a>
+            ))}
+          </div>
+        ) : (
+          '-'
+        ),
     }));
   }, [recordItems, history]);
 
   return (
     <Wrapper>
       <Row>
-        <Col md={3}>
-          <BoxSearch value={params.keyword} onChange={(e) => setParams({ ...params, keyword: e.target.value })} />
+        <Col md={4}>
+          <BoxSearch
+            value={params.keyword}
+            placeholderText="Tìm kiếm theo tên người mượn"
+            onChange={(e) => setParams({ ...params, keyword: e.target.value })}
+          />
         </Col>
         <Col md={3}>
           <DatePickerInput
@@ -132,8 +176,12 @@ const ListPage = () => {
             field: 'total_amount',
           },
           {
-            name: 'Đính kèm file',
+            name: 'Tệp đính kèm',
             field: 'report_file',
+          },
+          {
+            name: '',
+            field: 'btn_action',
           },
         ]}
         data={restructureData}

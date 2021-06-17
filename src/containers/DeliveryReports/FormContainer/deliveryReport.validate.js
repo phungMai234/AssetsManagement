@@ -9,7 +9,6 @@ const validate = () => {
       return Yup.object()
         .shape({
           device_info: Yup.object().required('Đây là trường bắt buộc '),
-          status_order: Yup.string().required('Đây là trường bắt buộc '),
         })
         .test('conflict_device', 'Vui lòng không chọn tài sản lặp lại', function (object) {
           if (!sleepList) return true;
@@ -26,7 +25,6 @@ const validate = () => {
   );
   return Yup.object().shape(
     {
-      user_name: Yup.string().required('Đây là trường bắt buộc ').max(255, 'Nhập không quá 255 kí tự'),
       status: Yup.string().required('Đây là trường bắt buộc '),
       date_borrowed: Yup.string().required('Đây là trường bắt buộc '),
       date_return: Yup.string(),

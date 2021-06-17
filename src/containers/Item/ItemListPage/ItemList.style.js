@@ -6,7 +6,7 @@ const Wrapper = styled.div`
 
     .index,
     .amount {
-      width: 7%;
+      width: 5%;
     }
 
     .import_date {
@@ -16,12 +16,12 @@ const Wrapper = styled.div`
     .picture,
     .image,
     .price_each {
-      width: 10%;
+      width: 8%;
     }
 
     .model_number,
     .serial_number {
-      width: 15%;
+      width: 12%;
     }
 
     .name {
@@ -97,6 +97,14 @@ const Wrapper = styled.div`
   select {
     font-size: 14px;
     height: 38px;
+  }
+
+  .wrapper-btn-action {
+    display: flex;
+
+    .btn-edit {
+      margin-left: 15px;
+    }
   }
 `;
 export default Wrapper;

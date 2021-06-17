@@ -7,7 +7,7 @@ import { Table } from 'react-bootstrap';
 
 const TablePaginationData = ({ columns, data, loading }) => {
   const [currentPage, changeCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const totalItems = data.length;
 
@@ -36,7 +36,7 @@ const TablePaginationData = ({ columns, data, loading }) => {
       <div className="wrapper-select">
         <label htmlFor="option">Đang hiển thị: </label>
 
-        <select id="option" onChange={handleChangeItemsPerPage}>
+        <select id="option" value={itemsPerPage} onChange={handleChangeItemsPerPage}>
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="15">15</option>

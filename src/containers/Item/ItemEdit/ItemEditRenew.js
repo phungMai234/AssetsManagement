@@ -10,6 +10,7 @@ import PhotoUpload from 'components/PhotoUploadRenew';
 import BreadCrumb from 'components/BreadCrumb';
 import ClearButton from 'components/ClearButton';
 import { Plus, Edit3 } from 'react-feather';
+import { STATUS_LIST, UNIT_LIST } from 'utils/constant';
 
 const ItemEdit = ({
   isEdit,
@@ -54,6 +55,7 @@ const ItemEdit = ({
               <Button
                 type="submit"
                 disabled={isSubmitting}
+                onClick={handleSubmit}
                 variant={isEdit ? 'info' : 'success'}
                 className="btn-add"
                 size="sm"
@@ -63,7 +65,6 @@ const ItemEdit = ({
               </Button>
             </Form.Group>
           </Row>
-
           <Row>
             <Form.Group as={Col} md="6">
               <Form.Label>
@@ -84,7 +85,7 @@ const ItemEdit = ({
             </Form.Group>
             <Form.Group as={Col} md="6">
               <Form.Label>
-                <Label isRequired>Số seri(S/N)</Label>
+                <Label isRequired>Mã tài sản</Label>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -101,9 +102,9 @@ const ItemEdit = ({
             </Form.Group>
           </Row>
           <Row>
-            <Form.Group as={Col} md="12">
+            <Form.Group as={Col} md="8">
               <Form.Label>
-                <Label isRequired>Tên</Label>
+                <Label isRequired>Tên thiết bị</Label>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -118,9 +119,7 @@ const ItemEdit = ({
 
               <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
-          </Row>
 
-          <Row>
             <Form.Group as={Col} md="4">
               <Form.Label>
                 <Label isRequired>Loại tài sản</Label>
@@ -130,6 +129,7 @@ const ItemEdit = ({
                 onChange={(e) => setFieldValue('id_category', e.target.value)}
                 as="select"
                 isInvalid={!!errors.id_category && !!touched.id_category}
+                value={values?.id_category}
               >
                 <option key="" value="">
                   Chọn 1 loại tài sản
@@ -141,6 +141,26 @@ const ItemEdit = ({
                 ))}
               </Form.Control>
               <Form.Control.Feedback type="invalid">{errors.id_category}</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+
+          <Row>
+            <Form.Group as={Col} md="4">
+              <Form.Label>
+                <Label>Nơi sản xuất</Label>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="origin"
+                value={values.origin}
+                onChange={handleChange}
+                isInvalid={touched.origin && !!errors.origin}
+              />
+              {!!values.origin && (
+                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('origin', '')} />
+              )}
+
+              <Form.Control.Feedback type="invalid">{errors.origin}</Form.Control.Feedback>
             </Form.Group>
             <Col md={4} className={touched.purchase_date && errors.purchase_date ? 'has-error' : ''}>
               <Form.Label>
@@ -159,79 +179,85 @@ const ItemEdit = ({
               />
               {!!errors.purchase_date && !!touched.purchase_date && <p className="error">{errors.purchase_date}</p>}
             </Col>
-
             <Form.Group as={Col} md="4">
               <Form.Label>
-                <Label>Tình trạng sử dụng</Label>
+                <Label isRequired>Tình trạng hiện nay</Label>
               </Form.Label>
               <Form.Control
-                type="text"
                 name="status"
-                value={values.status}
-                onChange={handleChange}
-                disabled
-                isInvalid={touched.status && !!errors.status}
-              />
-              {/* {!!values.status && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('status', '')} />
-              )} */}
-
-              {/* <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback> */}
+                onChange={(e) => setFieldValue('status', e.target.value)}
+                as="select"
+                isInvalid={!!errors.status && !!touched.status}
+                value={values?.status}
+              >
+                <option key="" value="">
+                  Chọn 1 trạng thái
+                </option>
+                {(STATUS_LIST || []).map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
           </Row>
 
           <Row>
             <Form.Group as={Col} md="4">
               <Form.Label>
-                <Label>Đơn vị</Label>
+                <Label>Đơn vị tính</Label>
               </Form.Label>
               <Form.Control
-                type="text"
                 name="unit"
-                value={values.unit}
-                onChange={handleChange}
-                isInvalid={touched.unit && !!errors.unit}
-              />
-              {!!values.unit && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('unit', '')} />
-              )}
-
+                onChange={(e) => setFieldValue('unit', e.target.value)}
+                as="select"
+                isInvalid={!!errors.unit && !!touched.unit}
+                value={values?.unit}
+              >
+                <option key="" value="">
+                  Chọn 1 loại đơn vị
+                </option>
+                {(UNIT_LIST || []).map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Control>
               <Form.Control.Feedback type="invalid">{errors.unit}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="4">
               <Form.Label>
-                <Label isRequired>Giá tài sản (vnđ)</Label>
+                <Label isRequired>Nguyên giá (VNĐ)</Label>
               </Form.Label>
               <Form.Control
                 type="text"
-                name="price_each"
-                value={values.price_each}
+                name="original_price"
+                value={values.original_price}
                 onChange={handleChange}
-                isInvalid={touched.price_each && !!errors.price_each}
+                isInvalid={touched.original_price && !!errors.original_price}
               />
-              {!!values.price_each && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('price_each', '')} />
+              {!!values.original_price && (
+                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('original_price', '')} />
               )}
 
-              <Form.Control.Feedback type="invalid">{errors.price_each}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.original_price}</Form.Control.Feedback>
             </Form.Group>
-
             <Form.Group as={Col} md="4">
               <Form.Label>
-                <Label>Tình trạng hiện tại</Label>
+                <Label>Giá trị còn lại(VNĐ)</Label>
               </Form.Label>
               <Form.Control
                 type="text"
-                name="current_status"
-                value={values.current_status}
+                name="real_price"
+                value={values.real_price}
                 onChange={handleChange}
-                isInvalid={touched.current_status && !!errors.current_status}
+                isInvalid={touched.real_price && !!errors.real_price}
               />
-              {!!values.current_status && (
-                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('current_status', '')} />
+              {!!values.real_price && (
+                <ClearButton size="medium" className="btn-close" onClick={() => setFieldValue('real_price', '')} />
               )}
 
-              <Form.Control.Feedback type="invalid">{errors.current_status}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.real_price}</Form.Control.Feedback>
             </Form.Group>
           </Row>
 
@@ -260,21 +286,6 @@ const ItemEdit = ({
           <Row>
             <Form.Group as={Col} md="12">
               <PhotoUpload name="image_detail" setSubmitting={setSubmitting} />
-            </Form.Group>
-          </Row>
-
-          <Row>
-            <Form.Group as={Col} md="12" className="wrapper-button">
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                variant={isEdit ? 'info' : 'success'}
-                className="btn-add"
-                size="sm"
-              >
-                {isEdit ? <Edit3 size={20} /> : <Plus size={20} />}
-                <span>{isEdit ? 'Lưu lại thay đổi' : 'Tạo mới'}</span>
-              </Button>
             </Form.Group>
           </Row>
         </Form>

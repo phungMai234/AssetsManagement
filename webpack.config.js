@@ -8,7 +8,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname,
     port: 3001,
-    host: 'localhost',
+    host: '192.168.1.14',
     historyApiFallback: true,
   },
   output: {
@@ -59,6 +59,6 @@ module.exports = {
       template: 'index.html',
       inlineSource: '.(js|css)$',
     }),
-    new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+    //new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
   ],
 };

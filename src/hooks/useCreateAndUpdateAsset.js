@@ -11,6 +11,8 @@ const useCreateAndUpdateAsset = ({ data }) => {
 
   const update = useCallback(
     (values, actions) => {
+      actions.setSubmitting(true);
+
       const cloneValues = { ...values };
 
       const formatValues = {
@@ -18,11 +20,50 @@ const useCreateAndUpdateAsset = ({ data }) => {
         purchase_date: firebase.firestore.Timestamp.fromDate(values.purchase_date),
       };
 
+      // check exist
+
+      const formatValuesCloned = {
+        image_detail: formatValues.image_detail,
+        name: formatValues.name,
+        description: formatValues.description,
+      };
+
+      // const currentSerialNumber = cloneValues.serial_number;
+      // db.collection('assets')
+      //   .where('serial_number', '==', currentSerialNumber)
+      //   .get()
+      //   .then((querySnapshot) => {
+      //     querySnapshot.forEach((doc) => {
+      //       if (doc.exists) {
+      //         actions.setSubmitting(false);
+      //         history.replace(`/dashboard/assets`);
+      //         setAlert({ status: 'danger', message: 'Tài sản này đã tồn tại!' });
+      //         focusOnTop();
+      //         return;
+      //       }
+      //     });
+      //   })
+      //   .catch(() => {
+      //     setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
+      //   });
+
+      //update edit
       if (data) {
         db.collection('assets')
           .doc(data?.id)
           .update({ ...formatValues })
           .then(() => {
+            db.collection('assets')
+              .where('model_number', '==', formatValues.model_number)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) =>
+                  db
+                    .collection('assets')
+                    .doc(doc?.id)
+                    .update({ ...formatValuesCloned }),
+                );
+              });
             history.push(`/dashboard/assets`);
             setAlert({ status: 'success', message: 'Cập nhật thông tin thành công' });
           })
@@ -35,6 +76,8 @@ const useCreateAndUpdateAsset = ({ data }) => {
           });
         return;
       }
+      // create new
+
       db.collection('assets')
         .add({ ...formatValues })
         .then(() => {

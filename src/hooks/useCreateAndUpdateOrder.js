@@ -14,18 +14,19 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
 
   const update = useCallback(
     (values, actions) => {
+      actions.setSubmitting(true);
       const cloneValues = { ...values };
       const { orderDetails } = cloneValues;
 
       const formatOrderDetails = orderDetails.map((e) => ({
         id: e.device_info.id,
-        status_order: e.status_order,
       }));
       const listIdSelected = orderDetails.map((e) => e.device_info.id);
       const listIdNotSelect = difference(listId, listIdSelected);
 
       const formatValues = {
         ...cloneValues,
+        user_name: cloneValues.user_name.label,
         date_borrowed: { seconds: getUnixTime(values.date_borrowed) },
         date_return: { seconds: getUnixTime(values.date_return) },
         orderDetails: formatOrderDetails,
@@ -44,7 +45,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
             formatOrderDetails.map((e) => {
               db.collection('assets')
                 .doc(e.id)
-                .update({ status: statusOrder })
+                .update({ status: statusOrder, user_name: formatValues?.user_name })
                 .then(() => {})
                 .catch(() => {
                   setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
@@ -53,7 +54,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
             listIdNotSelect.map((id) => {
               db.collection('assets')
                 .doc(id)
-                .update({ status: FREE })
+                .update({ status: FREE, user_name: '' })
                 .then(() => {})
                 .catch(() => {
                   setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
@@ -78,7 +79,7 @@ const useCreateAndUpdateOrder = ({ data, listId }) => {
           formatOrderDetails.map((e) => {
             db.collection('assets')
               .doc(e.id)
-              .update({ status: IN_USE })
+              .update({ status: IN_USE, user_name: formatValues?.user_name })
               .then(() => {})
               .catch(() => {
                 setAlert({ status: 'danger', message: 'Đã xảy ra lỗi hệ thống. Vui lòng thử lại!' });
