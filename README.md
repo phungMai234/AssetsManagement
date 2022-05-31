@@ -5,8 +5,6 @@
   ```
 - Install dependencies 
   ```
-  npm íntall
-- Make env file 
   ```
   cp .env
 - Run project
@@ -15,6 +13,8 @@
   ```
   ```
   npm start 
+  check localhost:3001
+  user: admin.uet@example.com/12345678
 ## Deployment
 - Local
   ```
